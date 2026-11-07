@@ -12,17 +12,16 @@
     const c = document.createElement("canvas"); c.width = c.height = 64; const x = c.getContext("2d");
     let link = document.querySelector("link[rel=icon]"), t0 = 0, iv = null;
     const frame = p => {
-      x.fillStyle = "#08080a"; x.fillRect(0, 0, 64, 64);
-      const r = 11 + 7 * p, g = x.createRadialGradient(46.5, 20.5, 0, 46.5, 20.5, r);
-      g.addColorStop(0, `rgba(185,163,255,${0.45 + 0.4 * p})`); g.addColorStop(1, "rgba(185,163,255,0)");
-      x.fillStyle = g; x.fillRect(0, 0, 64, 64);
-      x.strokeStyle = "#f2efe9"; x.lineWidth = 4.2; x.beginPath(); x.moveTo(23.5, 52); x.lineTo(23.5, 33); x.arc(36, 33, 12.5, Math.PI, 1.5 * Math.PI); x.stroke();
-      x.fillStyle = "#b9a3ff"; x.beginPath(); x.arc(46.9, 20.6, 3.2, 0, 7); x.fill();
+      x.fillStyle = "#08080a"; x.fillRect(0, 0, 64, 64); x.lineCap = "round";
+      x.strokeStyle = "#b9a3ff"; x.lineWidth = 7; x.beginPath(); x.moveTo(22, 16); x.lineTo(22, 51); x.stroke();
+      x.strokeStyle = "#ffb38a"; x.beginPath(); x.arc(34.5, 33.75, 12.5, Math.PI, 1.5 * Math.PI); x.lineTo(46, 21.25); x.stroke();
+      if (p > 0) { x.strokeStyle = `rgba(242,239,233,${0.6 * (1 - p)})`; x.lineWidth = 1.5; x.beginPath(); x.arc(22, 33.75, 7 + 7 * p, 0, 7); x.stroke() }
+      x.fillStyle = "#f2efe9"; x.beginPath(); x.arc(22, 33.75, 7, 0, 7); x.fill(); x.fillStyle = "#08080a"; x.beginPath(); x.arc(22, 33.75, 3.4, 0, 7); x.fill();
       link.href = c.toDataURL("image/png");
     };
     return {
-      on() { if (iv) return; t0 = performance.now(); iv = setInterval(() => frame(0.5 - 0.5 * Math.cos((performance.now() - t0) / 2400 * 2 * Math.PI)), 90) },
-      off() { clearInterval(iv); iv = null; frame(0.35) }
+      on() { if (iv) return; t0 = performance.now(); iv = setInterval(() => frame((performance.now() - t0) / 2400 % 1), 90) },
+      off() { clearInterval(iv); iv = null; frame(0) }
     };
   })();
   const keep = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v) } catch { } };
