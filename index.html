@@ -87,7 +87,7 @@
     <div><b>Digs, not charts</b><span>Lesser-known artists first, and new records from the ones you love.</span></div>
     <div><b>Not the vibe</b><span>One key rebuilds the whole queue for a different mood, without touching your taste.</span></div>
     <div><b>The story on screen</b><span>Scroll, and the artist's story takes the whole screen in large type.</span></div>
-    <div><b>Seven stations, one cabin</b><span>Cabin rides the line and brings back the best of every stop.</span></div>
+    <div><b>Deepot, the overview</b><span>The first station gathers the best of every other one, all day.</span></div>
   </div>
   <div class="cta"><a class="btn dark big" href="rrradio-extension.zip" download>Download the extension, free</a><a class="btn ghostdark big" href="#try">Try the interface first</a></div>
   <ol class="steps">
@@ -99,7 +99,7 @@
 </section>
 
 <section class="depot" id="depot">
-  <div class="head"><p class="eyebrow">Deepot · pay what you want</p><h2>The radio is free.<br>Deepot keeps it on air.</h2><p class="lede">rrradio is non-profit. Supporters open the last stop on the line, with comforts like these.</p></div>
+  <div class="head"><p class="eyebrow">Deepot · pay what you want</p><h2>The radio is free.<br>Deepot keeps it on air.</h2><p class="lede">rrradio is non-profit. Deepot plays for everyone as the overview radio; supporters also open its panel, where the radio becomes entirely theirs.</p></div>
   <div class="tune">
     <div class="sliders" id="tsl"></div>
     <div class="tq"><p class="lb">What plays next</p><ol id="tqo"></ol></div>
@@ -111,7 +111,9 @@
     <div><b>Your month</b><span>What you found, what grew, what faded, every trail you followed.</span></div>
     <div><b>All visuals</b><span>Signal, Scan and Contour, beyond Aura and Minimal.</span></div>
     <div><b>Bring your history</b><span>Start from your Last.fm and Spotify listening.</span></div>
-    <div><b>First in line</b><span>New stops open in Deepot first.</span></div>
+    <div><b>Read without leaving</b><span>Whole artist stories, every section, sources linked. Plus "did you know" moments while you listen.</span></div>
+    <div><b>Your week, every week</b><span>A playlist made from what you loved, ready to play on YouTube.</span></div>
+    <div><b>News about your artists</b><span>Pitchfork, The Quietus and Bandcamp Daily, filtered to the people you listen to, links to the originals.</span></div>
   </div>
   <div class="tagdemo">
     <div class="tdh"><b>Tune it tag by tag</b><span id="tdc"></span></div>
@@ -143,6 +145,10 @@
       <tr><td>Taste profiles: work, night, guests</td><td>–</td><td class="d">●</td></tr>
       <tr><td>Share your station with a link</td><td>●</td><td class="d">●</td></tr>
       <tr><td>Tune into a friend's station</td><td>Listen live</td><td class="d">●</td></tr>
+      <tr><td>Full artist stories with sources, did you know</td><td>Short bio</td><td class="d">●</td></tr>
+      <tr><td>Your weekly playlist</td><td>Preview</td><td class="d">●</td></tr>
+      <tr><td>The month on rrradio, playlist and email</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>News about your artists</td><td>3 headlines</td><td class="d">●</td></tr>
       <tr><td>New features first</td><td>–</td><td class="d">●</td></tr>
       <tr><td>Your name in the credits</td><td>–</td><td class="d">●</td></tr>
     </tbody>
@@ -152,6 +158,13 @@
 <section class="try" id="try">
   <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
   <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
+</section>
+
+<section class="mail" id="mail">
+  <div class="head"><p class="eyebrow">Once a month · free</p><h2>The month on rrradio, in your inbox.</h2><p class="lede">Thirty records that went on air, one per artist, across every station. One email a month, nothing else.</p></div>
+  <div id="monthbox" class="monthbox"></div>
+  <form class="mailf" id="mailf" method="post" target="_blank"><input type="email" name="email" placeholder="you@mail.com" required aria-label="Email"><button class="btn hot big" type="submit">Send me the month</button></form>
+  <p class="fine" id="mailnote">We use your address only for this letter. Unsubscribe in one click.</p>
 </section>
 
 <section class="thanks" id="thanks">
@@ -241,6 +254,18 @@ if (tcl) {
 })();
 /* supporters: names in supporters.json, added by hand after each support */
 fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(L => { if (L.length) document.getElementById("names").textContent = L.join(" · ") }).catch(() => { });
+</script>
+<script>
+/* newsletter: hidden until a signup address is set in config.js */
+(() => {
+  const f = document.getElementById("mailf"), u = window.IRR && IRR.newsletter;
+  if (u) f.action = u; else { f.style.display = "none"; document.getElementById("mailnote").textContent = "The monthly letter starts soon." }
+  fetch("monthly.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(m => {
+    if (!m || !m.tracks || !m.tracks.length) return;
+    const e = s => String(s).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";"), ids = m.tracks.map(t => t.v).filter(Boolean).slice(0, 50);
+    document.getElementById("monthbox").innerHTML = `<p class="lb">${e(m.title)}</p><ol>${m.tracks.slice(0, 12).map(t => `<li><b>${e(t.t)}</b><span>${e(t.a)}</span></li>`).join("")}</ol>` + (ids.length ? `<a class="btn ghost" href="https://www.youtube.com/watch_videos?video_ids=${ids.join(",")}" target="_blank" rel="noopener">Play the month on YouTube</a>` : "");
+  }).catch(() => { });
+})();
 </script>
 <script src="app.js"></script>
 </body>

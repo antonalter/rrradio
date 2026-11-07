@@ -119,3 +119,7 @@ code{font:400 .9em var(--mono);padding:1px 6px;border:1px solid currentColor;bor
 /* thanks */
 .thanks{padding:clamp(50px,8vh,90px) var(--gr) clamp(50px,8vh,90px) var(--gut);border-top:1px solid var(--line)}
 .thanks h2{font-size:clamp(30px,4vw,56px)}.names{color:var(--mut);font-size:18px;margin-top:14px;max-width:70ch;line-height:1.6}
+.mail{padding:clamp(60px,10vh,110px) var(--gr) clamp(60px,10vh,110px) var(--gut);border-top:1px solid var(--line);background:radial-gradient(60% 80% at 100% 0%,color-mix(in srgb,var(--hot2) 18%,transparent),transparent 70%)}
+.monthbox ol{list-style:none;padding:0;columns:2;column-gap:28px;max-width:860px;margin:20px 0 16px}.monthbox li{break-inside:avoid;padding:7px 0;border-top:1px solid var(--line)}.monthbox b{display:block;font-weight:500}.monthbox span{color:var(--mut);font-size:13px}
+.mailf{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;max-width:620px}.mailf input{flex:1;min-width:220px;min-height:58px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--fg);font:inherit;font-size:16px}
+@media (max-width:700px){.monthbox ol{columns:1}}
