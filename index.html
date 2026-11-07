@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>rrradio · learrrns you</title>
+<title>rrradio · learrrns what you yearn for</title>
 <meta name="description" content="Seven free live stations, chosen by hand and timed to your day. Plus a free browser radio that learns your taste. Non-profit, no account.">
-<meta property="og:title" content="rrradio · learrrns you">
+<meta property="og:title" content="rrradio · learrrns what you yearn for">
 <meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
 <meta property="og:image" content="icon.png">
 <meta name="theme-color" content="#08080a">
@@ -28,14 +28,14 @@
 
 <header class="top">
   <a class="logo" href="#">rrradio</a>
-  <nav class="links"><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Depot</a><a href="#faq">FAQ</a></nav>
+  <nav class="links"><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Depot</a><a href="#compare">Free vs Depot</a><a href="#faq">FAQ</a></nav>
   <a class="btn hot" href="rrradio-extension.zip" download>Download free</a>
 </header>
 
 <section class="hero">
   <div class="pitch">
     <p class="eyebrow"><span class="dot"></span>Live now · free · non-profit · no account</p>
-    <h1>learrrns<br>you.</h1>
+    <h1>learrrns what<br>you yearn for.</h1>
     <p class="lede">Seven hand-picked stations play live, right here, for free. Take the extension and it becomes your own radio: it learns from every heart and skip, follows your day, and digs up records you would have found yourself.</p>
     <div class="cta">
       <a class="btn hot big" href="rrradio-extension.zip" download>Get the extension, free</a>
@@ -92,6 +92,11 @@
 
 <section class="depot" id="depot">
   <div class="head"><p class="eyebrow">Depot · pay what you want</p><h2>The radio is free.<br>Depot keeps it on air.</h2><p class="lede">rrradio is non-profit. Supporters open the last stop on the line, with comforts like these.</p></div>
+  <div class="tune">
+    <div class="sliders" id="tsl"></div>
+    <div class="tq"><p class="lb">What plays next</p><ol id="tqo"></ol></div>
+  </div>
+  <p class="tnote">Try it: drag a genre and the queue rebuilds at once. In Depot this is your real radio, with every scene it has learned from you.</p>
   <div class="grid">
     <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to in Chrome.</span></div>
     <div><b>Tune it by hand</b><span>Drag genre weights, switch scenes off, give them back to the radio.</span></div>
@@ -104,6 +109,27 @@
   <p class="fine">Support is voluntary. It does not buy any music or rights to it; everything still plays from the services you use.</p>
 </section>
 
+<section class="compare" id="compare">
+  <div class="head"><p class="eyebrow">Free stays free</p><h2>Everything you need to listen. Depot for everything after.</h2></div>
+  <table class="cmp">
+    <thead><tr><th></th><th>Free, always</th><th class="d">Depot</th></tr></thead>
+    <tbody>
+      <tr><td>7 live stations and the personal radio</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Learns from hearts and skips, taste questions</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Depth: Core, Orbit, Drift</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Void, the farthest finds</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Not the vibe, retune the queue</td><td>3 a day</td><td class="d">Unlimited</td></tr>
+      <tr><td>Rewind through what you heard</td><td>Last 3</td><td class="d">Whole day</td></tr>
+      <tr><td>Hearts saved to YouTube, Spotify, Apple Music</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Your crate: every heart, exported in one click</td><td>View</td><td class="d">●</td></tr>
+      <tr><td>Tune genres by hand</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Your month and taste map</td><td>Preview</td><td class="d">●</td></tr>
+      <tr><td>Visuals</td><td>Aura, Minimal</td><td class="d">All</td></tr>
+      <tr><td>Start from your Last.fm and Spotify</td><td>–</td><td class="d">●</td></tr>
+    </tbody>
+  </table>
+</section>
+
 <section class="try" id="try">
   <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
   <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
@@ -113,6 +139,7 @@
   <h2>Questions</h2>
   <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free. Depot is optional support with extra comforts.</p></details>
   <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser, with YouTube's own ads. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
+  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none.</p></details>
   <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser. Saving to Spotify or Apple Music uses the sites you are already signed in to.</p></details>
   <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
 </section>
@@ -140,6 +167,27 @@ document.getElementById("cards").addEventListener("click", e => {
   b.classList.contains("on") ? radioStop() : radioPlay(b.dataset.id);
 });
 document.getElementById("hlisten").addEventListener("click", () => document.getElementById("pp").click());
+</script>
+<script>
+/* the tag-weights demo: a few genres, a pool of records, the queue follows the sliders */
+const TG = [["Detroit techno", 70, ["Drexciya · Bubble Metropolis","Robert Hood · Minus","Model 500 · No UFO's","Jeff Mills · The Bells"]],
+  ["Ethio-jazz", 45, ["Mulatu Astatke · Yekermo Sew","Mahmoud Ahmed · Ere Mela Mela","Hailu Mergia · Hari Meru Meru"]],
+  ["Post-punk", 30, ["Wire · Outdoor Miner","This Heat · Health and Efficiency","The Raincoats · Fairytale in the Supermarket"]],
+  ["Ambient", 20, ["Hiroshi Yoshimura · Blink","Gigi Masin · Clouds","Harold Budd · First Light"]],
+  ["Industrial", 10, ["Throbbing Gristle · Hamburger Lady","Coil · Love's Secret Domain","SPK · Slogun"]]];
+const tsl = document.getElementById("tsl"), tqo = document.getElementById("tqo");
+if (tsl) {
+  tsl.innerHTML = TG.map(([n, v], i) => `<label><span>${n}</span><input type="range" min="0" max="100" value="${v}" data-i="${i}"><b>${v}</b></label>`).join("");
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const draw = () => {
+    const w = [...tsl.querySelectorAll("input")].map(x => +x.value), sum = w.reduce((a, b) => a + b, 0) || 1, used = {};
+    tsl.querySelectorAll("label").forEach((l, i) => { l.querySelector("b").textContent = Math.round(w[i] / sum * 100) + "%"; l.style.setProperty("--p", w[i] / 100) });
+    seed = 7; const out = [];
+    for (let n = 0; n < 6; n++) { let r = rnd() * sum, i = 0; while (i < w.length - 1 && (r -= w[i]) > 0) i++; if (!w[i]) continue; const pool = TG[i][2], k = (used[i] = (used[i] || 0) + 1) - 1; if (k < pool.length) out.push([TG[i][0], pool[k]]) }
+    tqo.innerHTML = out.map(([g, t]) => `<li><b>${t.split(" · ")[1]}</b><span>${t.split(" · ")[0]}</span><i>${g}</i></li>`).join("") || "<li><span>Turn something up</span></li>";
+  };
+  tsl.addEventListener("input", draw); draw();
+}
 </script>
 <script src="app.js"></script>
 </body>
