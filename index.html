@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>rrradio · learrrns you</title>
+<meta name="description" content="Seven free live stations, chosen by hand and timed to your day. Plus a free browser radio that learns your taste. Non-profit, no account.">
+<meta property="og:title" content="rrradio · learrrns you">
+<meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
+<meta property="og:image" content="icon.png">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://rrrd.io/">
+<meta property="og:url" content="https://rrrd.io/">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="site.css">
+<script src="config.js"></script>
+</head>
+<body>
+<div id="glow" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="logo" href="#">rrradio</a>
+  <nav class="links"><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Depot</a><a href="#faq">FAQ</a></nav>
+  <a class="btn hot" href="rrradio-extension.zip" download>Download free</a>
+</header>
+
+<section class="hero">
+  <div class="pitch">
+    <p class="eyebrow"><span class="dot"></span>Live now · free · non-profit · no account</p>
+    <h1>learrrns<br>you.</h1>
+    <p class="lede">Seven hand-picked stations play live, right here, for free. Take the extension and it becomes your own radio: it learns from every heart and skip, follows your day, and digs up records you would have found yourself.</p>
+    <div class="cta">
+      <a class="btn hot big" href="rrradio-extension.zip" download>Get the extension, free</a>
+      <button class="btn ghost big" id="hlisten" type="button">▶ Listen live now</button>
+    </div>
+    <ul class="trust"><li>7 live stations</li><li>No ads of our own</li><li>Chrome · Edge · Brave · Arc</li><li>Phone: add to home screen</li></ul>
+  </div>
+
+  <div class="player">
+    <nav id="st" aria-label="Stations"></nav>
+    <div class="pl-body">
+      <section class="stage" id="stage" aria-label="Now playing"><div class="art" id="art"><span id="mono"></span><img id="cov" alt=""><div class="rrl" aria-hidden="true"><div class="rrt" id="rrt"></div></div></div></section>
+      <section class="now">
+        <p class="lb" id="part">Live feed</p>
+        <h2 id="ttl">rrradio</h2>
+        <p id="by">Tuning in…</p>
+        <p class="save" id="save"></p>
+        <div class="bar"><i id="prog"></i></div>
+        <div class="ctl">
+          <button id="pp" class="pp paused" aria-label="Listen"><svg class="pl" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg><svg class="pa" viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/></svg></button>
+          <div class="meta"><b id="ppl">Listen live</b><span id="who" class="lb">No skips. Just the feed.</span></div>
+          <label class="vol" id="volw"><span class="lb">Volume</span><input id="vl" type="range" min="0" max="100" value="80" aria-label="Volume"></label>
+        </div>
+        <div class="up"><p class="lb">Coming up</p><ol id="next"></ol></div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section class="stations" id="stations">
+  <div class="head"><p class="eyebrow"><span class="dot"></span>Free, live, right now</p><h2>Seven stations. Pick one, press play.</h2></div>
+  <div class="cards" id="cards"></div>
+  <p class="also">Also in any player app or smart speaker: <span id="plsinline"></span></p>
+</section>
+
+<section class="ext" id="extension">
+  <div class="head"><p class="eyebrow">The extension · free</p><h2>Your own radio, in your browser.</h2><p class="lede">The live stations are the same for everyone. The extension is only yours.</p></div>
+  <div class="grid">
+    <div><b>Learns in minutes</b><span>A heart counts most, a skip in the first seconds is a clear no. Two listens never flood a station.</span></div>
+    <div><b>Knows your day</b><span>Tell it your routine once: soft mornings, focus afternoons, deep nights.</span></div>
+    <div><b>Digs, not charts</b><span>Lesser-known artists first, and new records from the ones you love.</span></div>
+    <div><b>Not the vibe</b><span>One key rebuilds the whole queue for a different mood, without touching your taste.</span></div>
+    <div><b>The story on screen</b><span>Scroll, and the artist's story takes the whole screen in large type.</span></div>
+    <div><b>Seven stations, one cabin</b><span>Cabin rides the line and brings back the best of every stop.</span></div>
+  </div>
+  <div class="cta"><a class="btn dark big" href="rrradio-extension.zip" download>Download the extension, free</a><a class="btn ghostdark big" href="#try">Try the interface first</a></div>
+  <ol class="steps">
+    <li><b>Download</b><span>Unzip the file.</span></li>
+    <li><b>Open extensions</b><span>Type <code>chrome://extensions</code>, switch on Developer mode.</span></li>
+    <li><b>Load unpacked</b><span>Choose the unzipped folder.</span></li>
+    <li><b>Press the icon</b><span>Your radio opens and starts.</span></li>
+  </ol>
+</section>
+
+<section class="depot" id="depot">
+  <div class="head"><p class="eyebrow">Depot · pay what you want</p><h2>The radio is free.<br>Depot keeps it on air.</h2><p class="lede">rrradio is non-profit. Supporters open the last stop on the line, with comforts like these.</p></div>
+  <div class="grid">
+    <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to in Chrome.</span></div>
+    <div><b>Tune it by hand</b><span>Drag genre weights, switch scenes off, give them back to the radio.</span></div>
+    <div><b>Your month</b><span>What you found, what grew, what faded, every trail you followed.</span></div>
+    <div><b>All visuals</b><span>Signal, Scan and Contour, beyond Aura and Minimal.</span></div>
+    <div><b>Bring your history</b><span>Start from your Last.fm and Spotify listening.</span></div>
+    <div><b>First in line</b><span>New stops open in Depot first.</span></div>
+  </div>
+  <div class="cta"><a class="btn dark big" id="sup" href="#depot" target="_blank" rel="noopener">Support and open Depot</a></div>
+  <p class="fine">Support is voluntary. It does not buy any music or rights to it; everything still plays from the services you use.</p>
+</section>
+
+<section class="try" id="try">
+  <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
+  <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions</h2>
+  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free. Depot is optional support with extra comforts.</p></details>
+  <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser, with YouTube's own ads. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
+  <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser. Saving to Spotify or Apple Music uses the sites you are already signed in to.</p></details>
+  <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
+</section>
+
+<footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></span></footer>
+
+<ul id="pls" hidden></ul><span id="clk" hidden></span>
+<audio id="au" preload="none"></audio>
+<script>
+document.getElementById("rrt").innerHTML = "<i>r</i>".repeat(56);
+document.getElementById("sup").href = (window.IRR && IRR.support) || "#depot";
+/* station cards: everything on air right now, one press to listen */
+const HUES = [200, 265, 320, 28, 150, 90, 0];
+const escH = t => String(t).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+window.onRadio = (data, cur, playing) => {
+  const box = document.getElementById("cards");
+  box.innerHTML = data.stations.map((s, i) => `<button class="card ${s.id === cur && playing ? "on" : ""}" data-id="${s.id}" style="--h:${HUES[i % HUES.length]}">
+    <span class="num">${String(i + 1).padStart(2, "0")}</span><b>${escH(s.name)}</b><span class="line">${escH(s.line)}</span>
+    <span class="np">${s.now ? `<i>Now</i> ${escH(s.now.artist)} — ${escH(s.now.title)}` : "Off air"}</span>
+    <span class="go">${s.id === cur && playing ? "■ Playing" : "▶ Listen"}</span></button>`).join("");
+  document.getElementById("plsinline").innerHTML = data.stations.map(s => `<a href="${(IRR.radio || "").replace(/\/$/, "")}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
+};
+document.getElementById("cards").addEventListener("click", e => {
+  const b = e.target.closest(".card"); if (!b) return;
+  b.classList.contains("on") ? radioStop() : radioPlay(b.dataset.id);
+});
+document.getElementById("hlisten").addEventListener("click", () => document.getElementById("pp").click());
+</script>
+<script src="app.js"></script>
+</body>
+</html>
