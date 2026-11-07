@@ -28,7 +28,7 @@
 
 <header class="top">
   <a class="logo" href="#">rrradio</a>
-  <nav class="links"><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Depot</a><a href="#compare">Free vs Depot</a><a href="#faq">FAQ</a></nav>
+  <nav class="links"><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Deepot</a><a href="#compare">Free vs Deepot</a><a href="#faq">FAQ</a></nav>
   <a class="btn hot" href="rrradio-extension.zip" download>Download free</a>
 </header>
 
@@ -41,7 +41,7 @@
       <a class="btn hot big" href="rrradio-extension.zip" download>Get the extension, free</a>
       <button class="btn ghost big" id="hlisten" type="button">▶ Listen live now</button>
     </div>
-    <ul class="trust"><li>7 live stations</li><li>No ads of our own</li><li>Chrome · Edge · Brave · Arc</li><li>Phone: add to home screen</li></ul>
+    <ul class="trust"><li>7 live stations</li><li>No ads of our own</li><li>Plays nicely with your extensions</li><li>Chrome · Edge · Brave · Arc</li><li>Phone: add to home screen</li></ul>
   </div>
 
   <div class="player">
@@ -63,6 +63,14 @@
       </section>
     </div>
   </div>
+</section>
+
+<section class="shared" id="shared" hidden>
+  <p class="eyebrow"><span class="dot"></span>A station was shared with you</p>
+  <h2 id="shn">A friend's station</h2>
+  <div class="shg" id="shg"></div>
+  <p class="lede" id="sha"></p>
+  <div class="cta"><a class="btn hot big" href="rrradio-extension.zip" download>Take this station home, free</a><button class="btn ghost big" type="button" onclick="document.getElementById('pp').click()">▶ Listen live meanwhile</button></div>
 </section>
 
 <section class="stations" id="stations">
@@ -91,28 +99,33 @@
 </section>
 
 <section class="depot" id="depot">
-  <div class="head"><p class="eyebrow">Depot · pay what you want</p><h2>The radio is free.<br>Depot keeps it on air.</h2><p class="lede">rrradio is non-profit. Supporters open the last stop on the line, with comforts like these.</p></div>
+  <div class="head"><p class="eyebrow">Deepot · pay what you want</p><h2>The radio is free.<br>Deepot keeps it on air.</h2><p class="lede">rrradio is non-profit. Supporters open the last stop on the line, with comforts like these.</p></div>
   <div class="tune">
     <div class="sliders" id="tsl"></div>
     <div class="tq"><p class="lb">What plays next</p><ol id="tqo"></ol></div>
   </div>
-  <p class="tnote">Try it: drag a genre and the queue rebuilds at once. In Depot this is your real radio, with every scene it has learned from you.</p>
+  <p class="tnote">Try it: drag a genre and the queue rebuilds at once. In Deepot this is your real radio, with every scene it has learned from you.</p>
   <div class="grid">
     <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to in Chrome.</span></div>
     <div><b>Tune it by hand</b><span>Drag genre weights, switch scenes off, give them back to the radio.</span></div>
     <div><b>Your month</b><span>What you found, what grew, what faded, every trail you followed.</span></div>
     <div><b>All visuals</b><span>Signal, Scan and Contour, beyond Aura and Minimal.</span></div>
     <div><b>Bring your history</b><span>Start from your Last.fm and Spotify listening.</span></div>
-    <div><b>First in line</b><span>New stops open in Depot first.</span></div>
+    <div><b>First in line</b><span>New stops open in Deepot first.</span></div>
   </div>
-  <div class="cta"><a class="btn dark big" id="sup" href="#depot" target="_blank" rel="noopener">Support and open Depot</a></div>
+  <div class="tagdemo">
+    <div class="tdh"><b>Tune it tag by tag</b><span id="tdc"></span></div>
+    <div class="cloud" id="tcl"></div>
+    <p class="tnote">Press a tag to lift it, again to lift it more, a third time to switch it off. In Deepot this is your real radio.</p>
+  </div>
+  <div class="cta"><a class="btn dark big" id="sup" href="#depot" target="_blank" rel="noopener">Support and open Deepot</a></div>
   <p class="fine">Support is voluntary. It does not buy any music or rights to it; everything still plays from the services you use.</p>
 </section>
 
 <section class="compare" id="compare">
-  <div class="head"><p class="eyebrow">Free stays free</p><h2>Everything you need to listen. Depot for everything after.</h2></div>
+  <div class="head"><p class="eyebrow">Free stays free</p><h2>Everything you need to listen. Deepot for everything after.</h2></div>
   <table class="cmp">
-    <thead><tr><th></th><th>Free, always</th><th class="d">Depot</th></tr></thead>
+    <thead><tr><th></th><th>Free, always</th><th class="d">Deepot</th></tr></thead>
     <tbody>
       <tr><td>7 live stations and the personal radio</td><td>●</td><td class="d">●</td></tr>
       <tr><td>Learns from hearts and skips, taste questions</td><td>●</td><td class="d">●</td></tr>
@@ -126,6 +139,12 @@
       <tr><td>Your month and taste map</td><td>Preview</td><td class="d">●</td></tr>
       <tr><td>Visuals</td><td>Aura, Minimal</td><td class="d">All</td></tr>
       <tr><td>Start from your Last.fm and Spotify</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Tune every tag: lift, lift more, switch off</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Taste profiles: work, night, guests</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Share your station with a link</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Tune into a friend's station</td><td>Listen live</td><td class="d">●</td></tr>
+      <tr><td>Deep: threads between artists, new stations first</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Your name in the credits</td><td>–</td><td class="d">●</td></tr>
     </tbody>
   </table>
 </section>
@@ -135,11 +154,17 @@
   <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
 </section>
 
+<section class="thanks" id="thanks">
+  <p class="eyebrow">Thank you</p>
+  <h2>Kept on air by</h2>
+  <p class="names" id="names">Be the first name here.</p>
+</section>
+
 <section class="faq" id="faq">
   <h2>Questions</h2>
-  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free. Depot is optional support with extra comforts.</p></details>
+  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free. Deepot is optional support with extra comforts.</p></details>
   <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser, with YouTube's own ads. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
-  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none.</p></details>
+  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none. rrradio doesn't touch your browser setup: whatever you already run keeps working as it did.</p></details>
   <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser. Saving to Spotify or Apple Music uses the sites you are already signed in to.</p></details>
   <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
 </section>
@@ -188,6 +213,34 @@ if (tsl) {
   };
   tsl.addEventListener("input", draw); draw();
 }
+</script>
+<script>
+/* the tag cloud demo: every tag the radio knows */
+const TAGS = [["techno", "techno"], ["techno", "minimal techno"], ["techno", "dub techno"], ["techno", "industrial techno"], ["techno", "hard techno"], ["techno", "detroit techno"], ["techno", "ambient techno"], ["techno", "minimal"], ["house", "house"], ["house", "deep house"], ["house", "chicago house"], ["house", "acid house"], ["house", "outsider house"], ["house", "lo-fi house"], ["house", "disco"], ["house", "italo disco"], ["house", "boogie"], ["house", "balearic"], ["house", "nu disco"], ["electro", "electro"], ["electro", "ebm"], ["electro", "electroclash"], ["electro", "new beat"], ["electro", "dark electro"], ["electro", "acid"], ["electro", "synth-pop"], ["electro", "synthpop"], ["bass", "jungle"], ["bass", "drum and bass"], ["bass", "breakbeat"], ["bass", "uk garage"], ["bass", "footwork"], ["bass", "bass music"], ["bass", "dubstep"], ["bass", "grime"], ["bass", "juke"], ["bass", "leftfield"], ["idm", "idm"], ["idm", "glitch"], ["idm", "braindance"], ["idm", "experimental electronic"], ["idm", "electronica"], ["idm", "vaporwave"], ["ambient", "ambient"], ["ambient", "dark ambient"], ["ambient", "drone"], ["ambient", "new age"], ["ambient", "modern classical"], ["ambient", "field recordings"], ["ambient", "soundscape"], ["ambient", "fourth world"], ["ambient", "tribal ambient"], ["dub", "dub"], ["dub", "roots reggae"], ["dub", "reggae"], ["dub", "trip-hop"], ["dub", "downtempo"], ["dub", "chillout"], ["wave", "post-punk"], ["wave", "coldwave"], ["wave", "darkwave"], ["wave", "minimal wave"], ["wave", "minimal synth"], ["wave", "new wave"], ["wave", "no wave"], ["wave", "gothic rock"], ["noise", "industrial"], ["noise", "noise"], ["noise", "power electronics"], ["noise", "musique concrete"], ["noise", "avant-garde"], ["noise", "free improvisation"], ["noise", "outsider"], ["noise", "experimental"], ["kraut", "krautrock"], ["kraut", "psychedelic"], ["kraut", "psychedelic rock"], ["kraut", "space rock"], ["kraut", "proto-punk"], ["kraut", "art rock"], ["indie", "shoegaze"], ["indie", "dream pop"], ["indie", "slowcore"], ["indie", "lo-fi"], ["indie", "post-rock"], ["jazz", "jazz"], ["jazz", "spiritual jazz"], ["jazz", "jazz-funk"], ["jazz", "free jazz"], ["jazz", "library music"], ["jazz", "fusion"], ["soul", "soul"], ["soul", "funk"], ["soul", "r&b"], ["soul", "rnb"], ["soul", "boogaloo"], ["soul", "gospel"], ["soul", "neo-soul"], ["afro", "afrobeat"], ["afro", "afrobeats"], ["afro", "highlife"], ["afro", "ethio-jazz"], ["afro", "african"], ["afro", "soukous"], ["afro", "kuduro"], ["afro", "gnawa"], ["afro", "desert blues"], ["latin", "bossa nova"], ["latin", "tropicalia"], ["latin", "cumbia"], ["latin", "samba"], ["latin", "latin"], ["latin", "mpb"], ["latin", "brazilian"], ["east", "cambodian rock"], ["east", "turkish psychedelic"], ["east", "anatolian rock"], ["east", "thai"], ["east", "indonesian"], ["east", "rai"], ["east", "world"], ["east", "arabic"], ["east", "bollywood"], ["hiphop", "hip-hop"], ["hiphop", "hip hop"], ["hiphop", "abstract hip-hop"], ["hiphop", "rap"], ["hiphop", "instrumental hip-hop"], ["hiphop", "cloud rap"], ["hiphop", "trap"], ["hiphop", "drill"], ["hiphop", "boom bap"], ["hiphop", "conscious hip-hop"], ["hiphop", "phonk"], ["hiphop", "lo-fi beats"], ["pop", "pop"], ["pop", "dance-pop"], ["pop", "electropop"], ["pop", "indie pop"], ["pop", "art pop"], ["pop", "k-pop"], ["pop", "j-pop"], ["rock", "rock"], ["rock", "classic rock"], ["rock", "hard rock"], ["rock", "alternative rock"], ["rock", "indie rock"], ["rock", "grunge"], ["rock", "garage rock"], ["rock", "progressive rock"], ["rock", "blues rock"], ["metal", "metal"], ["metal", "heavy metal"], ["metal", "thrash metal"], ["metal", "death metal"], ["metal", "black metal"], ["metal", "doom metal"], ["metal", "nu metal"], ["metal", "metalcore"], ["metal", "progressive metal"], ["metal", "power metal"], ["punk", "punk"], ["punk", "punk rock"], ["punk", "hardcore"], ["punk", "post-hardcore"], ["punk", "emo"], ["punk", "pop punk"], ["rave", "trance"], ["rave", "psytrance"], ["rave", "edm"], ["rave", "big room"], ["rave", "progressive house"], ["rave", "electro house"], ["rave", "tech house"], ["rave", "melodic techno"], ["rave", "hardstyle"], ["rave", "eurodance"], ["rave", "future bass"], ["urbano", "reggaeton"], ["urbano", "latin pop"], ["urbano", "latin trap"], ["urbano", "dembow"], ["urbano", "dancehall"], ["urbano", "salsa"], ["urbano", "bachata"], ["folk", "folk"], ["folk", "indie folk"], ["folk", "singer-songwriter"], ["folk", "country"], ["folk", "americana"], ["folk", "bluegrass"], ["folk", "blues"], ["classical", "classical"], ["classical", "opera"], ["classical", "baroque"], ["classical", "piano"], ["classical", "soundtrack"], ["classical", "film score"]];
+const tcl = document.getElementById("tcl");
+if (tcl) {
+  const hue = k => [...new Set(TAGS.map(t => t[0]))].indexOf(k) * 37 % 360;
+  tcl.innerHTML = TAGS.map(([k, t], i) => `<button data-t="${t}" style="--h:${hue(k)};font-size:${(0.8 + ((i * 7919) % 13) / 18).toFixed(2)}em">${t}</button>`).join("");
+  const count = () => { const b = [...tcl.children]; document.getElementById("tdc").textContent = `${b.length} tags · ${b.filter(x => x.className.startsWith("up")).length} up · ${b.filter(x => x.className === "off").length} off` };
+  tcl.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; b.className = b.className === "" ? "up" : b.className === "up" ? "up2" : b.className === "up2" ? "off" : ""; count() });
+  ["detroit techno", "ethio-jazz", "post-punk", "dub techno", "gamelan", "spiritual jazz"].forEach(t => { const b = tcl.querySelector(`[data-t="${t}"]`); if (b) b.className = "up" });
+  ["edm", "big room"].forEach(t => { const b = tcl.querySelector(`[data-t="${t}"]`); if (b) b.className = "off" });
+  count();
+}
+/* a shared station link: #s=... */
+(() => {
+  const m = location.hash.match(/#s=([\w-]+)/); if (!m) return;
+  let d; try { d = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))) } catch { return }
+  const N = { taste: "Cabin", techno: "Techno", house: "House & disco", electro: "Electro & EBM", bass: "Bass & breaks", idm: "IDM", ambient: "Ambient", dub: "Dub & downtempo", wave: "Post-punk & wave", noise: "Noise & avant", kraut: "Kraut & psych", indie: "Dream & shoegaze", jazz: "Jazz & library", soul: "Soul & funk", afro: "African grooves", latin: "Brazil & Latin", east: "Anatolia & Asia", hiphop: "Hip-hop & rap", pop: "Pop", rock: "Rock", metal: "Metal", punk: "Punk & hardcore", rave: "Trance & EDM", urbano: "Reggaeton & Latin pop", folk: "Folk & country", classical: "Classical & score" };
+  const e = s => String(s).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+  document.getElementById("shn").textContent = (d.n ? d.n + "'s" : "A friend's") + " station";
+  const w = Object.entries(d.w || {}), mx = Math.max(...w.map(x => x[1]), .01);
+  document.getElementById("shg").innerHTML = w.map(([k, v]) => `<div><span>${e(N[k] || k)}</span><i style="width:${(v / mx * 100).toFixed(0)}%"></i></div>`).join("");
+  document.getElementById("sha").textContent = (d.a || []).length ? "Built on " + d.a.slice(-8).join(", ") + (d.t && d.t.length ? ". Lifted tags: " + d.t.join(", ") : "") : "";
+  const sec = document.getElementById("shared"); sec.hidden = false; setTimeout(() => sec.scrollIntoView({ behavior: "smooth" }), 400);
+})();
+/* supporters: names in supporters.json, added by hand after each support */
+fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(L => { if (L.length) document.getElementById("names").textContent = L.join(" · ") }).catch(() => { });
 </script>
 <script src="app.js"></script>
 </body>
