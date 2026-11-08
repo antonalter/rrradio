@@ -13,7 +13,7 @@
     "try.eyebrow": ["#try .eyebrow"], "try.h2": ["#try h2"], "try.lede": ["#try .lede"],
     "dep.eyebrow": ["#depot .eyebrow"], "dep.h2": ["#depot h2", 0, 1], "dep.lede": ["#depot .lede"], "dep.tnote": ["#depot .tnote", 0], "dep.tags": ["#depot .tdh b"],
     "pr.l0": [".pr .lb", 0], "pr.l1": [".pr .lb", 1], "pr.l2": [".pr .lb", 2], "pr.e0": [".pr em", 0], "pr.e1": [".pr em", 1], "pr.e2": [".pr em", 2],
-    "pr.for": ["#plocl"], "pr.note": ["#pnote"], "pr.bill": ["#pbill"], "pr.hard": [".needc", 0],
+    "pr.for": ["#plocl"], "pr.note": ["#pnote"], "pr.bill": ["#pbill"], "pr.hard": [".needc", 0, 1],
     "cmp.eyebrow": ["#compare .eyebrow"], "cmp.h2": ["#compare h2", 0, 1], "cmp.c1": ["#compare th", 1], "cmp.c2": ["#compare th", 2],
     "pro.eyebrow": ["#promises .eyebrow"], "pro.h2": ["#promises h2"], "proof.eyebrow": ["#proof .eyebrow"],
     "mail.eyebrow": ["#mail .eyebrow"], "mail.h2": ["#mail h2"], "mail.lede": ["#mail .lede"], "mail.btn": ["#mailf button"], "mail.note": ["#mailnote"],
@@ -21,6 +21,10 @@
   };
   for (let i = 0; i < 3; i++) Object.assign(MAP, { [`lad.${i}.lb`]: [`.steps3>div:nth-child(${i + 1}) .lb`], [`lad.${i}.b`]: [`.steps3>div:nth-child(${i + 1}) b`], [`lad.${i}.p`]: [`.steps3>div:nth-child(${i + 1}) p`], [`lad.${i}.btn`]: [`.steps3>div:nth-child(${i + 1}) .btn`] });
   for (let i = 0; i < 2; i++) MAP[`lad.${i}.em`] = [`.steps3>div:nth-child(${i + 1}) em`];
+  for (let i = 0; i < 4; i++) Object.assign(MAP, { [`ext.st.${i}.b`]: [`#extension .steps li:nth-child(${i + 1}) b`], [`ext.st.${i}.s`]: [`#extension .steps li:nth-child(${i + 1}) span`, 0, 1] });
+  for (let i = 0; i < 13; i++) MAP[`cmp.r${i}`] = [`#compare tbody tr:nth-child(${i + 1}) td:first-child`];
+  Object.assign(MAP, { "cmp.v0": ["#compare tbody tr:nth-child(5) td:nth-child(3)"], "cmp.v1": ["#compare tbody tr:nth-child(5) td:nth-child(4)"], "cmp.v2": ["#compare tbody tr:nth-child(9) td:nth-child(3)"], "cmp.v3": ["#compare tbody tr:nth-child(10) td:nth-child(3)"], "dep.tnote2": ["#depot .tnote", 1] });
+  for (let i = 0; i < 8; i++) Object.assign(MAP, { [`faq.${i}.q`]: [`#faq details:nth-of-type(${i + 1}) summary`], [`faq.${i}.a`]: [`#faq details:nth-of-type(${i + 1}) p`, 0, 1] });
   for (let i = 0; i < 6; i++) Object.assign(MAP, { [`ext.${i}.b`]: [`#extension .grid>div:nth-child(${i + 1}) b`], [`ext.${i}.s`]: [`#extension .grid>div:nth-child(${i + 1}) span`], [`dep.${i}.b`]: [`#depot .grid>div:nth-child(${i + 1}) b`], [`dep.${i}.s`]: [`#depot .grid>div:nth-child(${i + 1}) span`], [`pro.${i}.b`]: [`#promises .grid>div:nth-child(${i + 1}) b`], [`pro.${i}.s`]: [`#promises .grid>div:nth-child(${i + 1}) span`] });
   /* templates the code fills: {start} {month} {year} {life} {founding} {left} {n} {date} */
   const TPL = { "lad.2.em": "Deepot · {start} for your first 3 months", "pr.s0": "then from {month} a month, pay what you want", "pr.s1": "less than paying monthly", "pr.s2": "or {life} after the first hundred",
@@ -35,7 +39,7 @@
   let D = {};
   window.T = k => D[k] || TPL[k] || EN[k] || null;
   const fill = (k, o) => (window.T(k) || "").replace(/\{(\w+)\}/g, (_, a) => o[a] ?? "");
-  function apply() { for (const k in MAP) { const e = q(MAP[k]), v = D[k] || EN[k]; if (e && v != null) put(e, v, MAP[k][2]) } document.documentElement.lang = PRICE.lang; renderPrices(); window.onAir && onAir() }
+  function apply() { for (const k in MAP) { const e = q(MAP[k]), v = D[k] || EN[k]; if (e && v != null) put(e, v, MAP[k][2]) } document.documentElement.lang = PRICE.lang; if (window.IRR && IRR.contact) document.querySelectorAll(".contact").forEach(e => e.textContent = IRR.contact); renderPrices(); window.onAir && onAir() }
   async function setLang(l) {
     if (!LANGS[l]) l = "en"; PRICE.lang = l; try { localStorage.setItem("rr-lang", l) } catch { }
     D = {}; if (l !== "en") { try { D = await fetch(`i18n/${l}.json`, { cache: "no-cache" }).then(r => r.ok ? r.json() : {}) } catch { } }
