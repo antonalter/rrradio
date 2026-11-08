@@ -40,8 +40,8 @@ R.innerHTML = `<div id=stage><canvas id=gl></canvas><canvas id=ov></canvas><canv
 <div id=seek aria-label="Track position"><span id=t1>0:00</span><div id=sb><i></i></div><span id=t2>0:00</span></div>
 <div class=ctl><div class=cl><span class="m live"><i></i><b id=lv>${L("lv")}</b></span></div>
 <div class=ce><button id=pp class=paused title="Listen or pause (Space)"><span class=pl>${I.play}</span><span class=pa>${I.pause}</span></button></div>
-<div class="cl cr"><input type=range id=vl min=0 max=100 aria-label=Volume><span class=qi><button class=ib id=inb title="About rrradio">${I.info}</button><button class=ib id=qb title="Coming up (Q)">${I.list}</button></span></div></div></footer>
-<section id=info aria-label="About rrradio"><button class=ib id=ix title="Close (Esc)">${I.x}</button><div id=inm>${L("infoh")}</div><div id=ibio>${L("infop")}</div><div id=ilong></div></section>
+<div class="cl cr"><input type=range id=vl min=0 max=100 aria-label=Volume><span class=qi><button class=ib id=inb title="About this artist (I)">${I.info}</button><button class=ib id=qb title="Coming up (Q)">${I.list}</button></span></div></div></footer>
+<section id=info aria-label="About rrradio"><button class=ib id=ix title="Close (Esc)">${I.x}</button><div id=inm>${L("infoh")}</div><div id=ibio>${L("infop")}</div><div id=imt class=m></div><div id=ilong></div></section>
 <div id=gate><i class=pulse></i><h2>${L("gate")}</h2><p>${L("gatep")}</p><div class=rrl aria-hidden=true><div class=rrt>${"<i>r</i>".repeat(56)}</div></div></div>`;
 document.body.append(R);
 const $ = s => R.querySelector(s), $$ = s => [...R.querySelectorAll(s)];
@@ -112,7 +112,9 @@ function clockDraw(cx,cy,r0){const n=new Date(),h=n.getHours(),m=n.getMinutes(),
 /* every station has its own field and colour; the cover only nudges the colour */
 const hsl2rgb=(h,s,l)=>{const f=n=>{const k=(n+h*12)%12,a=s*Math.min(l,1-l);return l-a*Math.max(-1,Math.min(k-3,9-k,1))};return[f(0),f(8),f(4)]};
 const SE={fresh:.45,clock:.6,global:.7,club:.35,cellar:.4,tube:.8,taste:.9};let lastA=null;
-const SV={fresh:4,clock:7,global:5,club:0,cellar:1,tube:6,taste:3},STH={fresh:192,clock:152,global:36,club:318,cellar:96,tube:18,taste:40};
+const SV={fresh:4,clock:7,global:5,club:0,cellar:1,tube:6,taste:3},STH={fresh:200,clock:160,global:36,club:330,cellar:88,tube:14,taste:44};
+/* one clear, saturated accent per station: [night, day] */
+const STC={fresh:['#2fb0f0','#0a6fae'],clock:['#25c08e','#0b7a58'],global:['#f5a524','#b56d00'],club:['#f0418f','#b3145d'],cellar:['#9bd23c','#4f7d0c'],tube:['#ff6a3d','#c2380f'],taste:['#e6b93a','#8c6a08']};
 const MOTES=Array.from({length:70},(_,i)=>[Math.random(),Math.random(),.3+Math.random(),Math.random()*6.28]);
 function dust(t){const z=ovx;for(const m of MOTES){const x=((m[0]+t*.004*m[2])%1)*W,y=((m[1]-t*.006*m[2]+1)%1)*H_,a=.18+.22*Math.sin(t*.7+m[3]);z.fillStyle=`hsla(${S.hue},70%,80%,${a*(.6+S.mid)})`;z.beginPath();z.arc(x,y,.6+m[2]*1.3,0,7);z.fill()}}
 const spc=k=>AN?fd[Math.min(127,k)]/255:(.25+.2*Math.sin(k*.9+performance.now()/900)+.15*Math.sin(k*.31-performance.now()/1400))*(.55+S.bass);
@@ -171,7 +173,7 @@ function journey(now){const dt=Math.min(.1,(now-(lastF||now))/1e3);lastF=now;if(
  TF=ph==='ride'?2.2:.25+.5*(1-g);
  {const ct=`translate(-50%,-50%) scale(${(ph==='ride'?.4:.62+.38*g).toFixed(2)})`;if(cvc.style.transform!==ct)cvc.style.transform=ct}}
 function frame(now){requestAnimationFrame(frame);if(document.hidden)return;const t=now/1e3;lv();journey(now);
- const sh=(STH[S.ch]??HUE[S.layer])+S.layer*6,target=S.hueT==null?sh:sh+((((S.hueT-sh)+540)%360)-180)*.22;let dh=((target-S.hue+540)%360)-180;S.hue=(S.hue+dh*.025+360)%360;R.style.setProperty('--a',S.day?`hsl(${S.hue},55%,30%)`:`hsl(${S.hue},70%,72%)`);R.style.setProperty('--a2',`hsl(${(S.hue+40)%360},60%,${S.day?36:64}%)`);
+ const sh=(STH[S.ch]??HUE[S.layer])+S.layer*6,target=S.hueT==null?sh:sh+((((S.hueT-sh)+540)%360)-180)*.22;let dh=((target-S.hue+540)%360)-180;S.hue=(S.hue+dh*.025+360)%360;{const c=STC[S.ch];if(c){if(R._ac!==S.ch+S.day){R._ac=S.ch+S.day;R.style.setProperty('--a',S.day?c[1]:c[0]);R.style.setProperty('--a2',S.day?c[0]:c[1])}}else{R._ac=null;R.style.setProperty('--a',S.day?`hsl(${S.hue},55%,30%)`:`hsl(${S.hue},70%,72%)`);R.style.setProperty('--a2',`hsl(${(S.hue+40)%360},60%,${S.day?36:64}%)`)}}
  ovx.clearRect(0,0,W,H_);
  if(S.vz&&ok){glc.style.display='';try{glDraw(t,now);if(SV[S.ch]===0)ridges();if(S.ch==='taste')dust(t)}catch(e){ok=false;logErr(e.message)}}else glc.style.display='none';
  if(S.vz&&!matchMedia('(prefers-reduced-motion: reduce)').matches)try{tunnel(t,now)}catch(e){}
@@ -208,14 +210,19 @@ const HU=(()=>{
   card(`<div><p class=k>Union Square · premium</p><p class=t>${n}</p><p class=a>${d}</p><p class=r><a href="${dep}" target="_blank" rel="noopener">Opens with Deepot</a></p></div>`)}
  function render(layer,ch){if(typeof HALLSPOTS==='undefined')return;const P=HALLSPOTS,s=st(ch),q=etas(s);let h='';
   if(ch==='fresh'){const rows=(s?[s.now?{...s.now,eta:0,on:1}:null,...q]:fromQueue(4)).filter(Boolean).slice(0,4);
-   h+=`<div class="hs board" style="${pct(...P.board)}">${rows.map((t,i)=>`<button class=row data-t="${i}"><span>${t.on?'ON BELT':t.qi!=null?('NEXT '+(i+1)):('RR '+(100+i*37))}</span><span>${ex(t.artist)} — ${ex(t.title)}</span><span>${t.on?'LANDED':t.eta==null?'IN QUEUE':mmss(t.eta)}</span></button>`).join('')||'<p class=row><span>— no arrivals listed —</span></p>'}</div>`;
+   h+=`<div class="hs board" style="${pct(...P.board)}">${rows.map((t,i)=>`<button class=row data-t="${i}"><span class=fl data-s="${ex(fit((t.artist||'')+' · '+(t.title||''),30))}"></span><span class="fl tm" data-s="${t.on?' NOW ':t.eta==null?' NEXT':fit(mmss(t.eta),5,1)}"></span></button>`).join('')||'<p class=row><span>no arrivals listed</span></p>'}</div>`;
    h+=`<div class="hs belt" style="${pct(...P.belt)}"><div class=run>${rows.concat(rows).map((t,i)=>`<button class=case data-t="${i%rows.length}" title="${ex(t.artist)} — ${ex(t.title)}"><i style="background-image:url('${cov(t)}')"></i></button>`).join('')}</div></div>`;
    layer._rows=rows}
   if(ch==='clock'){const b=(s?q:fromQueue(3)).slice(0,3);h+=`<div class="hs shelf" style="${pct(...P.shelf)}">${b.map((t,i)=>`<button class=book data-t="${i}" title="${ex(t.artist)} — ${ex(t.title)}"><i style="background-image:url('${cov(t)}')"></i></button>`).join('')}</div>`;layer._rows=b}
   if(ch==='global'){const all=D()&&D().stations?D().stations.filter(x=>x.next&&x.next[0]).map(x=>({...etas(x)[0],from:x.id})).slice(0,6):fromQueue(6);
    h+=`<div class="hs fair" style="${pct(...P.fair)}">${all.map((t,i)=>`<button class=stall data-t="${i}" style="left:${[1,14,27,64,77,90][i]}%" title="${ex(t.artist)} — ${ex(t.title)}"><i style="background-image:url('${cov(t)}')"></i></button>`).join('')}</div>`;layer._rows=all}
   if(ch==='club')['dungeon','silvercity','jacks'].forEach(k=>h+=`<button class="hs door" data-club="${k}" style="${pct(...P[k])}" aria-label="${CLUBS[k][0]}"></button>`);
-  layer.innerHTML=h}
+  layer.innerHTML=h;flaps(layer)}
+ /* split-flap: every letter is its own flap; only letters that change turn over, each a few times, left to right */
+ const FL=' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:·',PREV={};
+ function fit(x,n,r){x=String(x).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');x=x.length>n?x.slice(0,n-1)+'…':x;return r?x.padStart(n):x.padEnd(n)}
+ function flaps(layer){layer.querySelectorAll('.fl').forEach((f,k)=>{const to=f.dataset.s||'',was=PREV[k]||'';PREV[k]=to;f.innerHTML=[...to].map(()=>'<i></i>').join('');
+  [...f.children].forEach((c,j)=>{const end=to[j]||' ',from=was[j]||' ';c.textContent=from;if(from===end)return;let n=2+((j*7+k*3)%5);const go=()=>{c.classList.remove('fx');void c.offsetWidth;c.classList.add('fx');setTimeout(()=>{c.textContent=--n>0?FL[(Math.random()*FL.length)|0]:end},45);if(n>0)setTimeout(go,95)};setTimeout(go,j*38+k*120)})})}
  function bind(layer,ch){layer.onclick=e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();
   if(b.dataset.club)return club(b.dataset.club);const t=layer._rows&&layer._rows[+b.dataset.t];if(t)rec(t,t.from||ch)}}
  document.addEventListener('click',e=>{const nx=e.target.closest('#hcard [data-next]');if(nx){try{const i=+nx.dataset.next,it=S.q.splice(i,1)[0];if(it){S.q.unshift(it);UI.queue&&UI.queue()}}catch(_){}$('#hcard').classList.remove('on');return}const g=e.target.closest('#hcard [data-go]');if(g){const b=document.querySelector(`[data-c="${g.dataset.go}"]`);if(b)b.click();$('#hcard').classList.remove('on')}});
@@ -298,17 +305,38 @@ setInterval(() => { if (S.on && !au.paused) { listenMs += 5000; if (listenMs ===
 addEventListener("hashchange", () => { const h = location.hash.slice(1); if (KEYS.includes(h)) setC(h) });
 
 /* ============================================================ wiring */
+/* the artist page: the name set huge, the opening of the Wikipedia article, then the whole article in sections */
+const WK = {}, MUS = /music|band|singer|DJ|producer|composer|artist|rapper|duo|trio|group|songwriter|musician|ensemble|orchestra|record/i;
+async function wiki(a) { if (a in WK) return WK[a]; let out = null;
+  for (const t of [a, a + " (band)", a + " (musician)", a + " (DJ)"]) { try { const j = await (await fetch("https://en.wikipedia.org/w/api.php?action=query&prop=extracts|info&inprop=url&explaintext=1&redirects=1&format=json&origin=*&titles=" + encodeURIComponent(t))).json(), pg = Object.values(j.query?.pages || {})[0];
+    if (pg && pg.extract && pg.extract.length > 200 && !/may refer to/i.test(pg.extract.slice(0, 300)) && MUS.test(pg.extract.slice(0, 700))) { out = { text: pg.extract, url: pg.fullurl }; break } } catch { break } }
+  return WK[a] = out }
+let infoFor = "";
+async function artistInfo() { const n = (data?.stations || []).find(s => s.id === S.ch)?.now || {}, a = n.artist; if (!a) { infoFill(); panel("#info", true); return }
+  const I_ = $("#info"), key = a + "|" + n.title; I_.classList.add("art"); I_.scrollTop = 0;
+  if (infoFor === key) { panel("#info", true); return } infoFor = key;
+  $("#inm").innerHTML = a.split(/\s+/).map((w, i) => `<span><i style="transition-delay:${i * 90}ms">${esc(w)}</i></span>`).join(""); $("#ibio").innerHTML = ""; $("#imt").innerHTML = ""; $("#ilong").innerHTML = "";
+  I_.classList.remove("on"); void I_.offsetWidth; panel("#info", true);
+  const w = await wiki(a); if (infoFor !== key) return; const q = encodeURIComponent(a);
+  $("#imt").innerHTML = [["Wikipedia", w ? w.url : `https://en.wikipedia.org/w/index.php?search=${q}`], ["Discogs", `https://www.discogs.com/search/?type=artist&q=${q}`], ["Bandcamp", `https://bandcamp.com/search?q=${q}`], ["MusicBrainz", `https://musicbrainz.org/search?type=artist&query=${q}`]].map(([t, u]) => `<span><a href="${esc(u)}" target=_blank rel="noopener noreferrer">${t}</a></span>`).join("");
+  const sent = t => t.split(/(?<=[.!?])\s+/).map((s, i) => `<span style="transition-delay:${.25 + i * .16}s">${esc(s)} </span>`).join("");
+  if (!w) { $("#ibio").innerHTML = sent("No article about them yet. A good sign you are far from the usual paths."); return }
+  const parts = w.text.split(/\n={2,}\s*(.+?)\s*={2,}\n/), lead = parts[0].trim().split(/\n+/);
+  $("#ibio").innerHTML = sent(lead[0]);
+  let html = lead.slice(1).map(p => `<p>${esc(p)}</p>`).join("");
+  for (let k = 1; k < parts.length; k += 2) { const h = parts[k], b = (parts[k + 1] || "").trim(); if (!b || /^(References|External links|Notes|See also|Further reading|Bibliography|Citations|Sources)$/i.test(h)) continue; html += `<h4>${esc(h)}</h4>` + b.split(/\n+/).filter(Boolean).map(p => /^={3,}/.test(p) ? `<h5>${esc(p.replace(/=/g, "").trim())}</h5>` : `<p>${esc(p)}</p>`).join("") }
+  if (html) $("#ilong").innerHTML = `<article><span class=m>The full story</span>${html}<footer>Text from <a href="${esc(w.url)}" target=_blank rel=noopener>Wikipedia</a>, licensed CC BY-SA 4.0. Read the original for references.</footer></article>` }
 function panel(id, on) { $(id).classList.toggle("on", on ?? !$(id).classList.contains("on")) }
-function infoFill() { const L = $("#ilong"), ss = data?.stations || []; L.innerHTML = `<p class=m>${L("any")}</p><p>${L("anyp")}</p><ul>${ss.map(s => `<li><a href="${BASE}/listen/${s.id}.m3u">${esc(s.name)}</a></li>`).join("")}</ul><p class=m>${L("pers")}</p><p>${L("persp")}</p><p><a class="bt on" href="${data?.extension ? BASE + data.extension : "downloads/rrradio-extension.zip"}">${L("get")}</a></p>` }
+function infoFill() { const box = $("#ilong"), ss = data?.stations || []; $("#info").classList.remove("art"); $("#inm").textContent = L("infoh"); $("#ibio").textContent = L("infop"); $("#imt").innerHTML = ""; box.innerHTML = `<p class=m>${L("any")}</p><p>${L("anyp")}</p><ul>${ss.map(s => `<li><a href="${BASE}/listen/${s.id}.m3u">${esc(s.name)}</a></li>`).join("")}</ul><p class=m>${L("pers")}</p><p>${L("persp")}</p><p><a class="bt on" href="${data?.extension ? BASE + data.extension : "downloads/rrradio-extension.zip"}">${L("get")}</a></p>` }
 R.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.c) setC(b.dataset.c) });
 $("#gate").addEventListener("click", listen);
 $("#pp").addEventListener("click", () => S.on ? stop() : listen());
 $("#qb").addEventListener("click", () => panel("#qp")); $("#qx").addEventListener("click", () => panel("#qp", false));
-["#inb", "#thp", "#logo"].forEach(id => $(id).addEventListener("click", () => { infoFill(); panel("#info", true) })); $("#ix").addEventListener("click", () => panel("#info", false));
+["#thp", "#logo"].forEach(id => $(id).addEventListener("click", () => { infoFill(); panel("#info", true) })); ["#inb", "#art"].forEach(id => $(id).addEventListener("click", artistInfo)); $("#ix").addEventListener("click", () => panel("#info", false));
 $("#tvp").addEventListener("click", () => { S.vz = S.vz ? 0 : 1; keep("rr-vz", S.vz); $("#tvp").classList.toggle("on", !!S.vz); flash(S.vz ? L("von") : L("voff")) });
 $("#tdy").addEventListener("click", () => { S.day = S.day ? 0 : 1; keep("rr-day", S.day); R.classList.toggle("day", !!S.day) });
 addEventListener("keydown", e => { if (e.target.closest("input")) return; const k = e.key;
-  if (k === " ") { e.preventDefault(); S.on ? stop() : listen() } else if (/^[1-7]$/.test(k)) setC(KEYS[+k - 1]); else if (k === "v") $("#tvp").click(); else if (k === "q") panel("#qp"); else if (k === "n" || k === "ArrowRight") nudge("skip"); else if (k === "Escape") { panel("#info", false); panel("#qp", false) } wake() });
+  if (k === " ") { e.preventDefault(); S.on ? stop() : listen() } else if (/^[1-7]$/.test(k)) setC(KEYS[+k - 1]); else if (k === "v") $("#tvp").click(); else if (k === "q") panel("#qp"); else if (k === "i") $("#info").classList.contains("on") ? panel("#info", false) : artistInfo(); else if (k === "n" || k === "ArrowRight") nudge("skip"); else if (k === "Escape") { panel("#info", false); panel("#qp", false) } wake() });
 addEventListener("pointermove", wake);
 R.classList.toggle("day", !!S.day); $("#tvp").classList.toggle("on", !!S.vz);
 VZ.init(); poll(); setInterval(poll, 10000); setInterval(tick, 500); addEventListener("resize", () => render());

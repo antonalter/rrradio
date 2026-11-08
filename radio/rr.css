@@ -160,9 +160,11 @@
 #hall.touch .hs,#hall.touch .hs button{pointer-events:auto}
 #hall button{all:unset;cursor:pointer}
 #hall .board{display:flex;flex-direction:column;justify-content:center;gap:2%;padding:1% 1.2%;box-sizing:border-box}
-#hall .row{display:grid;grid-template-columns:5.5em 1fr 4.5em;gap:.8em;font:500 clamp(8px,1.05vw,13px)/1.25 'Martian Mono',ui-monospace,monospace;letter-spacing:.06em;color:#e8e4da;text-transform:uppercase;padding:.25em .4em;background:#0b0d10cc;white-space:nowrap}
-#hall .row span:nth-child(2){overflow:hidden;text-overflow:ellipsis}
-#hall .row span:last-child{color:#f2b33d;text-align:right}
+#hall .row{display:flex;justify-content:space-between;gap:.6em;font:500 clamp(8px,1vw,13px)/1 Geologica,'Helvetica Neue',Arial,sans-serif;color:#f1ede4;padding:.28em .35em;background:#090a0ccc;white-space:nowrap;overflow:hidden;border-radius:2px}
+#hall .fl{display:flex;gap:1px;min-width:0;overflow:hidden}#hall .fl.tm{flex:none;color:var(--a)}
+#hall .fl i{font-style:normal;flex:none;display:inline-block;width:.78em;height:1.36em;line-height:1.36em;text-align:center;background:linear-gradient(#1c1e23 50%,#15171a 50%);border-radius:1.5px;position:relative;transform-origin:50% 50%}
+#hall .fl i::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#000c}
+#hall .fl i.fx{animation:fx .09s linear}@keyframes fx{0%{transform:scaleY(1)}50%{transform:scaleY(.06);filter:brightness(.6)}100%{transform:scaleY(1)}}
 #hall .row:hover{background:#1a1d22}
 #hall .belt{overflow:hidden}
 #hall .belt .run{position:absolute;left:0;top:0;bottom:0;display:flex;align-items:flex-end;gap:3%;width:200%;animation:belt 60s linear infinite}
@@ -182,10 +184,10 @@
 #hcard{position:absolute;left:var(--gut,24px);bottom:24px;z-index:6;max-width:min(440px,calc(100% - 48px));display:none;gap:14px;padding:14px 40px 14px 14px;background:#0c0d10f2;border:1px solid #ffffff1c;border-radius:12px;color:#efebe2;font:300 14px/1.4 Geologica,sans-serif}
 #hcard.on{display:flex}
 #hcard img{width:96px;height:96px;object-fit:cover;flex:none}
-#hcard p{margin:0}#hcard .k{font:500 10px 'Martian Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:6px}
-#hcard .t{font-size:18px}#hcard .a{color:#a9a49a;margin-top:2px}
+#hcard p{margin:0}#hcard .k{font:400 12.5px/1.3 Geologica,'Helvetica Neue',Arial,sans-serif;color:var(--a);margin-bottom:6px}
+#hcard .t{font:500 19px/1.2 Geologica,'Helvetica Neue',Arial,sans-serif;letter-spacing:-.01em}#hcard .a{color:#a9a49a;margin-top:2px}
 #hcard .r{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-#hcard .r a,#hcard .r button{all:unset;cursor:pointer;font-size:13px;padding:6px 12px;border-radius:99px;border:1px solid #ffffff2a}
+#hcard .r a,#hcard .r button{all:unset;cursor:pointer;font:400 13px Geologica,'Helvetica Neue',Arial,sans-serif;padding:6px 12px;border-radius:99px;border:1px solid #ffffff2a}
 #hcard .r a:first-child{background:var(--a);color:#08080a;border-color:transparent}
 #hcard [data-x]{all:unset;cursor:pointer;position:absolute;right:12px;top:8px;font-size:20px;color:#8e8b86}
 #hall .case i{width:64%;height:72%;left:18%;top:14%;right:auto;bottom:auto;border-radius:2px;animation:none;margin:0}
@@ -226,6 +228,7 @@
 .rrsplash.out{opacity:0;pointer-events:none}
 #logo svg{height:40px;margin:-4px 0}
 #hcard .r button[data-next]{background:var(--a);color:#08080a;border-color:transparent}
+#ilong h5{font:500 clamp(17px,1.4vw,20px)/1.2 var(--txt);margin:22px 0 0}#info.art{background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}#art{cursor:pointer}
 
 /* live player: a page of its own, not an overlay on a video */
 html,body{margin:0;height:100%;background:#08080a}
