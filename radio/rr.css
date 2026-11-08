@@ -201,7 +201,7 @@
 @keyframes jn{0%,6%{opacity:.85}3%,9%,100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){#chs button[data-c]::before{animation:none;opacity:.5}}
 
-.rri{position:absolute;left:50%;top:50%;width:min(70%,760px);height:auto;transform:translate(-50%,-50%);z-index:9;filter:drop-shadow(0 0 18px #000a);color:var(--fg,#efebe2);pointer-events:none;overflow:visible}
+.rri{position:absolute;left:50%;top:46%;width:min(72%,820px);height:auto;transform:translate(-50%,-50%);z-index:9;filter:drop-shadow(0 0 18px #000a);color:var(--fg,#efebe2);pointer-events:none;overflow:visible}
 #hall .op{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
 #hall .op path{fill:none;stroke-width:.7;vector-effect:non-scaling-stroke}#hall .op .f{stroke:color-mix(in srgb,var(--fg,#efebe2) 22%,transparent)}#hall .op .w{stroke:color-mix(in srgb,var(--fg,#efebe2) 12%,transparent)}
 #hall .hw>svg:not(.op){position:relative}
@@ -221,6 +221,11 @@
 @media (prefers-reduced-motion:reduce){#hall .nz{display:none}}
 
 #hall,#gl,#cov,#doors i{will-change:opacity,transform}#hall .hw{contain:strict}
+
+.rrsplash{position:absolute;inset:0;z-index:60;background:#050506;transition:opacity .8s ease}
+.rrsplash.out{opacity:0;pointer-events:none}
+#logo svg{height:40px;margin:-4px 0}
+#hcard .r button[data-next]{background:var(--a);color:#08080a;border-color:transparent}
 
 /* live player: a page of its own, not an overlay on a video */
 html,body{margin:0;height:100%;background:#08080a}
