@@ -127,37 +127,50 @@ function resize(){const r=$('#stage').getBoundingClientRect();W=r.width|0;H_=r.h
 const TN={fresh:{sp:.9,eq:.45,sl:6,rot:.12,dn:22,al:.62},clock:{sp:.14,eq:.04,sl:4,rot:.03,dn:12,al:.3},global:{sp:.5,eq:.35,sl:5,rot:.08,dn:18,al:.5},club:{sp:1.05,eq:.6,sl:8,rot:.15,dn:24,al:.6,k:1},cellar:{sp:.8,eq:.8,sl:9,rot:-.1,dn:26,al:.55},tube:{sp:.28,eq:.22,sl:3,rot:.05,dn:14,al:.45},taste:{sp:.45,eq:.3,sl:5,rot:.07,dn:18,al:.5}};
 let tz=0,tb=0,tA=null,tM=0,tL=0,tr=0;
 function tunnel(t,now){const P=TN[S.ch]||TN.taste,dt=Math.min(.05,(now-(tL||now))/1e3);tL=now;
- if(S.A!==tA){tA=S.A;tb=Math.max(tb,.55)}if(S.mvT&&S.mvT!==tM){tM=S.mvT;tb=1}tb=Math.max(0,tb-dt*.45);
+ if(S.A!==tA){tA=S.A;tb=Math.max(tb,.55)}if(S.mvT&&S.mvT!==tM){tM=S.mvT;tb=1}if(ph==='ride')tb=Math.max(tb,.9);tb=Math.max(0,tb-dt*.45);
  const vi=S.vi||1,b=(S.bass||0)*vi,m=(S.mid||0)*vi,kick=P.k?b*b:0;
  tz+=dt*(P.sp*(1+b*.5)+tb*5)*.32;tr+=dt*P.rot*Math.PI*2*(1+tb);
- const cx0=W/2,cy0=H_/2,vx=W/2+S.cs*.42,vy=H_/2-S.cs*.04,big=Math.hypot(W,H_)*.62,n=P.dn,seg=48,L=S.day?34:66;
+ const cx0=W/2,cy0=H_/2,vx=W/2+Math.min(W,H_)*.42,vy=H_/2,big=Math.hypot(W,H_)*.62,n=P.dn,seg=48,L=S.day?34:66;
  ovx.save();ovx.lineCap='round';
  for(let k=0;k<n;k++){const u=((k+tz)%n)/n,d=Math.pow(u,2.1),r=S.cs*.36+big*d;
-  const cx=vx+(cx0-vx)*d,cy=vy+(cy0-vy)*d,depth=Math.sin(u*Math.PI),hh=(S.hue+u*70+t*4)%360;
+  const cx=vx-r,cy=vy,depth=Math.sin(u*Math.PI),hh=(S.hue+u*70+t*4)%360;
   ovx.lineWidth=.6+u*2.4;
   for(let s=0;s<seg;s++){const a0=s/seg*Math.PI*2,a1=(s+1)/seg*Math.PI*2,am=(a0+a1)/2;
    const slot=Math.pow(.5+.5*Math.cos(P.sl*(am-tr)),3);
    const e=1+P.eq*.03*(Math.sin(am*3+t*1.5+u*6)*(.3+b)+Math.sin(am*5-t)*m*.7)*(1+tb*2)+kick*.025*u;
-   const al=P.al*depth*(.18+.82*slot)*(1+tb*.6);if(al<.02)continue;
+   const al=P.al*depth*(.18+.82*slot)*(1+tb*.6)*TF;if(al<.02)continue;
    ovx.strokeStyle=`hsla(${hh},${S.day?55:78}%,${L+slot*14}%,${Math.min(al,.85)})`;
    ovx.beginPath();ovx.arc(cx,cy,r*e,a0,a1+.004);ovx.stroke()}}
  ovx.lineWidth=1;                                     // rails and cables running to the far end
  for(let i=0;i<10;i++){const th=i/10*Math.PI*2+.31,ln=big*1.1;
   ovx.strokeStyle=`hsla(${(S.hue+40)%360},60%,${L}%,${.07+.05*Math.pow(.5+.5*Math.cos(P.sl*(th-tr)),3)})`;
-  ovx.beginPath();ovx.moveTo(vx+Math.cos(th)*S.cs*.36,vy+Math.sin(th)*S.cs*.36);ovx.lineTo(cx0+Math.cos(th)*ln,cy0+Math.sin(th)*ln);ovx.stroke()}
+  ovx.beginPath();ovx.moveTo(vx-S.cs*.36+Math.cos(th)*S.cs*.36,vy+Math.sin(th)*S.cs*.36);ovx.lineTo(vx-big+Math.cos(th)*big,vy+Math.sin(th)*big);ovx.stroke()}
  ovx.restore()}
-/* the hall: on arriving at a station its drawing builds over the cover (screen blend: only its light shows),
-   holds a few seconds, then melts back into the room's visual */
-let hM=0,hF=0,hT=0;
-function hallShow(){const e=$('#hall');if(!e||typeof HALLS==='undefined'||!HALLS[S.ch])return;e.classList.remove('on');e.style.transition='none';e.innerHTML=HALLS[S.ch];void e.offsetWidth;e.style.transition='';e.classList.add('on');clearTimeout(hT);hT=setTimeout(()=>e.classList.remove('on'),4200)}
-function frame(now){requestAnimationFrame(frame);if(document.hidden)return;const t=now/1e3;lv();if(S.mvT!==hM){hM=S.mvT;if(hM)hallShow()}if(S.A&&!hF){hF=1;hallShow()}
+/* the journey, in three phases:
+   ride   a station change clears the visuals out of the space; the tunnel to the next station plays clearly
+   hall   on arrival the hall stands clear and whole behind the cover
+   grow   through the track the visuals slowly overgrow the hall (about 90 s); a new track pulls them back out */
+let hM=0,hA=null,ph='hall',phT=0,grow=0,lastF=0,TF=1;const RIDE=2800,GROW_T=90;
+function hallSet(){const e=$('#hall');if(!e||typeof HALLS==='undefined'||!HALLS[S.ch])return;if(e.dataset.ch!==S.ch){e.innerHTML=HALLS[S.ch].replace('xMidYMid slice','xMidYMid meet');e.dataset.ch=S.ch}}
+function journey(now){const dt=Math.min(.1,(now-(lastF||now))/1e3);lastF=now;
+ if(S.mvT!==hM){hM=S.mvT;if(hM){ph='ride';phT=now}}
+ if(S.A!==hA){const first=hA===null;hA=S.A;if(ph!=='ride'){if(first){ph='hall';hallSet()}else ph='recede'}}
+ if(ph==='ride'){grow=Math.max(0,grow-dt*1.6);const d=$('#doors');if(d&&now-phT>RIDE-700&&!d.classList.contains('shut')){d.classList.remove('open');d.classList.add('shut')}if(now-phT>RIDE){ph='hall';hallSet();if(d)setTimeout(()=>{d.classList.remove('shut');d.classList.add('open')},450)}}
+ else if(ph==='recede'){grow=Math.max(0,grow-dt*.9);if(grow<=0)ph='hall'}
+ else grow=Math.min(1,grow+dt/GROW_T);
+ const g=grow*grow*(3-2*grow),e=$('#hall');
+ glc.style.opacity=ph==='ride'?0:g.toFixed(3);
+ if(e)e.style.opacity=ph==='ride'?0:(1-.82*g).toFixed(3);
+ TF=ph==='ride'?2.2:.25+.5*(1-g);
+ cvc.style.transform=`translate(-50%,-50%) scale(${(ph==='ride'?.4:.62+.38*g).toFixed(3)})`}
+function frame(now){requestAnimationFrame(frame);if(document.hidden)return;const t=now/1e3;lv();journey(now);
  const sh=(STH[S.ch]??HUE[S.layer])+S.layer*6,target=S.hueT==null?sh:sh+((((S.hueT-sh)+540)%360)-180)*.22;let dh=((target-S.hue+540)%360)-180;S.hue=(S.hue+dh*.025+360)%360;R.style.setProperty('--a',S.day?`hsl(${S.hue},55%,30%)`:`hsl(${S.hue},70%,72%)`);R.style.setProperty('--a2',`hsl(${(S.hue+40)%360},60%,${S.day?36:64}%)`);
  ovx.clearRect(0,0,W,H_);
  if(S.vz&&ok){glc.style.display='';try{glDraw(t,now);if(SV[S.ch]===0)ridges();if(S.ch==='taste')dust(t)}catch(e){ok=false;logErr(e.message)}}else glc.style.display='none';
  if(S.vz&&!matchMedia('(prefers-reduced-motion: reduce)').matches)try{tunnel(t,now)}catch(e){}
  if(S.ch==='clock'&&S.vz)clockDraw(W/2,H_/2,S.cs*.74);
  cover(now)}
-return{init(){{const st=$('#stage');if(!$('#hall')){const e=document.createElement('div');e.id='hall';e.setAttribute('aria-hidden','true');st.appendChild(e)}}glc=$('#gl');ovc=$('#ov');ovx=ovc.getContext('2d');cvc=$('#cov');cvx=cvc.getContext('2d');initGL();resize();new ResizeObserver(resize).observe($('#stage'));requestAnimationFrame(frame)},
+return{init(){{const st=$('#stage');if(!$('#hall')){const e=document.createElement('div');e.id='hall';e.setAttribute('aria-hidden','true');st.insertBefore(e,$('#cov'))}}if(!$('#doors')){const d=document.createElement('div');d.id='doors';d.className='open';d.setAttribute('aria-hidden','true');d.innerHTML='<i class=dl><b></b></i><i class=dr><b></b></i>';$('#stage').appendChild(d)}glc=$('#gl');ovc=$('#ov');ovx=ovc.getContext('2d');cvc=$('#cov');cvx=cvc.getContext('2d');initGL();resize();new ResizeObserver(resize).observe($('#stage'));requestAnimationFrame(frame)},
  attach(an){AN=an},kick(){kick=.02},
  prep(im){if(!im)return null;const o=document.createElement('canvas');o.width=o.height=512;const w0=im.naturalWidth||im.width,h0=im.naturalHeight||im.height,z=Math.min(w0,h0);o.getContext('2d').drawImage(im,(w0-z)/2,(h0-z)/2,z,z,0,0,512,512);return{o}},
  tint(a){if(!a){S.hueT=null;return}try{const c=document.createElement('canvas');c.width=c.height=24;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(a.o,0,0,24,24);const d=g.getImageData(0,0,24,24).data;let sx=0,sy=0;for(let i=0;i<d.length;i+=4){const r=d[i]/255,gr=d[i+1]/255,b=d[i+2]/255,mx=Math.max(r,gr,b),mn=Math.min(r,gr,b),de=mx-mn;if(de<.12)continue;let h=mx===r?((gr-b)/de)%6:mx===gr?(b-r)/de+2:(r-gr)/de+4;h*=1.0472;sx+=Math.cos(h)*de;sy+=Math.sin(h)*de}S.hueT=Math.hypot(sx,sy)>1?((Math.atan2(sy,sx)*57.2958)+360)%360:null}catch{S.hueT=null}}}})();
