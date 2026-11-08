@@ -150,7 +150,7 @@ function blankCover(n) { /* no artwork: the artist's name, set in the house type
 async function render() {
   const s = station(); if (!s) return;
   $$("[data-c]").forEach(e => e.classList.toggle("on", e.dataset.c === S.ch)); const chip = $(`#chs [data-c=${S.ch}]`), chi = $("#chi"); if (chip) { chi.style.left = chip.offsetLeft + "px"; chi.style.width = chip.offsetWidth + "px" }
-  const n = s.now || {}; $("#ttl").textContent = n.title || s.name; $("#art").textContent = n.artist || ""; $("#why").textContent = `${s.name} · ${L("live")}${s.listeners ? " · " + L("listening").replace("{n}", s.listeners) : ""}`;
+  const n = s.now || {}; $("#ttl").textContent = n.title || s.name; $("#art").textContent = n.artist || ""; $("#why").textContent = `${s.name} · ${L("live")}${s.listeners >= 25 ? " · " + L("listening").replace("{n}", s.listeners) : ""}`;
   $("#ql").innerHTML = (s.next || []).map(q => `<div class=qi2><b>${esc(q.title)}</b><span>${esc(q.artist)}</span></div>`).join("") || `<p class=m>${L("picked")}</p>`;
   const key = S.ch + ":" + (n.id || ""); if (key === lastNow) return; lastNow = key;
   const im = await coverFor(n); if (lastNow !== key) return; const a = VZ.prep(im); S.P = S.A || a; S.A = a; S.trT = performance.now(); VZ.tint(a);
