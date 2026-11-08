@@ -13,7 +13,7 @@
     "try.eyebrow": ["#try .eyebrow"], "try.h2": ["#try h2"], "try.lede": ["#try .lede"],
     "dep.eyebrow": ["#depot .eyebrow"], "dep.h2": ["#depot h2", 0, 1], "dep.lede": ["#depot .lede"], "dep.tnote": ["#depot .tnote", 0], "dep.tags": ["#depot .tdh b"],
     "pr.l0": [".pr .lb", 0], "pr.l1": [".pr .lb", 1], "pr.l2": [".pr .lb", 2], "pr.e0": [".pr em", 0], "pr.e1": [".pr em", 1], "pr.e2": [".pr em", 2],
-    "pr.for": ["#plocl"], "pr.note": ["#pnote"], "pr.bill": ["#pbill"], "pr.hard": [".needc", 0, 1],
+    "store.t": ["#storet"], "store.l": ["#storel"], "store.ok": ["#storeok"], "pr.note": ["#pnote"], "pr.bill": ["#pbill"], "pr.hard": [".needc", 0, 1],
     "cmp.eyebrow": ["#compare .eyebrow"], "cmp.h2": ["#compare h2", 0, 1], "cmp.c1": ["#compare th", 1], "cmp.c2": ["#compare th", 2],
     "pro.eyebrow": ["#promises .eyebrow"], "pro.h2": ["#promises h2"], "proof.eyebrow": ["#proof .eyebrow"],
     "mail.eyebrow": ["#mail .eyebrow"], "mail.h2": ["#mail h2"], "mail.lede": ["#mail .lede"], "mail.btn": ["#mailf button"], "mail.note": ["#mailnote"],
@@ -57,12 +57,12 @@
     const note = document.getElementById("pnote"); note.textContent = x ? fill("pr.x", o) : (D["pr.note"] || EN["pr.note"]);
     const ph = document.getElementById("proofh"); if (ph) ph.textContent = fill("proof.h", { date: new Intl.DateTimeFormat(P.lang, { day: "numeric", month: "long", year: "numeric" }).format(new Date(Date.UTC(2026, 10, 7))) }) };
   function fillCountries() {
-    const s = document.getElementById("cty"), dn = new Intl.DisplayNames([PRICE.lang], { type: "region" });
+    const s = document.getElementById("cty"); if (!s) return; const dn = new Intl.DisplayNames([PRICE.lang], { type: "region" });
     s.innerHTML = PRICE.countries().map(c => [c, dn.of(c)]).sort((a, b) => a[1].localeCompare(b[1], PRICE.lang)).map(([c, n]) => `<option value="${c}">${n}</option>`).join(""); s.value = PRICE.cty }
   /* wiring */
   const ls = document.getElementById("lang"); ls.innerHTML = Object.entries(LANGS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
   ls.onchange = () => setLang(ls.value);
-  document.getElementById("cty").onchange = e => PRICE.set(e.target.value);
+  
   document.getElementById("theme").onclick = () => { const r = document.documentElement, dark = getComputedStyle(r).getPropertyValue("--bg").trim() !== "#efece5", t = dark ? "light" : "dark"; r.dataset.theme = t;
     try { localStorage.setItem("rr-theme", t); localStorage.setItem("rr-day", t === "light" ? "1" : "0") } catch { } const f = document.getElementById("pf"); f && f.contentWindow.location.reload() };
   /* the one reminder: only after most of the page is read, never twice in a week, gone with one tap */

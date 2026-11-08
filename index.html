@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="site.css?v=4">
+<link rel="stylesheet" href="site.css?v=5">
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
 </head>
@@ -111,8 +111,7 @@
     <div class="pr"><span class="lb">For life</span><b id="lifep">€59</b><em>once</em><span id="foundn">Founding 100: the first hundred pay €39</span><a class="btn ghostdark" data-buy="life" href="#depot">Once, for good</a></div>
   </div>
   <p class="fine center needc" hidden>Can't spare €3 right now? Write to <span class="sel contact"></span> and we'll send you a key. No questions, no proof.</p>
-  <div class="ploc"><span id="plocl">Prices for</span><select id="cty" aria-label="Country"></select></div>
-  <p class="fine center" id="pnote">Prices follow what things cost where you live. Billed in euros through Lemon Squeezy; the local amount is a close guide.</p>
+    <p class="fine center" id="pnote">Billed in euros through Lemon Squeezy. The amount in your currency is a close guide.</p>
   <p class="fine center" id="pbill">Billing runs through Lemon Squeezy. Cancel in one click from the email receipt. 14-day refund, no questions. Support does not buy music or rights to it; everything still plays from the services you use.</p>
 </section>
 
@@ -190,7 +189,9 @@
 </section>
 
 <div class="nudge" id="nudge" role="status"><span id="nudget">Deepot · 3 months for €3</span><a href="#depot" id="nudgea">See Deepot</a><button type="button" id="nudgex" aria-label="Not now">✕</button></div>
-<footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></span></footer>
+<footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a></span></footer>
+<div class="store" id="store" hidden><span id="storet">This site keeps your choices (language, theme, station) in your browser. No tracking, no ad cookies.</span><a href="privacy.html" id="storel">Privacy</a><button type="button" id="storeok">OK</button></div>
+<script>/* a notice, not a consent wall: nothing here needs consent, but people should know */try{if(!localStorage.getItem("rr-ok")){const b=document.getElementById("store");b.hidden=false;document.getElementById("storeok").onclick=()=>{b.hidden=true;try{localStorage.setItem("rr-ok","1")}catch{}}}}catch{}</script>
 
 <script>
 /* live data from the radio: station cards, listeners, numbers that are true */
@@ -199,14 +200,14 @@ const HUES = [192, 152, 36, 318, 96, 18, 40], pf = document.getElementById("pf")
 async function onAir() {
   let d; try { d = await fetch(RB + "/api/stations", { cache: "no-store" }).then(r => r.json()) } catch { document.getElementById("livec").textContent = "Back soon"; return }
   const L = d.stations.reduce((a, s) => a + (s.listeners || 0), 0);
-  window.LIVE = L; document.getElementById("livec").textContent = L ? ((window.T && T("live.n")) || "{n} listening now").replace("{n}", L) : ((window.T && T("live.now")) || "Live now");
+  /* listener numbers only once they are worth showing */ const SHOWN = L >= 25; window.LIVE = L; document.getElementById("livec").textContent = SHOWN ? ((window.T && T("live.n")) || "{n} listening now").replace("{n}", L) : ((window.T && T("live.now")) || "Live now");
   const TT = window.T || (k => null);
   document.getElementById("cards").innerHTML = d.stations.map((s, i) => `<li><button class="stop" data-id="${s.id}" style="--h:${HUES[i % 7]}"><i class="dot"></i>${s.now && s.now.cover ? `<img src="${RB}/api/cover/${s.now.id}" alt="" loading="lazy">` : `<span class="ph"></span>`}
     <span class="tx"><span class="nm"><sup>${String(i + 1).padStart(2, "0")}</sup>${escH(s.name)}</span><span class="np">${s.now ? `<i>${TT("st.now") || "Now"}</i>${escH(s.now.artist)} — ${escH(s.now.title)}` : (TT("st.off") || "Off air")}</span></span><span class="go">${TT("st.tune") || "Tune in"}</span></button></li>`).join("");
   document.getElementById("plsinline").innerHTML = d.stations.map(s => `<a href="${RB}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
   const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
   const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
-  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line"], [days, days === 1 ? "day on air" : "days on air"], [L, "listening right now"], [artists.size, "artists on air in the next hour"], ["0", "ads, ever"]].map(([n, t], i) => `<div><b>${n}</b><span>${(window.T && T("stats." + i)) || t}</span></div>`).join("") }
+  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line", 0], [days, days === 1 ? "day on air" : "days on air", 1], ...(SHOWN ? [[L, "listening right now", 2]] : []), [artists.size, "artists on air in the next hour", 3], ["0", "ads, ever", 4]].map(([n, t, k]) => `<div><b>${n}</b><span>${(window.T && T("stats." + k)) || t}</span></div>`).join("") }
 document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("listen").scrollIntoView({ behavior: "smooth" }) });
 onAir(); setInterval(onAir, 30000);
 /* checkout links come from config.js once the Lemon Squeezy store is live */
@@ -284,7 +285,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
-<script src="pricing.js?v=4"></script>
-<script src="i18n.js?v=4"></script>
+<script src="pricing.js?v=5"></script>
+<script src="i18n.js?v=5"></script>
 </body>
 </html>

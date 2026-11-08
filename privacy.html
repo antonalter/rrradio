@@ -1,27 +1,46 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Privacy · rrradio</title><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="site.css">
-<style>main{max-width:760px;padding:60px var(--gr) 80px var(--gut)}main h1{font-size:clamp(36px,5vw,64px);margin-bottom:20px}main h2{font-size:22px;margin:30px 0 8px;max-width:none}main p,main li{color:var(--mut);margin:8px 0}</style></head>
+<title>Privacy · rrradio</title><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="site.css?v=5"><script src="config.js"></script>
+<style>main{max-width:760px;padding:60px var(--gr) 80px var(--gut)}main h1{font-size:clamp(36px,5vw,64px);margin-bottom:20px}main h2{font-size:22px;margin:30px 0 8px;max-width:none}main p,main li{color:var(--mut);margin:8px 0}main table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}main td,main th{border-top:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;color:var(--mut)}main th{color:var(--fg);font-weight:500}</style></head>
 <body><main>
 <a href="./" class="lb">← rrradio</a>
 <h1>Privacy</h1>
-<p>Last updated: November 2026.</p>
+<p>Last updated: 8 November 2026.</p>
+
 <h2>The short version</h2>
-<p>No accounts, no tracking, no ads of our own. Your taste lives in your browser.</p>
-<h2>What stays on your device</h2>
-<ul>
-<li>Your likes, skips, taste profile, settings and history are stored in your browser's extension storage. We do not receive them.</li>
-<li>Your Deepot key, if you have one, is stored the same way and checked with the payment platform about once a week.</li>
-</ul>
-<h2>Who the extension talks to</h2>
-<ul>
-<li>YouTube, to find and play music; Last.fm, MusicBrainz, Wikipedia, iTunes and Discogs, to read public information about artists, tracks and covers.</li>
-<li>Spotify, Apple Music and YouTube, only if you use Deepot's save feature, in tabs signed in as you.</li>
-<li>Lemon Squeezy, our payment provider and merchant of record, to take payments and to check a Deepot key.</li>
-<li>Each of these services has its own privacy policy.</li>
-</ul>
-<h2>The live radio page</h2>
-<p>The page loads fonts from Google Fonts and the stream from our radio server. The server keeps no listening history beyond a live count of current listeners.</p>
-<h2>Contact</h2>
-<p>Questions or removal requests: write to the contact listed on the support page.</p>
-</main></body></html>
+<p>No accounts, no analytics, no advertising, no tracking cookies. Your taste stays in your browser. We only touch personal data where something technically has to: to stream audio to you, to take a payment you chose to make, or to answer a message you sent.</p>
+
+<h2>Who is responsible</h2>
+<p>The controller under the GDPR is the operator named in the <a href="imprint.html">legal notice</a>. Contact: <span class="contact">the address in the legal notice</span>.</p>
+
+<h2>What happens, and why</h2>
+<table>
+<tr><th>When</th><th>What is processed</th><th>Why (legal basis)</th><th>Kept</th></tr>
+<tr><td>You open this site</td><td>Your IP address and browser details reach our host, GitHub Pages (GitHub Inc., USA), which keeps server logs.</td><td>To deliver the page (legitimate interest, Art. 6(1)(f) GDPR)</td><td>By GitHub, per its policy</td></tr>
+<tr><td>The page loads its fonts</td><td>Your IP address reaches Google Fonts (Google, USA).</td><td>To show the typefaces (legitimate interest)</td><td>By Google, per its policy</td></tr>
+<tr><td>You listen to the live radio</td><td>Your IP address reaches our radio server and its network provider, Cloudflare, for as long as the stream plays; we count connections, not people.</td><td>To send you the audio (Art. 6(1)(b) and (f))</td><td>Not stored after you disconnect</td></tr>
+<tr><td>You choose a language, theme, station or volume</td><td>Saved in your own browser (local storage). Never sent to us.</td><td>The function you asked for; no consent needed (strictly necessary)</td><td>Until you clear it</td></tr>
+<tr><td>You use the extension</td><td>Your taste, hearts and history live in your browser. To find music it asks public services (YouTube, MusicBrainz, Wikipedia, music news sites) for public data; they see your IP like any website would.</td><td>The function you installed</td><td>On your device only</td></tr>
+<tr><td>You buy Deepot</td><td>Lemon Squeezy (Lemon Squeezy LLC, USA), our merchant of record, takes your payment and sends your key. We see your email, country and what you bought.</td><td>To fulfil the purchase (Art. 6(1)(b)); tax records (Art. 6(1)(c))</td><td>As long as tax law requires</td></tr>
+<tr><td>The extension checks your key</td><td>Your key goes to Lemon Squeezy's license check, nothing else.</td><td>To unlock what you paid for (Art. 6(1)(b))</td><td>Not stored by us</td></tr>
+<tr><td>You sign up for the monthly letter</td><td>Your email address, kept by our newsletter provider; you confirm by email first.</td><td>Your consent (Art. 6(1)(a)); withdraw with one click</td><td>Until you unsubscribe</td></tr>
+<tr><td>You write to us</td><td>Your message and address.</td><td>To answer you (Art. 6(1)(f))</td><td>Up to 12 months after the conversation ends</td></tr>
+</table>
+
+<h2>Cookies and storage</h2>
+<p>We set no cookies. The site and the extension keep your own choices in your browser's local storage so they are still there next time; nothing in it is used to follow you, and nothing leaves your device. That is why there is no consent banner, only a short notice.</p>
+
+<h2>Transfers outside the EU</h2>
+<p>GitHub, Google, Cloudflare and Lemon Squeezy are based in the USA. Transfers rely on the EU–US Data Privacy Framework where the provider is certified, and on the European Commission's standard contractual clauses otherwise.</p>
+
+<h2>Your rights</h2>
+<p>You can ask what we hold about you, have it corrected or deleted, restrict or object to its use, take it with you, and withdraw any consent at any time. Write to the contact above; we answer within a month. You can also complain to a data protection authority, for example the one where you live.</p>
+
+<h2>Children</h2>
+<p>rrradio is not aimed at children under 16, and we do not knowingly collect their data.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the date at the top changes too. We will never start selling data or adding tracking; that would be a different product.</p>
+</main>
+<script>if (window.IRR && IRR.contact) document.querySelectorAll(".contact").forEach(e => e.textContent = IRR.contact);</script>
+</body></html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Legal notice · rrradio</title><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="site.css?v=5"><script src="config.js"></script>
+<style>main{max-width:760px;padding:60px var(--gr) 80px var(--gut)}main h1{font-size:clamp(36px,5vw,64px);margin-bottom:20px}main h2{font-size:22px;margin:30px 0 8px;max-width:none}main p{color:var(--mut);margin:8px 0;white-space:pre-line}</style></head>
+<body><main>
+<a href="./" class="lb">← rrradio</a>
+<h1>Legal notice</h1>
+<h2>Operator</h2>
+<p id="who">Operator details are being added.</p>
+<h2>Contact</h2>
+<p id="mail">—</p>
+<h2>Responsible for content</h2>
+<p id="resp">The operator named above.</p>
+<h2>About rrradio</h2>
+<p>rrradio is a non-profit music radio project. It is not affiliated with YouTube, Google, Spotify, Apple or Last.fm.</p>
+</main>
+<script>
+/* filled from config.js: IRR.legal = { name, address, email } */
+const G = (window.IRR && IRR.legal) || {};
+if (G.name) document.getElementById("who").textContent = G.name + (G.address ? "\n" + G.address : "");
+if (G.email || (window.IRR && IRR.contact)) document.getElementById("mail").textContent = G.email || IRR.contact;
+if (G.name) document.getElementById("resp").textContent = G.name + (G.address ? ", " + G.address.split("\n").join(", ") : "");
+</script>
+</body></html>

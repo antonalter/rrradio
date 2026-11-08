@@ -3,7 +3,9 @@
    support: your Gumroad (or Ko-fi / Patreon) page where people support and get a Deepot key. */
 window.IRR = { radio: "https://tackle-artificial-disposal-weed.trycloudflare.com", support: "", newsletter: "", contact: "", founding: 0,
   /* Lemon Squeezy checkout links, filled at launch: start (€3 first 3 months), year, life (€59), founding (€39, first 100) */
-  buy: { start: "", year: "", life: "", founding: "" } };
+  buy: { start: "", year: "", life: "", founding: "" },
+  /* legal notice: who runs rrradio (required in the EU before taking payments) */
+  legal: { name: "", address: "", email: "" } };
 /* newsletter: a signup URL, e.g. https://buttondown.com/api/emails/embed-subscribe/<your-name> */
 /* for testing: ?radio=http://localhost:8800 */
 if (new URLSearchParams(location.search).get("radio")) IRR.radio = new URLSearchParams(location.search).get("radio");
