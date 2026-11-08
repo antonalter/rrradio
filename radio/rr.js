@@ -9,7 +9,8 @@ const KEYS = ["fresh", "clock", "global", "club", "cellar", "tube", "taste"];
 const SHORT = { fresh: "Arrivals", clock: "Library", global: "GGB", club: "Union Sq", cellar: "Powerhouse", tube: "Lakefield", taste: "Deepot" };
 const HUE = [200, 265, 320, 20], clamp = (v, a, b) => Math.max(a, Math.min(b, v)), logErr = e => console.warn("rrradio", e);
 const keep = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v) } catch { } };
-const S = { ch: KEYS.includes(keep("rr-ch")) ? keep("rr-ch") : "taste", layer: 1, vz: keep("rr-vz") === "0" ? 0 : 1, day: keep("rr-day") === "1" ? 1 : 0, vi: 1, hue: 40, hueT: null, bass: 0, mid: 0, high: 0, flux: 0, en: 0, z: 0, A: null, P: null, trT: 0, cs: 300, mvT: 0, mvD: 1, on: false };
+const HASH = location.hash.slice(1);
+const S = { ch: KEYS.includes(HASH) ? HASH : KEYS.includes(keep("rr-ch")) ? keep("rr-ch") : "taste", layer: 1, vz: keep("rr-vz") === "0" ? 0 : 1, day: keep("rr-day") === "1" ? 1 : 0, vi: 1, hue: 40, hueT: null, bass: 0, mid: 0, high: 0, flux: 0, en: 0, z: 0, A: null, P: null, trT: 0, cs: 300, mvT: 0, mvD: 1, on: false };
 const au = new Audio(); au.crossOrigin = "anonymous"; au.preload = "none";
 const H = { p: { paused: () => au.paused } };
 const R = document.createElement("div"); R.id = "rr";
@@ -17,7 +18,7 @@ R.innerHTML = `<div id=stage><canvas id=gl></canvas><canvas id=ov></canvas><canv
 <header class=rail><button id=logo title="About rrradio">rrradio</button><nav id=chs aria-label="Stations"><i id=chi></i>${KEYS.map((k, i) => `<button data-c=${k}><sup>${i + 1}</sup><span class=sn>${SHORT[k]}</span><span class=fn>${SHORT[k]}</span></button>`).join("")}</nav>
 <div class=tools><button class=ib id=tvp title="Station visuals on or off (V)">${I.eye}</button><button class=ib id=tdy title="Day or night">${I.moon}</button><button class=ib id=thp title="About and listen anywhere">${I.q}</button></div></header>
 <div class=ch-m>${KEYS.map(k => `<button data-c=${k}>${SHORT[k]}</button>`).join("")}</div>
-<div id=toast role=status></div>
+<div id=toast role=status></div><div id=nudge role=status><p></p><a target=_top></a><button class=ib title="Not now">${I.x}</button></div>
 <aside id=qp aria-label="Coming up"><header><span class=m>Coming up</span><button class=ib id=qx title="Hide">${I.x}</button></header><div id=ql></div></aside>
 <footer id=dock><div class=now><div class=tw><h1 id=ttl>rrradio</h1></div><div class=sub><button id=art></button><span id=why class=m>Live radio</span></div></div>
 <div id=seek aria-label="Track position"><span id=t1>0:00</span><div id=sb><i></i></div><span id=t2>0:00</span></div>
@@ -156,8 +157,26 @@ function stop() { au.pause(); au.removeAttribute("src"); au.load(); S.on = false
 au.addEventListener("playing", () => { const p = $("#pp"); p.classList.remove("paused", "wait"); $("#lv").textContent = "Live" });
 let retry = 0; const recover = () => { if (!S.on) return; $("#pp").classList.add("wait"); setTimeout(() => S.on && listen(), Math.min(8000, 1000 * ++retry)) };
 au.addEventListener("error", recover); au.addEventListener("ended", recover);
-function setC(c) { if (c === S.ch) return; S.mvD = KEYS.indexOf(c) >= KEYS.indexOf(S.ch) ? 1 : -1; S.mvT = performance.now(); S.ch = c; keep("rr-ch", c); sweep(station()?.name || SHORT[c]); render(); if (S.on) listen() }
+function setC(c) { if (c === S.ch) return; seenSt.add(c); if (seenSt.size === 3) setTimeout(() => nudge("tour"), 4000); S.mvD = KEYS.indexOf(c) >= KEYS.indexOf(S.ch) ? 1 : -1; S.mvT = performance.now(); S.ch = c; keep("rr-ch", c); sweep(station()?.name || SHORT[c]); render(); if (S.on) listen() }
 au.volume = (+(keep("rr-vol") ?? 80)) / 100; $("#vl").value = Math.round(au.volume * 100); $("#vl").oninput = e => { au.volume = e.target.value / 100; keep("rr-vol", e.target.value) };
+
+/* ============================================================ nudges: a little at a time, only after you settled in */
+const SITE = "https://antonalter.github.io/rrradio/", onSite = /\/radio\/?$/.test(location.pathname) && !location.port;
+const extUrl = () => onSite ? "../downloads/rrradio-extension.zip" : (data?.extension ? BASE + data.extension : SITE + "downloads/rrradio-extension.zip");
+const NUDGE = {
+  skip: ["This is live radio: no skips, on purpose. Skips, hearts and your own taste live in the free extension.", "Get the extension", () => extUrl()],
+  stay: ["Liking it? The extension builds a radio from your own hearts and skips. Free, two minutes to set up.", "Take it home", () => extUrl()],
+  tour: ["Three stops in. Your own station mixes them the way you like, and learns as you go.", "Make it yours", () => extUrl()],
+  keep: ["Heard something you want to keep? In Deepot every heart lands in your Spotify, Apple Music and YouTube.", "See Deepot", () => onSite ? "../#depot" : SITE + "#depot"]
+};
+let nudged = 0, lastNudge = 0, listenMs = 0, seenSt = new Set([S.ch]);
+function nudge(k) {
+  const n = +(keep("rr-n-" + k) || 0), now = Date.now(); if (n >= 2 || nudged >= 3 || now - lastNudge < 6e5 && k !== "skip") return;
+  const [t, l, u] = NUDGE[k], e = $("#nudge"); e.querySelector("p").textContent = t; const a = e.querySelector("a"); a.textContent = l + " →"; a.href = u(); if (/\.zip$/.test(a.href)) a.setAttribute("download", ""); else a.removeAttribute("download");
+  e.classList.add("on"); keep("rr-n-" + k, n + 1); nudged++; lastNudge = now; clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove("on"), 14000) }
+$("#nudge button").addEventListener("click", () => $("#nudge").classList.remove("on"));
+setInterval(() => { if (S.on && !au.paused) { listenMs += 5000; if (listenMs === 8 * 6e4) nudge("stay"); if (listenMs === 25 * 6e4) nudge("keep") } }, 5000);
+addEventListener("hashchange", () => { const h = location.hash.slice(1); if (KEYS.includes(h)) setC(h) });
 
 /* ============================================================ wiring */
 function panel(id, on) { $(id).classList.toggle("on", on ?? !$(id).classList.contains("on")) }
@@ -170,7 +189,7 @@ $("#qb").addEventListener("click", () => panel("#qp")); $("#qx").addEventListene
 $("#tvp").addEventListener("click", () => { S.vz = S.vz ? 0 : 1; keep("rr-vz", S.vz); $("#tvp").classList.toggle("on", !!S.vz); flash(S.vz ? "Station visuals on" : "Visuals off") });
 $("#tdy").addEventListener("click", () => { S.day = S.day ? 0 : 1; keep("rr-day", S.day); R.classList.toggle("day", !!S.day) });
 addEventListener("keydown", e => { if (e.target.closest("input")) return; const k = e.key;
-  if (k === " ") { e.preventDefault(); S.on ? stop() : listen() } else if (/^[1-7]$/.test(k)) setC(KEYS[+k - 1]); else if (k === "v") $("#tvp").click(); else if (k === "q") panel("#qp"); else if (k === "Escape") { panel("#info", false); panel("#qp", false) } wake() });
+  if (k === " ") { e.preventDefault(); S.on ? stop() : listen() } else if (/^[1-7]$/.test(k)) setC(KEYS[+k - 1]); else if (k === "v") $("#tvp").click(); else if (k === "q") panel("#qp"); else if (k === "n" || k === "ArrowRight") nudge("skip"); else if (k === "Escape") { panel("#info", false); panel("#qp", false) } wake() });
 addEventListener("pointermove", wake);
 R.classList.toggle("day", !!S.day); $("#tvp").classList.toggle("on", !!S.vz);
 VZ.init(); poll(); setInterval(poll, 10000); setInterval(tick, 500); addEventListener("resize", () => render());
