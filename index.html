@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>rrradio · learrrns what you yearn for</title>
-<meta name="description" content="Seven free live stations, chosen by hand and timed to your day. Plus a free browser radio that learns your taste. Non-profit, no account.">
+<title>rrradio · a radio that digs for you</title>
+<meta name="description" content="Press play: seven live stations, picked by hand, free forever. When you want to steer, take it home. No ads from us, no account, non-profit.">
 <meta property="og:title" content="rrradio · learrrns what you yearn for">
 <meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
 <meta property="og:image" content="icon.png">
@@ -25,70 +25,50 @@
 </head>
 <body>
 <div id="glow" aria-hidden="true"></div>
-
 <header class="top">
   <a class="logo" href="#">rrradio</a>
-  <nav class="links"><a href="radio/">Player</a><a href="#stations">Stations</a><a href="#extension">Extension</a><a href="#depot">Deepot</a><a href="#compare">Free vs Deepot</a><a href="#faq">FAQ</a></nav>
-  <a class="btn hot" href="downloads/rrradio-extension.zip" download>Download free</a>
+  <nav class="links"><a href="#listen">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
+  <a class="btn hot" href="#listen">Listen free</a>
 </header>
 
-<section class="hero">
+<section class="hero hero2" id="listen">
   <div class="pitch">
-    <p class="eyebrow"><span class="dot"></span>Live now · free · non-profit · no account</p>
-    <h1>learrrns what<br>you yearn for.</h1>
-    <p class="lede">Seven hand-picked stations play live, right here, for free. Take the extension and it becomes your own radio: it learns from every heart and skip, follows your day, and digs up records you would have found yourself.</p>
+    <p class="eyebrow"><span class="dot"></span><span id="livec">Live now</span> · free · no sign-up</p>
+    <h1>A radio that<br>digs for you.</h1>
+    <p class="lede">Press play. Seven stations, picked by hand, play live right here, free for good. You can't skip: that's the trial, and most people stay longer than they planned. When you want to steer, take it home.</p>
     <div class="cta">
-      <a class="btn hot big" href="downloads/rrradio-extension.zip" download>Get the extension, free</a>
-      <button class="btn ghost big" id="hlisten" type="button">▶ Listen live now</button>
-      <a class="btn ghost big" href="radio/">Open the full player</a>
+      <a class="btn hot big" href="#player" id="hplay">▶ Listen now</a>
+      <a class="btn ghost big" href="downloads/rrradio-extension.zip" download>Take it home, free</a>
     </div>
-    <ul class="trust"><li>7 live stations</li><li>No ads of our own</li><li>Plays nicely with your extensions</li><li>Chrome · Edge · Brave · Arc</li><li>Phone: add to home screen</li></ul>
+    <ul class="trust"><li>No ads from us, ever</li><li>No account</li><li>Non-profit</li><li>Your taste stays in your browser</li></ul>
   </div>
-
-  <div class="player">
-    <nav id="st" aria-label="Stations"></nav>
-    <div class="pl-body">
-      <section class="stage" id="stage" aria-label="Now playing"><div class="art" id="art"><span id="mono"></span><img id="cov" alt=""><div class="rrl" aria-hidden="true"><div class="rrt" id="rrt"></div></div></div></section>
-      <section class="now">
-        <p class="lb" id="part">Live feed</p>
-        <h2 id="ttl">rrradio</h2>
-        <p id="by">Tuning in…</p>
-        <p class="save" id="save"></p>
-        <div class="bar"><i id="prog"></i></div>
-        <div class="ctl">
-          <button id="pp" class="pp paused" aria-label="Listen"><svg class="pl" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg><svg class="pa" viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/></svg></button>
-          <div class="meta"><b id="ppl">Listen live</b><span id="who" class="lb">No skips. Just the feed.</span></div>
-          <label class="vol" id="volw"><span class="lb">Volume</span><input id="vl" type="range" min="0" max="100" value="80" aria-label="Volume"></label>
-        </div>
-        <div class="up"><p class="lb">Coming up</p><ol id="next"></ol></div>
-      </section>
-    </div>
-  </div>
-</section>
-
-<section class="shared" id="shared" hidden>
-  <p class="eyebrow"><span class="dot"></span>A station was shared with you</p>
-  <h2 id="shn">A friend's station</h2>
-  <div class="shg" id="shg"></div>
-  <p class="lede" id="sha"></p>
-  <div class="cta"><a class="btn hot big" href="downloads/rrradio-extension.zip" download>Take this station home, free</a><button class="btn ghost big" type="button" onclick="document.getElementById('pp').click()">▶ Listen live meanwhile</button></div>
+  <div class="device" id="player"><iframe id="pf" src="radio/" title="rrradio live player" allow="autoplay; fullscreen"></iframe><a class="full" href="radio/" target="_blank" rel="noopener">Open full screen ↗</a></div>
 </section>
 
 <section class="stations" id="stations">
-  <div class="head"><p class="eyebrow"><span class="dot"></span>Free, live, right now</p><h2>Seven stations. Pick one, press play.</h2></div>
+  <div class="head"><p class="eyebrow"><span class="dot"></span>On air right now</p><h2>Seven stops on one line.</h2><p class="lede">From the arrivals hall to the depot at the end of the line. Press a stop to tune the player above.</p></div>
   <div class="cards" id="cards"></div>
   <p class="also">Also in any player app or smart speaker: <span id="plsinline"></span></p>
 </section>
 
+<section class="ladder" id="ladder">
+  <div class="head"><p class="eyebrow">How it grows</p><h2>Listen. Steer. Own it.</h2><p class="lede">Nothing is locked behind a wall. Each step is useful on its own; the next one is there when you want more.</p></div>
+  <div class="steps3">
+    <div><span class="lb">1 · You are here</span><b>Listen</b><em>Free, for good</em><p>Seven live stations, picked by hand and timed to the hour. No skips, no ads, no account. Put it on and get on with your day.</p><a class="btn ghost" href="#listen">▶ Keep listening</a></div>
+    <div><span class="lb">2 · Two minutes to set up</span><b>Steer</b><em>Free, for good</em><p>The extension turns rrradio into your own radio. Skip, heart, ban. It learns from every signal, follows your day, and digs Core, Orbit and Drift around what you love.</p><a class="btn hot" href="downloads/rrradio-extension.zip" download>Get the extension</a></div>
+    <div class="hl"><span class="lb">3 · When it clicks</span><b>Own it</b><em>Deepot · €3 for your first 3 months</em><p>Void, the farthest finds. Unlimited retunes. Every heart saved to Spotify, Apple Music and YouTube. Tune each genre and tag by hand. Your month, every month.</p><a class="btn dark" href="#depot">See Deepot</a></div>
+  </div>
+</section>
+
 <section class="ext" id="extension">
-  <div class="head"><p class="eyebrow">The extension · free</p><h2>Your own radio, in your browser.</h2><p class="lede">The live stations are the same for everyone. The extension is only yours.</p></div>
+  <div class="head"><p class="eyebrow">Step 2 · the extension · free</p><h2>Your own radio, in your browser.</h2><p class="lede">The live stations are the same for everyone. The extension is only yours.</p></div>
   <div class="grid">
     <div><b>Learns in minutes</b><span>A heart counts most, a skip in the first seconds is a clear no. Two listens never flood a station.</span></div>
     <div><b>Knows your day</b><span>Tell it your routine once: soft mornings, focus afternoons, deep nights.</span></div>
     <div><b>Digs, not charts</b><span>Lesser-known artists first, and new records from the ones you love.</span></div>
     <div><b>Not the vibe</b><span>One key rebuilds the whole queue for a different mood, without touching your taste.</span></div>
-    <div><b>The story on screen</b><span>Scroll, and the artist's story takes the whole screen in large type.</span></div>
-    <div><b>A city of stations</b><span>Arrivals Hall, State Library, Global Groove Center, Dance Union Square, Haunted Powerhouse, Lakefield, and Deepot at the end of the line.</span></div>
+    <div><b>Every station has a look</b><span>Each stop paints its own visuals from the cover that's playing. No two songs look the same.</span></div>
+    <div><b>Works with what you have</b><span>Plays through YouTube in your browser. Nothing to sign up for.</span></div>
   </div>
   <div class="cta"><a class="btn dark big" href="downloads/rrradio-extension.zip" download>Download the extension, free</a><a class="btn ghostdark big" href="#try">Try the interface first</a></div>
   <ol class="steps">
@@ -99,71 +79,86 @@
   </ol>
 </section>
 
+<section class="try" id="try">
+  <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
+  <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
+</section>
+
 <section class="depot" id="depot">
-  <div class="head"><p class="eyebrow">Deepot · from €1 a month to start</p><h2>The radio is free.<br>Deepot keeps it on air.</h2><p class="lede">rrradio is non-profit. Deepot plays for everyone as the overview radio; supporters also open its panel, where the radio becomes entirely theirs.</p></div>
+  <div class="head"><p class="eyebrow">Step 3 · Deepot</p><h2>The radio is free.<br>Deepot is where it becomes yours.</h2><p class="lede">You've heard what it can find. Deepot lets you go all the way: tune every genre and tag, reach the farthest records, keep every find in the apps you already use.</p></div>
   <div class="tune">
     <div class="sliders" id="tsl"></div>
     <div class="tq"><p class="lb">What plays next</p><ol id="tqo"></ol></div>
   </div>
-  <p class="tnote">Try it: drag a genre and the queue rebuilds at once. In Deepot this is your real radio, with every scene it has learned from you.</p>
+  <p class="tnote">Drag a genre and the queue rebuilds at once. In Deepot this is your real radio, with every scene it has learned from you.</p>
   <div class="grid">
-    <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to in Chrome.</span></div>
-    <div><b>Tune it by hand</b><span>Drag genre weights, switch scenes off, give them back to the radio.</span></div>
-    <div><b>Your month</b><span>What you found, what grew, what faded, every trail you followed.</span></div>
-    <div><b>All visuals</b><span>Signal, Scan and Contour, beyond Aura and Minimal.</span></div>
-    <div><b>Bring your history</b><span>Start from your Last.fm and Spotify listening.</span></div>
-    <div><b>Read without leaving</b><span>Whole artist stories, every section, sources linked. Plus "did you know" moments while you listen.</span></div>
-    <div><b>Your week, every week</b><span>A playlist made from what you loved, ready to play on YouTube.</span></div>
-    <div><b>News about your artists</b><span>Pitchfork, The Quietus and Bandcamp Daily, filtered to the people you listen to, links to the originals.</span></div>
+    <div><b>Void</b><span>The farthest depth: artists four steps away from anything you play. This is where the records nobody told you about live.</span></div>
+    <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to.</span></div>
+    <div><b>Your month, every month</b><span>What you found, what grew, what faded, every trail you followed. Not once a year: every month.</span></div>
+    <div><b>Tune it by hand</b><span>Drag genre weights, lift or switch off any of 200 tags, keep profiles for work, night and guests.</span></div>
+    <div><b>Read without leaving</b><span>Whole artist stories with sources, news about your artists from Pitchfork, The Quietus and Bandcamp Daily.</span></div>
+    <div><b>Unlimited retunes</b><span>Not the vibe as often as you like. Rewind through your whole day.</span></div>
   </div>
   <div class="tagdemo">
     <div class="tdh"><b>Tune it tag by tag</b><span id="tdc"></span></div>
     <div class="cloud" id="tcl"></div>
-    <p class="tnote">Press a tag to lift it, again to lift it more, a third time to switch it off. In Deepot this is your real radio.</p>
+    <p class="tnote">Press a tag to lift it, again to lift it more, a third time to switch it off.</p>
   </div>
-    <div class="prices">
-    <div class="pr hl"><span class="lb">Start</span><b>€3</b><em>for your first 3 months</em><span>then from €3 a month, pay what you want</span></div>
-    <div class="pr"><span class="lb">Year</span><b>€36</b><em>a year</em><span>three months free compared to monthly</span></div>
-    <div class="pr"><span class="lb">For life</span><b>€59</b><em>once</em><span>Founding 100: the first hundred pay €39</span></div>
+  <div class="prices">
+    <div class="pr hl"><span class="lb">Start</span><b>€3</b><em>for your first 3 months</em><span>then from €3 a month, pay what you want</span><a class="btn hot" data-buy="start" href="#depot">Start for €3</a></div>
+    <div class="pr"><span class="lb">Year</span><b>€36</b><em>a year</em><span>three months free compared to monthly</span><a class="btn ghostdark" data-buy="year" href="#depot">Take the year</a></div>
+    <div class="pr"><span class="lb">For life</span><b id="lifep">€59</b><em>once</em><span id="foundn">Founding 100: the first hundred pay €39</span><a class="btn ghostdark" data-buy="life" href="#depot">Once, for good</a></div>
   </div>
-  <div class="cta"><a class="btn dark big" id="sup" href="#depot" target="_blank" rel="noopener">Support and open Deepot</a></div>
-  <p class="fine">Support is voluntary. It does not buy any music or rights to it; everything still plays from the services you use.</p>
+  <p class="fine center needc" hidden>Can't spare €3 right now? Write to <span class="sel contact"></span> and we'll send you a key. No questions, no proof.</p>
+  <p class="fine center">Billing runs through Lemon Squeezy. Cancel in one click from the email receipt. 14-day refund, no questions. Support does not buy music or rights to it; everything still plays from the services you use.</p>
 </section>
 
 <section class="compare" id="compare">
   <div class="head"><p class="eyebrow">Free stays free</p><h2>Everything you need to listen. Deepot for everything after.</h2></div>
   <table class="cmp">
-    <thead><tr><th></th><th>Free, always</th><th class="d">Deepot</th></tr></thead>
+    <thead><tr><th></th><th>Live radio</th><th>Extension</th><th class="d">Deepot</th></tr></thead>
     <tbody>
-      <tr><td>7 live stations and the personal radio</td><td>●</td><td class="d">●</td></tr>
-      <tr><td>Learns from hearts and skips, taste questions</td><td>●</td><td class="d">●</td></tr>
-      <tr><td>Depth: Core, Orbit, Drift</td><td>●</td><td class="d">●</td></tr>
-      <tr><td>Void, the farthest finds</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Not the vibe, retune the queue</td><td>3 a day</td><td class="d">Unlimited</td></tr>
-      <tr><td>Rewind through what you heard</td><td>Last 3</td><td class="d">Whole day</td></tr>
-      <tr><td>Hearts saved to YouTube, Spotify, Apple Music</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Your crate: every heart, exported in one click</td><td>View</td><td class="d">●</td></tr>
-      <tr><td>Tune genres by hand</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Your month and taste map</td><td>Preview</td><td class="d">●</td></tr>
-      <tr><td>Visuals</td><td>Aura, Minimal</td><td class="d">All</td></tr>
-      <tr><td>Start from your Last.fm and Spotify</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Tune every tag: lift, lift more, switch off</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Taste profiles: work, night, guests</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Share your station with a link</td><td>●</td><td class="d">●</td></tr>
-      <tr><td>Tune into a friend's station</td><td>Listen live</td><td class="d">●</td></tr>
-      <tr><td>Full artist stories with sources, did you know</td><td>Short bio</td><td class="d">●</td></tr>
-      <tr><td>Your weekly playlist</td><td>Preview</td><td class="d">●</td></tr>
-      <tr><td>The month on rrradio, playlist and email</td><td>●</td><td class="d">●</td></tr>
-      <tr><td>News about your artists</td><td>3 headlines</td><td class="d">●</td></tr>
-      <tr><td>New features first</td><td>–</td><td class="d">●</td></tr>
-      <tr><td>Your name in the credits</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>7 live stations, picked by hand</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Skip, heart, ban; learns your taste</td><td>–</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Depth: Core, Orbit, Drift</td><td>–</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Void, the farthest finds</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Not the vibe, retune the queue</td><td>–</td><td>3 a day</td><td class="d">Unlimited</td></tr>
+      <tr><td>Station visuals from the cover</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Hearts saved to YouTube, Spotify, Apple Music</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Tune genres and tags by hand, profiles</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Your month and taste map</td><td>–</td><td>Preview</td><td class="d">●</td></tr>
+      <tr><td>Full artist stories, news about your artists</td><td>–</td><td>Short bio</td><td class="d">●</td></tr>
+      <tr><td>Start from your Last.fm and Spotify</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>The month on rrradio, playlist and email</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>New features first, your name in the credits</td><td>–</td><td>–</td><td class="d">●</td></tr>
     </tbody>
   </table>
 </section>
 
-<section class="try" id="try">
-  <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
-  <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
+<section class="promises" id="promises">
+  <div class="head"><p class="eyebrow">What we promise</p><h2>It won't run off, it won't lie, it won't sell you.</h2></div>
+  <div class="grid">
+    <div><b>No ads from us. Ever.</b><span>Not in the radio, not in the extension, not in the emails.</span></div>
+    <div><b>Free stays free.</b><span>What is free today does not move behind the paywall tomorrow.</span></div>
+    <div><b>Your taste is yours.</b><span>It lives in your browser. Export it any time, delete it with one button.</span></div>
+    <div><b>Leave in one click.</b><span>Cancel from your receipt. Refund within 14 days, no questions.</span></div>
+    <div><b>Open books.</b><span>Non-profit. Every month we post what came in and what it paid for: servers, digging, time.</span></div>
+    <div><b>If we ever stop,</b><span>Deepot unlocks for everyone in the last version, and you keep your exports.</span></div>
+  </div>
+</section>
+
+<section class="proof" id="proof">
+  <div class="head"><p class="eyebrow">So far</p><h2 id="proofh">On air since 7 November 2026.</h2></div>
+  <div class="stats" id="stats"></div>
+  <div class="quotes" id="quotes" hidden></div>
+</section>
+
+<section class="shared" id="shared" hidden>
+  <p class="eyebrow"><span class="dot"></span>A station was shared with you</p>
+  <h2 id="shn">A friend's station</h2>
+  <div class="shg" id="shg"></div>
+  <p class="lede" id="sha"></p>
+  <div class="cta"><a class="btn hot big" href="downloads/rrradio-extension.zip" download>Take this station home, free</a></div>
 </section>
 
 <section class="mail" id="mail">
@@ -181,36 +176,48 @@
 
 <section class="faq" id="faq">
   <h2>Questions</h2>
-  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free. Deepot is optional support with extra comforts.</p></details>
-  <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser, with YouTube's own ads. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
-  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none. rrradio doesn't touch your browser setup: whatever you already run keeps working as it did.</p></details>
-  <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser. Saving to Spotify or Apple Music uses the sites you are already signed in to.</p></details>
+  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free for good. Deepot is optional, for people who want to go all the way.</p></details>
+  <details><summary>Why can't I skip on the live radio?</summary><p>Because it's radio: one feed for everyone, picked by hand. Skips, hearts and your own taste live in the free extension.</p></details>
+  <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
+  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none.</p></details>
+  <details><summary>How does paying work?</summary><p>Through Lemon Squeezy, which handles cards, PayPal and VAT. You get a key by email; paste it into the extension once. Cancel from the receipt, refund within 14 days.</p></details>
+  <details class="needc" hidden><summary>I can't afford it.</summary><p>Write to <span class="sel contact"></span> and we'll send a key. We mean it.</p></details>
+  <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser.</p></details>
   <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
 </section>
 
 <footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></span></footer>
 
-<ul id="pls" hidden></ul><span id="clk" hidden></span>
-<audio id="au" preload="none"></audio>
 <script>
-document.getElementById("rrt").innerHTML = "<i>r</i>".repeat(56);
-document.getElementById("sup").href = (window.IRR && IRR.support) || "#depot";
-/* station cards: everything on air right now, one press to listen */
-const HUES = [200, 265, 320, 28, 150, 90, 0];
-const escH = t => String(t).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
-window.onRadio = (data, cur, playing) => {
-  const box = document.getElementById("cards");
-  box.innerHTML = data.stations.map((s, i) => `<button class="card ${s.id === cur && playing ? "on" : ""}" data-id="${s.id}" style="--h:${HUES[i % HUES.length]}">
+/* live data from the radio: station cards, listeners, numbers that are true */
+const RB = ((window.IRR && IRR.radio) || "").replace(/\/$/, ""), escH = t => String(t).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+const HUES = [192, 152, 36, 318, 96, 18, 40], pf = document.getElementById("pf");
+async function onAir() {
+  let d; try { d = await fetch(RB + "/api/stations", { cache: "no-store" }).then(r => r.json()) } catch { document.getElementById("livec").textContent = "Back soon"; return }
+  const L = d.stations.reduce((a, s) => a + (s.listeners || 0), 0);
+  document.getElementById("livec").textContent = L ? `${L} listening now` : "Live now";
+  document.getElementById("cards").innerHTML = d.stations.map((s, i) => `<button class="card" data-id="${s.id}" style="--h:${HUES[i % 7]}">
     <span class="num">${String(i + 1).padStart(2, "0")}</span><b>${escH(s.name)}</b><span class="line">${escH(s.line)}</span>
-    <span class="np">${s.now ? `<i>Now</i> ${escH(s.now.artist)} — ${escH(s.now.title)}` : "Off air"}</span>
-    <span class="go">${s.id === cur && playing ? "■ Playing" : "▶ Listen"}</span></button>`).join("");
-  document.getElementById("plsinline").innerHTML = data.stations.map(s => `<a href="${(IRR.radio || "").replace(/\/$/, "")}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
-};
-document.getElementById("cards").addEventListener("click", e => {
-  const b = e.target.closest(".card"); if (!b) return;
-  b.classList.contains("on") ? radioStop() : radioPlay(b.dataset.id);
-});
-document.getElementById("hlisten").addEventListener("click", () => document.getElementById("pp").click());
+    <span class="np">${s.now ? `<i>Now</i> ${escH(s.now.artist)} — ${escH(s.now.title)}` : "Off air"}</span><span class="go">▶ Tune in</span></button>`).join("");
+  document.getElementById("plsinline").innerHTML = d.stations.map(s => `<a href="${RB}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
+  const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
+  const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
+  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line"], [days, days === 1 ? "day on air" : "days on air"], [L, "listening right now"], [artists.size, "artists on air in the next hour"], ["0", "ads, ever"]].map(([n, t]) => `<div><b>${n}</b><span>${t}</span></div>`).join("") }
+document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".card"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("listen").scrollIntoView({ behavior: "smooth" }) });
+onAir(); setInterval(onAir, 30000);
+/* checkout links come from config.js once the Lemon Squeezy store is live */
+const BUY = (window.IRR && IRR.buy) || {};
+document.querySelectorAll("[data-buy]").forEach(a => { const u = BUY[a.dataset.buy]; if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener" } else { a.textContent = "Opens at launch"; a.classList.add("soon") } });
+/* the Founding 100 counter is the real number of founding supporters */
+fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(L => {
+  if (L.length) document.getElementById("names").textContent = L.join(" · ");
+  const left = 100 - ((window.IRR && IRR.founding) || 0);
+  if (left > 0) { document.getElementById("lifep").innerHTML = "€39 <s>€59</s>"; document.getElementById("foundn").textContent = `Founding 100: ${left} of 100 founding places left, then €59`; if (BUY.founding) document.querySelector('[data-buy="life"]').href = BUY.founding } }).catch(() => { });
+/* contact address from config.js; lines that need it stay hidden until it exists */
+if (window.IRR && IRR.contact) { document.querySelectorAll(".contact").forEach(e => e.textContent = IRR.contact); document.querySelectorAll(".needc").forEach(e => e.hidden = false) }
+/* listener quotes: shown only when real ones exist in quotes.json */
+fetch("quotes.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(Q => { if (!Q.length) return; const q = document.getElementById("quotes"); q.innerHTML = Q.map(x => `<figure><blockquote>${escH(x.q)}</blockquote><figcaption>${escH(x.who)}</figcaption></figure>`).join(""); q.hidden = false }).catch(() => { });
+document.getElementById("hplay").addEventListener("click", e => { e.preventDefault(); document.getElementById("player").scrollIntoView({ behavior: "smooth", block: "center" }); pf.focus() });
 </script>
 <script>
 /* the tag-weights demo: a few genres, a pool of records, the queue follows the sliders */
@@ -273,6 +280,5 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
-<script src="app.js"></script>
 </body>
 </html>

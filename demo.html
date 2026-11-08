@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=robots content=noindex></head><body><title>irradiation</title>
+<title>irradiation</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <style>html,body{height:100%;overflow:hidden;background:#08080a}/*FONTS*/
@@ -413,7 +413,8 @@ function autoPick(c,kind){const d=new Date().toISOString().slice(0,10);if(!S.rad
 /* hand loved tracks to your radio server, with where and when you heard them */
 function toRadio(items,force){const r=S.radio;if(!r||!r.key||(!r.on&&!force)||!items.length)return Promise.resolve(null);return H.bg({radio:{url:r.url.replace(/\/$/,''),key:r.key,items}})}
 /* ---- Deepot: the paid stop. The personal build is always open; the public build opens with a supporter key. */
-const DEPOT_URL='https://irradiation.gumroad.com/l/depot',DEPOT_PRODUCT='';
+/* Deepot keys come from Lemon Squeezy: DEPOT_PRODUCT is the store id (Settings > Stores), DEPOT_URL the pricing page */
+const DEPOT_URL='https://antonalter.github.io/rrradio/#depot',DEPOT_PRODUCT='';
 const LOCKED=()=>H.demo?true:(typeof __CLEAN!=='undefined'&&__CLEAN&&!S.depot.ok);
 async function depotCheck(key){const r=await H.bg({depot:{key,product:DEPOT_PRODUCT}});if(r?.ok){S.depot={key,ok:1,t:Date.now()};store();return 1}if(r&&r.ok===false){S.depot={key,ok:0,t:Date.now()};store()}return 0}
 /* a loved track is also saved to the streaming apps you are signed in to in this browser (Deepot) */
@@ -437,7 +438,7 @@ function queueArtist(a){H.api('artist.gettoptracks',{artist:a,limit:8}).then(asy
 function streak(){const t=new Date(),f=z=>z.toISOString().slice(0,10),a=f(t),y=f(new Date(t-DAY));if(S.stt.d!==a){S.stt.s=S.stt.d===y?S.stt.s+1:1;S.stt.d=a}}
 function reset(){S.tok++;S.q=[];S.recent.clear();store();UI.chrome();UI.queue();fill()}
 function resetTaste(){const t=S.pref.t;S.tm={s:{},plays:[],u:{},h:{},boot:1};S.tw={};S.cool={};S.streak=[];S.boost=[];S.pref={like:[],avoid:[],tex:[],en:0,voc:'mix',era:'mix',t};BAD.clear();S.mood=null;S.pull=0;S.tempo=3;S.tok++;S.q=[];S.recent.clear();store();UI.mood();loadTaste().then(fill)}
-const setL=l=>{if(clamp(l,0,3)===3&&LOCKED()){UI.depot('Void, the farthest finds, opens in Deepot');return}S.layer=clamp(l,0,3);reset();UI.sweep(LAY[S.layer][0])},setC=c=>{if(c===S.ch)return;S.ch=c;reset();UI.sweep(CH[c])};
+const setL=l=>{if(clamp(l,0,3)===3&&LOCKED()){UI.depot('Void, the farthest finds, opens in Deepot');return}S.layer=clamp(l,0,3);reset();UI.sweep(LAY[S.layer][0])},setC=c=>{if(c===S.ch)return;const K=Object.keys(CH);S.mvD=K.indexOf(c)>=K.indexOf(S.ch)?1:-1;S.mvT=performance.now();S.ch=c;reset();UI.sweep(CH[c])};
 /* ---- Clock ----------------------------------------------------------------
    Moments from the survey carry a time window and an energy. Inside a window
    Clock plays 3-4 tracks of one of your genres that fits that energy, and the
@@ -504,20 +505,29 @@ const col=(h,s,l,a)=>`hsla(${h},${s}%,${l}%,${a})`;
 let glc,ovc,ovx,cvc,cvx,gl,P1,P2,fb=[],tx=[],cur=0,U1={},U2={},tex=new WeakMap(),blank,sTex,ok=false,kick=0,FOC=[0,0];const spD=new Uint8Array(64),HIST=[];let hf=0;
 const VS='#version 300 es\nvoid main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));gl_Position=vec4(p*2.-1.,0.,1.);}';
 const FS1=`#version 300 es
-precision highp float;uniform sampler2D uA,uP,uF,uS;uniform vec2 uR;uniform float uT,uTr,uK,uD;uniform int uVar;uniform vec4 uAu;out vec4 o;
+precision highp float;uniform sampler2D uA,uP,uF,uS;uniform vec2 uR;uniform float uT,uTr,uK,uD,uMv,uMs,uDir;uniform vec3 uHc;uniform float uSd,uEc;uniform int uVar;uniform vec4 uAu;out vec4 o;
 vec2 mir(vec2 u){return 1.-abs(1.-mod(u,2.));}
+float hsh(float n){return fract(sin(n*91.73)*43758.55);}
 float spec(float x){return texture(uS,vec2(clamp(x,0.,1.),.5)).r;}
 float lumT(sampler2D s,vec2 u){return dot(texture(s,mir(u)).rgb,vec3(.3,.59,.11));}
 void main(){float asp=uR.x/uR.y;vec2 uv0=gl_FragCoord.xy/uR,p=(gl_FragCoord.xy-.5*uR)/uR.y;float bass=uAu.x,mid=uAu.y,t=uT,r=length(p);
  vec2 w=p+.055*vec2(sin(p.y*2.6+t*.13)+.5*sin(p.y*6.1-t*.09),cos(p.x*2.4-t*.11)+.5*cos(p.x*5.3+t*.07))*(1.+mid*.5);
- w*=1.-.05*uD-.015*bass;vec2 uv=w/max(asp,1.)+.5;
+ w*=1.-.05*uD-.015*bass;w.x+=uDir*uMs*1.6;vec2 uv=w/max(asp,1.)+.5;
  float R=uTr*1.7,trm=uTr>=.999?1.:1.-smoothstep(R-.2,R+.2,r);
- vec3 soft=mix(textureLod(uP,mir(uv),6.).rgb,textureLod(uA,mir(uv),6.).rgb,trm),col=soft*(.42+.2*bass);float ln=0.,sp=spec(uv0.x);
+ vec3 soft=mix(textureLod(uP,mir(uv),6.).rgb,textureLod(uA,mir(uv),6.).rgb,trm);soft=mix(soft,uHc*(.25+dot(soft,vec3(.33))*1.5),.6);vec3 col=soft*(.42+.2*bass);float ln=0.,sp=spec(uv0.x);
  if(uVar==1){float N=46.,Ls=uR.y/N,y=gl_FragCoord.y,k0=floor(y/Ls),best=0.;
   for(int j=-4;j<=4;j++){float k=k0+float(j),yk=(k+.5)*Ls,py=(yk-.5*uR.y)/uR.y;vec2 u2=vec2(uv.x,py/max(asp,1.)+.5);float lum=mix(lumT(uP,u2),lumT(uA,u2),trm),d=(lum-.32)*Ls*(2.+7.*sp*(.5+bass+mid));best=max(best,smoothstep(1.5,.2,abs(y-(yk+d)))*(.3+.7*lum));}
   ln=best*.8;col*=.34;}
  if(uVar==2){float L2=mix(lumT(uP,uv),lumT(uA,uv),trm),q=L2*6.+t*.035+sp*.5,c=1.-abs(fract(q)-.5)*2.;ln=smoothstep(.9,1.,c)*(.4+.6*L2)*.8;col*=.4;}
+ if(uVar==4){float rw=floor(p.y*(12.+floor(uSd*10.))),band=exp(-pow((fract(p.y*16.)-.5)*7.,2.)),run=smoothstep(.55,1.,fract(p.x*.45+hsh(rw)-t*.035*(.4+hsh(rw+3.))*(1.+uAu.z*3.)));ln=band*run*(.35+.65*spec(hsh(rw)))*(.7+uAu.w*1.6+uAu.z*.8);col*=.36;}
+ if(uVar==5){float L5=mix(lumT(uP,uv),lumT(uA,uv),trm);vec2 c5=vec2(.3+uSd*.25,.05+sin(t*.05)*.1),f5=vec2(30.+uSd*20.)*(1.+bass*.18);float q5=sin(length(p-c5)*f5.x-t*.35*(1.+mid))*sin(length(p+c5)*f5.y+t*.27);ln=smoothstep(.8-uAu.w*.25,1.,q5)*(.3+.7*L5)*(.6+bass*.9);col*=.42;}
+ if(uVar==6){float L6=mix(lumT(uP,uv),lumT(uA,uv),trm),q6=sin(p.y*(40.+uSd*16.)+sin(p.x*2.6+t*.25)*2.4*(1.+mid*1.4)-t*.45*(1.+bass));ln=smoothstep(.75,1.,q6)*(.25+.5*L6)*smoothstep(.45,-.1,p.y)*(.7+bass*.8);col*=.52;}
+ if(uVar==7){vec2 q7=uv;for(int i=0;i<3;i++)q7+=.035*vec2(sin(q7.y*5.+t*.05*(1.+mid*2.)+uSd*9.),cos(q7.x*4.-t*.04+uSd*5.))*(1.+mid*1.2);vec3 ik=mix(textureLod(uP,mir(q7),2.4).rgb,textureLod(uA,mir(q7),2.4).rgb,trm);float L7=dot(ik,vec3(.33));col=mix(col,mix(ik,uHc*(.25+L7*1.5),.4)*(.5+bass*.45),.72);ln=smoothstep(.96,1.,1.-abs(fract(L7*3.+t*.012)-.5)*2.)*.35;}
  col+=soft*ln*.6+vec3(ln)*.5;
+ {float kn=floor(2.+uSd*5.),ca=cos(t*.01+uSd*6.),sa=sin(t*.01+uSd*6.);vec2 kp=mat2(ca,-sa,sa,ca)*p;float ka=atan(kp.y,kp.x),kr=length(kp)*(.7+uSd*.7)*(1.-bass*.06);ka=mod(ka,6.2832/kn);ka=abs(ka-3.1416/kn);vec2 ku=vec2(cos(ka),sin(ka))*kr+.5+vec2(sin(t*.02),cos(t*.017))*.08;
+  vec3 ec=mix(textureLod(uP,mir(ku),3.).rgb,textureLod(uA,mir(ku),3.).rgb,trm);col+=mix(ec,uHc*dot(ec,vec3(.4)),.45)*uEc*(.24+.32*bass+.18*uAu.w);}
+ col*=1.+bass*.22;
+ float spd=pow(hsh(floor(gl_FragCoord.y/uR.y*70.)),9.)*(.6+.4*sin(p.x*4.-uT*30.*uDir));col+=(soft*1.6+.06)*spd*uMv*.9;
  float ring=exp(-pow((r-uK*1.1)*9.,2.))*(1.-uK)*step(.001,uK);col+=(soft*1.6+.15)*ring*.55;
  float tr=exp(-pow((r-R)*7.,2.))*sin(3.14159*uTr);col+=(soft*1.4+.08)*tr*.5;
  vec2 f=(uv0-.5)*(1.-.0018*(.5+bass))+.5;col=mix(col,max(col,texture(uF,f).rgb*.93),.82);
@@ -540,7 +550,7 @@ function glDraw(t,now){const w=Math.max(2,W*.5|0),h=Math.max(2,H_*.5|0);if(glc.w
  gl.viewport(0,0,w,h);const nx=1-cur;gl.bindFramebuffer(gl.FRAMEBUFFER,fb[nx]);gl.useProgram(P1);
  [[T(S.A),'uA'],[T(hasP?S.P:S.A),'uP'],[tx[cur],'uF']].forEach(([x,n],i)=>{gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,x);gl.uniform1i(u(P1,U1,n),i)});
  gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_2D,sTex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,64,1,gl.RED,gl.UNSIGNED_BYTE,spD);gl.uniform1i(u(P1,U1,'uS'),3);
- gl.uniform2f(u(P1,U1,'uR'),w,h);gl.uniform1f(u(P1,U1,'uT'),t);gl.uniform1f(u(P1,U1,'uTr'),p);gl.uniform1f(u(P1,U1,'uK'),kick);gl.uniform1f(u(P1,U1,'uD'),S.layer);gl.uniform1i(u(P1,U1,'uVar'),S.vp);gl.uniform4f(u(P1,U1,'uAu'),S.bass*S.vi,S.mid*S.vi,S.high*S.vi,S.flux*S.vi);
+ gl.uniform2f(u(P1,U1,'uR'),w,h);gl.uniform1f(u(P1,U1,'uT'),t);gl.uniform1f(u(P1,U1,'uTr'),p);gl.uniform1f(u(P1,U1,'uK'),kick);gl.uniform1f(u(P1,U1,'uD'),S.layer);const sv=SV[S.ch]??3,mv=S.mvT?clamp((now-S.mvT)/1700,0,1):1,ms=mv*mv*(3-2*mv);if(S.A!==lastA){lastA=S.A;S.sd=Math.random()}gl.uniform1f(u(P1,U1,'uSd'),S.sd||0);gl.uniform1f(u(P1,U1,'uEc'),SE[S.ch]??.5);gl.uniform1i(u(P1,U1,'uVar'),sv);{const hc=hsl2rgb(S.hue/360,.62,.55);gl.uniform3f(u(P1,U1,'uHc'),hc[0],hc[1],hc[2])}gl.uniform1f(u(P1,U1,'uMv'),mv<1?Math.sin(Math.PI*mv):0);gl.uniform1f(u(P1,U1,'uMs'),mv<1?ms:0);gl.uniform1f(u(P1,U1,'uDir'),S.mvD||1);gl.uniform4f(u(P1,U1,'uAu'),S.bass*S.vi,S.mid*S.vi,S.high*S.vi,S.flux*S.vi);
  gl.drawArrays(gl.TRIANGLES,0,3);gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.useProgram(P2);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tx[nx]);gl.uniform1i(u(P2,U2,'uF'),0);gl.uniform2f(u(P2,U2,'uR'),w,h);gl.uniform1f(u(P2,U2,'uDay'),S.day?1:0);gl.drawArrays(gl.TRIANGLES,0,3);cur=nx}
 function ridges(){const n=HIST.length;if(n<2)return;const z=ovx,d=S.day,bw=Math.min(W*.74,H_*1.5),x0=W/2-bw/2,top=H_*.16,bot=H_*.9,amp=H_*.13;z.lineWidth=1.1;z.lineJoin='round';
  for(let j=0;j<n;j++){const yb=top+j/(n-1)*(bot-top),pts=[];for(let i=0;i<64;i++){const e=Math.exp(-Math.pow((i/63-.5)*3.3,2));pts.push([x0+i/63*bw,yb-HIST[j][i]*e*amp*(.7+S.bass*.5)])}
@@ -550,6 +560,12 @@ function clockDraw(cx,cy,r0){const n=new Date(),h=n.getHours(),m=n.getMinutes(),
  for(let i=0;i<60;i++){const an=i/60*6.2832-1.5708,big=i%5==0,a=r0*(big?.93:.965);z.strokeStyle=c(big?.8:.28);z.lineWidth=big?2:1;z.beginPath();z.moveTo(Math.cos(an)*a,Math.sin(an)*a);z.lineTo(Math.cos(an)*r0,Math.sin(an)*r0);z.stroke()}
  const hand=(g,len,w)=>{const an=g*6.2832-1.5708;z.strokeStyle=c(.95);z.lineWidth=w;z.beginPath();z.moveTo(0,0);z.lineTo(Math.cos(an)*len,Math.sin(an)*len);z.stroke()};
  hand((h%12+m/60)/12,r0*.6,4);hand((m+s/60)/60,r0*.86,2.5);hand(s/60,r0*.94,1);z.restore()}
+/* every station has its own field and colour; the cover only nudges the colour */
+const hsl2rgb=(h,s,l)=>{const f=n=>{const k=(n+h*12)%12,a=s*Math.min(l,1-l);return l-a*Math.max(-1,Math.min(k-3,9-k,1))};return[f(0),f(8),f(4)]};
+const SE={fresh:.45,clock:.6,global:.7,club:.35,cellar:.4,tube:.8,taste:.9};let lastA=null;
+const SV={fresh:4,clock:7,global:5,club:0,cellar:1,tube:6,taste:3},STH={fresh:192,clock:152,global:36,club:318,cellar:96,tube:18,taste:40};
+const MOTES=Array.from({length:70},(_,i)=>[Math.random(),Math.random(),.3+Math.random(),Math.random()*6.28]);
+function dust(t){const z=ovx;for(const m of MOTES){const x=((m[0]+t*.004*m[2])%1)*W,y=((m[1]-t*.006*m[2]+1)%1)*H_,a=.18+.22*Math.sin(t*.7+m[3]);z.fillStyle=`hsla(${S.hue},70%,80%,${a*(.6+S.mid)})`;z.beginPath();z.arc(x,y,.6+m[2]*1.3,0,7);z.fill()}}
 const spc=k=>AN?fd[Math.min(127,k)]/255:(.25+.2*Math.sin(k*.9+performance.now()/900)+.15*Math.sin(k*.31-performance.now()/1400))*(.55+S.bass);
 function lv(){let b=0,m=0,h=0,fl=0,ce=0,sm=0;if(AN){AN.getByteFrequencyData(fd);for(let i=1;i<128;i++){const v=fd[i];if(i<6)b+=v;else if(i<40)m+=v;else if(i<100)h+=v;fl+=Math.max(0,v-fp[i]);ce+=i*v;sm+=v;fp[i]=v}b/=1275;m/=8670;h/=15300;fl/=3900;ce=sm?ce/sm/128:0;S.z=b+m+h<.001?S.z+1:0}
  if(!AN||S.z>90){const t=performance.now()/1e3;b=.3+.2*Math.max(0,Math.sin(t*2.4));m=.3+.12*Math.sin(t*.9);h=.2+.08*Math.sin(t*1.3);fl=.15;ce=.4}
@@ -559,9 +575,9 @@ function cover(now){const q=S.cs,N=cvc.width;cvx.clearRect(0,0,N,N);const a=S.P|
  const s=1+S.bass*.006;cvx.save();cvx.translate(N/2,N/2);cvx.scale(s,s);cvx.translate(-N/2,-N/2);if(p>=1)cvx.drawImage(b.o,m,m,q,q);else{const e=p*p*(3-2*p);if(a)cvx.drawImage(a.o,m,m,q,q);cvx.globalAlpha=e;cvx.drawImage(b.o,m,m,q,q);cvx.globalAlpha=1}cvx.restore()}
 function resize(){const r=$('#stage').getBoundingClientRect();W=r.width|0;H_=r.height|0;ovc.width=W;ovc.height=H_;S.cs=Math.round(Math.min(H_*.62,W*.42));const N=S.cs+120;cvc.width=cvc.height=N;cvc.style.width=cvc.style.height=N+'px'}
 function frame(now){requestAnimationFrame(frame);if(document.hidden)return;const t=now/1e3;lv();
- const target=S.hueT??HUE[S.layer];let dh=((target-S.hue+540)%360)-180;S.hue=(S.hue+dh*.025+360)%360;R.style.setProperty('--a',S.day?`hsl(${S.hue},55%,30%)`:`hsl(${S.hue},70%,72%)`);R.style.setProperty('--a2',`hsl(${(S.hue+40)%360},60%,${S.day?36:64}%)`);
+ const sh=(STH[S.ch]??HUE[S.layer])+S.layer*6,target=S.hueT==null?sh:sh+((((S.hueT-sh)+540)%360)-180)*.22;let dh=((target-S.hue+540)%360)-180;S.hue=(S.hue+dh*.025+360)%360;R.style.setProperty('--a',S.day?`hsl(${S.hue},55%,30%)`:`hsl(${S.hue},70%,72%)`);R.style.setProperty('--a2',`hsl(${(S.hue+40)%360},60%,${S.day?36:64}%)`);
  ovx.clearRect(0,0,W,H_);
- if(S.vz&&ok){glc.style.display='';try{glDraw(t,now);if(S.vp===0)ridges()}catch(e){ok=false;logErr(e.message)}}else glc.style.display='none';
+ if(S.vz&&ok){glc.style.display='';try{glDraw(t,now);if(SV[S.ch]===0)ridges();if(S.ch==='taste')dust(t)}catch(e){ok=false;logErr(e.message)}}else glc.style.display='none';
  if(S.ch==='clock'&&S.vz)clockDraw(W/2,H_/2,S.cs*.74);
  cover(now)}
 return{init(){glc=$('#gl');ovc=$('#ov');ovx=ovc.getContext('2d');cvc=$('#cov');cvx=cvc.getContext('2d');initGL();resize();new ResizeObserver(resize).observe($('#stage'));requestAnimationFrame(frame)},
@@ -576,7 +592,7 @@ const I={play:ic('<path d="M7 4.5v15l13-7.5z"/>'),pause:ic('<path d="M6 4h4.5v16
 const R=document.createElement('div');R.id='rr';
 R.innerHTML=`<div id=stage><canvas id=gl></canvas><canvas id=ov></canvas><canvas id=cov></canvas><div id=ag></div><div id=sweep></div><div class=rrl aria-hidden=true><div class=rrt>${"<i>r</i>".repeat(56)}</div></div></div>
 <header class=rail><button id=logo title="About and manual">rrradio</button><nav id=chs aria-label="Stations"><i id=chi></i>${Object.entries(CH).map(([k,v],i)=>`<button data-c=${k} title="${v}"><sup>${i+1}</sup><span class=sn>${SHORT[k]}</span><span class=fn>${v}</span></button>`).join('')}<button class=dep data-dep title="Deepot panel: remap your taste">panel</button></nav>
-<div class=tools><button class=ib id=ttr title="Your trail (T)" hidden>${I.trail}</button><button class=ib id=tvp title="Visuals (V)">${I.eye}</button><button class=ib id=tdy title="Day or night">${I.moon}</button><button class=ib id=thp title="Manual (?)">${I.q}</button><button class=ib id=tst title="Settings (S)">${I.gear}</button></div></header>
+<div class=tools><button class=ib id=ttr title="Your trail (T)" hidden>${I.trail}</button><button class=ib id=tvp title="Station visuals on or off (V)">${I.eye}</button><button class=ib id=tdy title="Day or night">${I.moon}</button><button class=ib id=thp title="Manual (?)">${I.q}</button><button class=ib id=tst title="Settings (S)">${I.gear}</button></div></header>
 <div class=ch-m>${Object.entries(CH).map(([k,v])=>`<button data-c=${k} title="${v}">${SHORT[k]}</button>`).join('')}</div>
 <div id=moodc><i></i><span></span><button title="Clear mood">${I.x}</button></div><div id=toast role=status></div>
 <div id=vp><span class=m></span></div>
@@ -616,7 +632,8 @@ const UI=(()=>{let tT,idle,infoFor='',swT;
  function vizMark(){$$('#vp [data-vz]').forEach(b=>{const on=+b.dataset.vz===vizNow();b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)})}
  function vizPick(v){if(v>=0&&v!==3&&LOCKED()){flash('Signal, Scan and Contour open in Deepot');return}if(v<0)S.vz=0;else{S.vz=1;S.vp=v}store();chrome();vizMark();vizHold()}
  function vizMenu(){const e=$('#vp');if(vizOpen()){e.classList.remove('on');return}e.dataset.k='v';e.innerHTML=`<span class=m>Visuals</span>${VIZ.map(([a,v])=>`<button data-vz=${v}>${a}</button>`).join('')}`;e.classList.add('on');vizMark();vizHold()}
- function vizKey(){if(!vizOpen())return vizMenu();const n=VIZ.findIndex(z=>z[1]===vizNow());vizPick(VIZ[(n+1)%VIZ.length][1])}
+ function vizKey(){vizToggle()}
+ function vizToggle(){S.vz=S.vz?0:1;store();chrome();flash(S.vz?'Station visuals on':'Visuals off')}
  async function info(open){const I_=$('#info');if(open===false||(open===undefined&&I_.classList.contains('on'))){I_.classList.remove('on');R.classList.remove('reading');return}const c=S.cur;if(!c)return;I_.classList.add('on');R.classList.add('reading');I_.scrollTop=0;const key=c.artist+c.vid;if(infoFor===key)return;infoFor=key;
   const nameHTML=c.artist.split(/\s+/).map((w,i)=>`<span><i style="transition-delay:${i*90}ms">${esc(w)}</i></span>`).join('');$('#inm').innerHTML=nameHTML;$('#ibio').textContent='';$('#imt').textContent='';$('#ism').innerHTML='';
   I_.classList.remove('on');void I_.offsetWidth;I_.classList.add('on');
@@ -684,7 +701,7 @@ ${L.length>1?`<span class=m>Earlier trails</span><div class=tp>${L.map((z,j)=>z=
 <section><span class=lb>${P?'Rising':'Most played'}</span><p class=dl>${up.map(z=>SCENE_NAME[z[0]]).join(', ')||'Too early to tell'}</p>${dn.length?`<span class=lb>Fading</span><p class=dl>${dn.map(z=>SCENE_NAME[z[0]]).join(', ')}</p>`:''}${top&&top[1]>1?`<span class=lb>You came back to</span><p class=dl>${esc(top[0])}, ${top[1]} times</p>`:''}${L.qz?`<span class=lb>Thread quiz</span><p class=dl>${L.qz} right</p>`:''}</section>
 <section><span class=lb>Trails</span>${S.trails.length?`<div class=btr>${S.trails.map((z,j)=>`<button class=bt data-tr=${j}>${esc(z.start)} · ${z.nodes.length}</button>`).reverse().join('')}</div>`:'<p>Deep lays a trail as you listen. None yet.</p>'}</section>`}
  /* Deepot page: what support unlocks. Payment is optional; the radio stays free. */
- function depotPage(){const open=!LOCKED();const F=[['Tune it by hand','Drag genre weights, switch scenes off, hand them back to the radio.'],['Save to your streaming','Every heart is also saved to Spotify, Apple Music and YouTube, in the apps you are signed in to in this browser.'],['Your month','A monthly page of what you found, what grew, what faded, and every trail.'],['All visuals','Signal, Scan and Contour, beyond Aura and Minimal.'],['Bring your history','Connect Last.fm and Spotify so it starts from what you already love.'],['What comes next','New stops open in Deepot first.']];
+ function depotPage(){const open=!LOCKED();const F=[['Tune it by hand','Drag genre weights, switch scenes off, hand them back to the radio.'],['Save to your streaming','Every heart is also saved to Spotify, Apple Music and YouTube, in the apps you are signed in to in this browser.'],['Your month','A monthly page of what you found, what grew, what faded, and every trail.'],['Bring your history','Connect Last.fm and Spotify so it starts from what you already love.'],['What comes next','New stops open in Deepot first.']];
   return`<p>${open?'Deepot is open on this browser. Thank you for keeping rrradio on air.':'rrradio is free and non-profit. Deepot is how supporters keep it running: pay what you want, and these open for you.'}</p>
 <section>${F.map(([h,p])=>`<div class=dpf><b>${open?'●':'○'} ${h}</b><span>${p}</span></div>`).join('')}</section>
 ${open?`<section><span class=lb>Save loved tracks to</span><div class=btr>${[['spotify','Spotify'],['apple','Apple Music']].map(([k,n])=>`<button class="bt ${S.save[k]?'on':''}" data-m=dps data-s=${k}>${n}</button>`).join('')}<span class=bt style="opacity:.6">YouTube: always</span></div><p>Keep those sites open and signed in somewhere in Chrome. Each save opens a background tab for a few seconds.</p></section>`:`<section><p class=price><b>€3 for your first 3 months</b>, then from €3 a month. Or €36 a year, or €59 once for life. The first hundred lifetime supporters pay €39.</p><a class="bt on" href="${DEPOT_URL}" target=_blank rel=noopener>Support and get a Deepot key</a></section>
@@ -720,7 +737,7 @@ ${C.length?`<ol class=crate>${C.map((it,i)=>`<li><b>${esc(it.a)}</b><span>${esc(
 <section class="dvs${lk}"><span class=m>Every tag · ${nTags} of them</span><h3>Tune it tag by tag</h3>${chip}
 <p>Press a tag to lift it, press again to lift it more, a third time to switch it off. The radio follows at once.</p>
 <div class=cloud>${cloud}</div></section>
-<section class=dvs><span class=m>Also in Deepot</span><h3>The deeper end</h3><div class=dvg>${[['Void','The farthest depth: artists four steps away from anything you play.'],['Unlimited retunes','Not the vibe as often as you like. Free radio retunes 3 times a day.'],['Full rewind','Go back through everything you heard today, not just the last three.'],['All visuals','Signal, Scan and Contour.'],['Bring your history','Start from your Last.fm and Spotify.'],['New features first','Whatever comes next opens here before anywhere else.'],['Your name in the credits','Supporters are thanked on the site and in the radio credits.']].map(([h,p])=>`<div><b>${h}</b><span>${p}</span></div>`).join('')}</div></section>`;
+<section class=dvs><span class=m>Also in Deepot</span><h3>The deeper end</h3><div class=dvg>${[['Void','The farthest depth: artists four steps away from anything you play.'],['Unlimited retunes','Not the vibe as often as you like. Free radio retunes 3 times a day.'],['Full rewind','Go back through everything you heard today, not just the last three.'],['Bring your history','Start from your Last.fm and Spotify.'],['New features first','Whatever comes next opens here before anywhere else.'],['Your name in the credits','Supporters are thanked on the site and in the radio credits.']].map(([h,p])=>`<div><b>${h}</b><span>${p}</span></div>`).join('')}</div></section>`;
   e.insertAdjacentHTML('beforeend',`<section class=dvs id=dvkey><span class=m>${open?'Your Deepot':'Already a supporter?'}</span>${depotPage()}</section>`);
   if(open)tasteFill();fillNews(open);fillMonth();e.classList.add('on');e.scrollTop=0;flash(why||'Welcome to Deepot')}
  /* settings sheet */
@@ -773,7 +790,7 @@ ${C.length?`<ol class=crate>${C.map((it,i)=>`<li><b>${esc(it.a)}</b><span>${esc(
    if(!b)return;const c=b.dataset.c,l=b.dataset.l;if(c){if(c==='taste'&&S.ch==='taste'&&b.closest('#chs,.ch-m'))depot();else{if(b.closest('#dv'))$('#dv').classList.remove('on');setC(c)}}else if(l!=null)setL(+l);else if(b.dataset.md){$('#vp').classList.remove('on');vibe(b.dataset.md);flash(MOODS[b.dataset.md].n+'. Queue rebuilt')}
    else if(b.dataset.vz!=null)vizPick(+b.dataset.vz)
    else if(b.dataset.ar0){$('#dyk').classList.remove('on');info(true)}else if(b.dataset.dep!=null){$('#sheet').classList.remove('on');depot()}else if(b.dataset.dvk){$('#dvkey').scrollIntoView({behavior:'smooth'});setTimeout(()=>$('#dpk')?.focus(),500)}else if(b.dataset.dvu){S.tm.u={};reset();depot('Back to what the radio learned')}else if(b.closest('#dv')&&b.dataset.m==='dpk'){const k=$('#dpk').value.trim();if(!k){b.textContent='Paste your key first';return}b.textContent='Checking…';depotCheck(k).then(ok=>depot(ok?'Deepot is open. Thank you':'That key did not work'))}else if(b.closest('#dv')&&b.dataset.m==='dps'){const k=b.dataset.s;S.save[k]=S.save[k]?0:1;store();depot()}else if(b.dataset.dsh){navigator.clipboard.writeText(shareLink(S.prof!=='Main'?S.prof:'')).then(()=>flash('Station link copied. Send it to anyone'),()=>flash('Could not copy'))}else if(b.dataset.tg){if(LOCKED()){flash('Tag tuning is in Deepot');return}const t=b.dataset.tg,v=S.tw[t]||0;S.tw[t]=v>=2?-2:v<=-2?0:v+1;if(!S.tw[t])delete S.tw[t];b.className=S.tw[t]>=2?'up2':S.tw[t]>=1?'up':S.tw[t]<=-2?'off':'';store();clearTimeout(window.__tgT);window.__tgT=setTimeout(reset,900)}else if(b.dataset.dpf){if(LOCKED()){flash('Taste profiles are in Deepot');return}profUse(b.dataset.dpf);depot('Profile: '+b.dataset.dpf)}else if(b.dataset.dpn){if(LOCKED()){flash('Taste profiles are in Deepot');return}const n=(prompt('Name the new profile','Night')||'').trim().slice(0,24);if(n){profUse(n);depot('New profile: '+n+'. It starts fresh and learns on its own')}}else if(b.dataset.dpi){if(LOCKED()){flash('Importing a station is in Deepot');return}const d=readShare($('#dpi').value);if(!d){flash('That is not a station link');return}const n=('From '+(d.n||'a friend')).slice(0,24);profUse(n,d);depot('Now on '+n)}else if(b.dataset.dvx!=null){$('#dv').classList.remove('on')}else if(b.dataset.dvt){$('#dv').classList.remove('on');tab=b.dataset.dvt;sett()}else if(b.dataset.dvs){const it=S.crate[+b.dataset.dvs];if(it&&!LOCKED())H.msg({save:{a:it.a,t:it.t,svc:Object.keys(S.save).filter(k=>S.save[k])}});flash(LOCKED()?'Saving is in Deepot':'Saving '+it.a)}else if(b.dataset.ar){queueArtist(b.dataset.ar)}else if(b.dataset.st||b.dataset.rs)flagDo(b)});
-  const on=(id,f)=>$(id).addEventListener('click',f);on('#pp',()=>H.p.toggle());on('#nx',()=>next());on('#pv',()=>prev());on('#lk',like);on('#bn',ban);on('#vb',()=>vibe());on('#yt',()=>{const c=S.cur;if(c&&LOCKED()){depot('Saving to YouTube, Spotify and Apple Music is in Deepot');return}if(c){H.msg({like:c.vid});sendPanel(radioItem(c,'plus'));flash('Added to YouTube likes')}});on('#fl',e=>{e.stopPropagation();flag()});on('#qb',()=>$('#qp').classList.toggle('on'));on('#qx',()=>$('#qp').classList.remove('on'));on('#art',()=>info(true));on('#inb',()=>info(true));on('#ix',()=>info(false));on('#tvp',vizMenu);on('#ttr',()=>trail());on('#tdy',()=>{S.day=S.day?0:1;store();chrome()});on('#thp',()=>DK.open());on('#logo',()=>DK.open());on('#tst',sett);on('#moodc',clearMood);
+  const on=(id,f)=>$(id).addEventListener('click',f);on('#pp',()=>H.p.toggle());on('#nx',()=>next());on('#pv',()=>prev());on('#lk',like);on('#bn',ban);on('#vb',()=>vibe());on('#yt',()=>{const c=S.cur;if(c&&LOCKED()){depot('Saving to YouTube, Spotify and Apple Music is in Deepot');return}if(c){H.msg({like:c.vid});sendPanel(radioItem(c,'plus'));flash('Added to YouTube likes')}});on('#fl',e=>{e.stopPropagation();flag()});on('#qb',()=>$('#qp').classList.toggle('on'));on('#qx',()=>$('#qp').classList.remove('on'));on('#art',()=>info(true));on('#inb',()=>info(true));on('#ix',()=>info(false));on('#tvp',vizToggle);on('#ttr',()=>trail());on('#tdy',()=>{S.day=S.day?0:1;store();chrome()});on('#thp',()=>DK.open());on('#logo',()=>DK.open());on('#tst',sett);on('#moodc',clearMood);
   $('#sheet').addEventListener('click',sheetClick);$('#vp').addEventListener('pointermove',()=>{if(vizOpen())vizHold()});$('#vl').oninput=e=>setVol(e.target.value/100);
   const sk=e=>{const r=$('#sb').getBoundingClientRect(),d=H.p.dur();if(d)H.p.seek(clamp((e.clientX-r.left)/r.width,0,1)*d)};$('#seek').onpointerdown=e=>{S.sk=1;sk(e)};addEventListener('pointermove',e=>S.sk&&sk(e));addEventListener('pointerup',()=>S.sk=0);
   addEventListener('mousemove',wake);addEventListener('resize',()=>requestAnimationFrame(chrome));
@@ -868,4 +885,3 @@ const DK=(()=>{let i=0,tm=[],cur;const e=()=>$('#deck');
 if(H.demo&&location.hostname==='localhost')window.__irr={S,next,prev,vibe,like,ban,shareOf,targets,learn,settle,pick,fill,sc,affin,setShare,limitFor,TAG2S,SCENES,SV,UI};
 })();
 </script>
-</body></html>

@@ -1,7 +1,9 @@
 /* Fill these in before publishing.
    radio:   public https address of your radio server (Cloudflare Tunnel or a VPS). Empty = page shows "off air".
    support: your Gumroad (or Ko-fi / Patreon) page where people support and get a Deepot key. */
-window.IRR = { radio: "https://tackle-artificial-disposal-weed.trycloudflare.com", support: "", newsletter: "" };
+window.IRR = { radio: "https://tackle-artificial-disposal-weed.trycloudflare.com", support: "", newsletter: "", contact: "", founding: 0,
+  /* Lemon Squeezy checkout links, filled at launch: start (€3 first 3 months), year, life (€59), founding (€39, first 100) */
+  buy: { start: "", year: "", life: "", founding: "" } };
 /* newsletter: a signup URL, e.g. https://buttondown.com/api/emails/embed-subscribe/<your-name> */
 /* for testing: ?radio=http://localhost:8800 */
 if (new URLSearchParams(location.search).get("radio")) IRR.radio = new URLSearchParams(location.search).get("radio");
