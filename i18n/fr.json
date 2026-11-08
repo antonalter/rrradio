@@ -74,8 +74,7 @@
 "pr.b1": "Prendre l'année",
 "pr.b2": "Une fois, pour de bon",
 "pr.soon": "Ouvre au lancement",
-"pr.for": "Prix pour",
-"pr.note": "Les prix suivent le coût de la vie là où tu vis. Facturé en euros via Lemon Squeezy ; le montant local est indicatif.",
+"pr.note": "Facturé en euros via Lemon Squeezy. Le montant dans ta devise est indicatif.",
 "pr.x": "Les paiements par carte n'atteignent pas encore ton pays. Écris-nous et on t'envoie une clé.",
 "pr.euro": "Facturé {e} en euros",
 "cmp.eyebrow": "Le gratuit reste gratuit",
@@ -177,5 +176,8 @@
 "faq.6.q": "Faut-il un compte ?",
 "faq.6.a": "Non. Tes goûts restent dans ton navigateur.",
 "faq.7.q": "Téléphone ?",
-"faq.7.a": "Les stations en direct marchent dans tout navigateur mobile ; ajoute la page à l'écran d'accueil et elle s'ouvre comme une appli. La radio perso demande un navigateur d'ordinateur pour l'instant."
+"faq.7.a": "Les stations en direct marchent dans tout navigateur mobile ; ajoute la page à l'écran d'accueil et elle s'ouvre comme une appli. La radio perso demande un navigateur d'ordinateur pour l'instant.",
+"store.t": "Ce site garde tes choix (langue, thème, station) dans ton navigateur. Pas de pistage, pas de cookies publicitaires.",
+"store.l": "Confidentialité",
+"store.ok": "OK"
 }

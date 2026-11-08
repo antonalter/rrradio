@@ -74,8 +74,7 @@
 "pr.b1": "Prendi l'anno",
 "pr.b2": "Una volta, per sempre",
 "pr.soon": "Apre al lancio",
-"pr.for": "Prezzi per",
-"pr.note": "I prezzi seguono il costo della vita dove vivi. Addebito in euro tramite Lemon Squeezy; l'importo locale è indicativo.",
+"pr.note": "Addebito in euro tramite Lemon Squeezy. L'importo nella tua valuta è indicativo.",
 "pr.x": "I pagamenti con carta non raggiungono ancora il tuo paese. Scrivici e ti mandiamo una chiave.",
 "pr.euro": "Addebitato {e} in euro",
 "cmp.eyebrow": "Il gratis resta gratis",
@@ -177,5 +176,8 @@
 "faq.6.q": "Serve un account?",
 "faq.6.a": "No. I tuoi gusti restano nel browser.",
 "faq.7.q": "Telefono?",
-"faq.7.a": "Le stazioni dal vivo funzionano in qualsiasi browser del telefono; aggiungi la pagina alla schermata Home e si apre come un'app. La radio personale per ora richiede un browser da computer."
+"faq.7.a": "Le stazioni dal vivo funzionano in qualsiasi browser del telefono; aggiungi la pagina alla schermata Home e si apre come un'app. La radio personale per ora richiede un browser da computer.",
+"store.t": "Questo sito salva le tue scelte (lingua, tema, stazione) nel browser. Nessun tracciamento, nessun cookie pubblicitario.",
+"store.l": "Privacy",
+"store.ok": "OK"
 }

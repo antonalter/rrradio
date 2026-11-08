@@ -74,8 +74,7 @@
 "pr.b1": "Das Jahr nehmen",
 "pr.b2": "Einmal, für immer",
 "pr.soon": "Öffnet zum Start",
-"pr.for": "Preise für",
-"pr.note": "Die Preise folgen dem, was Dinge dort kosten, wo du lebst. Abgerechnet in Euro über Lemon Squeezy; der lokale Betrag ist ein Richtwert.",
+"pr.note": "Abgerechnet in Euro über Lemon Squeezy. Der Betrag in deiner Währung ist ein Richtwert.",
 "pr.x": "Kartenzahlungen erreichen dein Land noch nicht. Schreib uns, und wir schicken dir einen Schlüssel.",
 "pr.euro": "Abgerechnet: {e} in Euro",
 "cmp.eyebrow": "Gratis bleibt gratis",
@@ -177,5 +176,8 @@
 "faq.6.q": "Brauche ich ein Konto?",
 "faq.6.a": "Nein. Dein Geschmack bleibt in deinem Browser.",
 "faq.7.q": "Handy?",
-"faq.7.a": "Die Live-Sender laufen in jedem Handy-Browser; leg die Seite auf den Startbildschirm, dann öffnet sie wie eine App. Das persönliche Radio braucht vorerst einen Desktop-Browser."
+"faq.7.a": "Die Live-Sender laufen in jedem Handy-Browser; leg die Seite auf den Startbildschirm, dann öffnet sie wie eine App. Das persönliche Radio braucht vorerst einen Desktop-Browser.",
+"store.t": "Diese Seite speichert deine Auswahl (Sprache, Design, Sender) in deinem Browser. Kein Tracking, keine Werbe-Cookies.",
+"store.l": "Datenschutz",
+"store.ok": "OK"
 }
