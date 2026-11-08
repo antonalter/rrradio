@@ -212,3 +212,27 @@ code{font:400 .9em var(--mono);padding:1px 6px;border:1px solid currentColor;bor
 .store a{color:inherit}
 .store button{margin-left:auto;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:none;color:inherit;font:inherit;cursor:pointer}
 
+
+/* ===== chrome edition (landing v2): graphite base, chrome controls, clean station accents; ivory light theme ===== */
+:root{--bg:#17191d;--bg2:#1f2227;--fg:#eceef0;--mut:#9aa0a8;--line:#ffffff1e;--chrome:linear-gradient(180deg,#f7f8fa,#c7ccd3);--chromefg:#111317;--hot:#e23e8f;--hot2:#e89a1c}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#f4efe4;--bg2:#fbf8f1;--fg:#1c1d20;--mut:#6b6760;--line:#1c1d2022;--paper:#ebe5d8;--chrome:linear-gradient(180deg,#30333a,#15171a);--chromefg:#f4efe4}}
+:root[data-theme=light]{--bg:#f4efe4;--bg2:#fbf8f1;--fg:#1c1d20;--mut:#6b6760;--line:#1c1d2022;--paper:#ebe5d8;--chrome:linear-gradient(180deg,#30333a,#15171a);--chromefg:#f4efe4}
+:root[data-theme=dark]{--bg:#17191d;--bg2:#1f2227;--fg:#eceef0;--mut:#9aa0a8;--line:#ffffff1e;--chrome:linear-gradient(180deg,#f7f8fa,#c7ccd3);--chromefg:#111317}
+.btn.hot,.top .btn.hot{background:var(--chrome);color:var(--chromefg);box-shadow:inset 0 1px 0 #ffffff55,0 8px 22px -12px #000a}
+.depot{background:var(--bg2);color:var(--fg);border-top:1px solid var(--line)}
+.depot .eyebrow,.depot .lede,.depot .fine{color:var(--mut)}
+.cmp th.d{background:var(--chrome);color:var(--chromefg)}
+.cmp .d{background:color-mix(in srgb,var(--fg) 5%,transparent)}
+.metro::before{width:2px;background:linear-gradient(180deg,#2aa4d8,#22a87a,#e89a1c,#e23e8f,#7dbb3a,#f2622d,#d8a92a)}
+.stop .dot{box-shadow:0 0 0 2px hsl(var(--h) 72% 56%)}.stop.on .dot{background:hsl(var(--h) 72% 56%)}
+.stop .np i,.stop:hover .go{color:hsl(var(--h) 72% 56%)}
+#glow{opacity:.35}
+/* the halls: every stop is a room */
+.halls{padding:clamp(70px,11vh,120px) var(--gr) clamp(70px,11vh,120px) var(--gut);border-top:1px solid var(--line);background:var(--bg2)}
+.hgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:40px;max-width:1240px}
+.hgrid figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.hgrid .fr{border-radius:8px;overflow:hidden;background:#000;aspect-ratio:880/500;box-shadow:0 0 0 1px var(--line)}
+.hgrid .fr svg{width:100%;height:100%;display:block}
+.hgrid figcaption{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--mut)}
+.hgrid figcaption b{font-weight:500;color:hsl(var(--h) 72% 56%)}
+@media (max-width:760px){.hgrid{grid-template-columns:1fr}}

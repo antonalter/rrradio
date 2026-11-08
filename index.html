@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="site.css?v=7">
+<link rel="stylesheet" href="site.css?v=8">
 <link rel="stylesheet" href="brand/palette.css?v=7">
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
@@ -52,6 +52,16 @@
   <div class="head"><p class="eyebrow"><span class="dot"></span>On air right now</p><h2>Seven stops on one line.</h2><p class="lede">From the arrivals hall to the depot at the end of the line. Press a stop to tune the player above.</p></div>
   <ol class="metro" id="cards"></ol>
   <p class="also">Also in any player app or smart speaker: <span id="plsinline"></span></p>
+</section>
+
+<section class="halls" id="halls">
+  <div class="head"><p class="eyebrow">Arrive somewhere</p><h2>Every stop is a room you can walk into.</h2><p class="lede">Change station and the train takes you there: through the tunnel, the doors open, you step into the hall.</p></div>
+  <div class="hgrid">
+    <figure style="--h:192"><div class="fr" data-hall="fresh"></div><figcaption><b>Arrivals Hall</b><span>the board shows what lands next</span></figcaption></figure>
+    <figure style="--h:152"><div class="fr" data-hall="clock"></div><figcaption><b>State Library</b><span>quiet, for reading and sleep</span></figcaption></figure>
+    <figure style="--h:318"><div class="fr" data-hall="club"></div><figcaption><b>Dance Union Square</b><span>three clubs below the square</span></figcaption></figure>
+    <figure style="--h:96"><div class="fr" data-hall="cellar"></div><figcaption><b>Haunted Powerhouse</b><span>noise that turns into rhythm</span></figcaption></figure>
+  </div>
 </section>
 
 <section class="ladder" id="ladder">
@@ -289,6 +299,10 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
 </script>
 <script src="brand/rrlogo.js?v=7" defer></script>
 <script src="pricing.js?v=5"></script>
+<script>/* draw the halls once the drawings arrive; they are loaded only when the section comes into view */
+(()=>{const box=document.querySelector('.hgrid');if(!box)return;let done=0;const go=()=>{if(done)return;done=1;const sc=document.createElement('script');sc.src='radio/halls.js';sc.onload=()=>{document.querySelectorAll('[data-hall]').forEach(e=>{try{e.innerHTML=HALLS[e.dataset.hall].replace('xMidYMid slice','xMidYMid meet')}catch(_){}})};document.body.appendChild(sc)};
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){go();io.disconnect()}},{rootMargin:'600px'});io.observe(box)}else go()})();
+</script>
 <script src="i18n.js?v=5"></script>
 </body>
 </html>
