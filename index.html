@@ -9,8 +9,8 @@
 <meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
 <meta property="og:image" content="icon.png">
 <meta name="theme-color" content="#08080a">
-<link rel="canonical" href="https://rrrd.io/">
-<meta property="og:url" content="https://rrrd.io/">
+<link rel="canonical" href="https://rrrad.io/">
+<meta property="og:url" content="https://rrrad.io/">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
@@ -20,12 +20,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="site.css?v=6">
+<link rel="stylesheet" href="site.css?v=7">
+<link rel="stylesheet" href="brand/palette.css?v=7">
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
 </head>
 <body>
 <div id="glow" aria-hidden="true"></div>
+<svg class="net" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="1180" cy="170" r="419"/><circle cx="1180" cy="170" r="257"/><circle cx="1180" cy="170" r="95"/><circle cx="250" cy="640" r="572"/><circle cx="250" cy="640" r="350"/><circle cx="250" cy="640" r="129"/><circle cx="1380" cy="860" r="343"/><circle cx="1380" cy="860" r="210"/><circle cx="1380" cy="860" r="77"/><circle cx="720" cy="420" r="229"/><circle cx="720" cy="420" r="140"/><circle cx="720" cy="420" r="52"/><circle cx="90" cy="40" r="305"/><circle cx="90" cy="40" r="187"/><circle cx="90" cy="40" r="69"/></svg>
 <header class="top">
   <a class="logo rlogo" href="#" aria-label="rrradio" data-rrlogo>rrradio</a>
   <nav class="links"><a href="#listen">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
@@ -285,7 +287,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
-<script src="brand/rrlogo.js?v=6" defer></script>
+<script src="brand/rrlogo.js?v=7" defer></script>
 <script src="pricing.js?v=5"></script>
 <script src="i18n.js?v=5"></script>
 </body>
