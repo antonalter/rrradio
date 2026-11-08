@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=4">
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
 </head>
@@ -284,7 +284,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
-<script src="pricing.js"></script>
-<script src="i18n.js"></script>
+<script src="pricing.js?v=4"></script>
+<script src="i18n.js?v=4"></script>
 </body>
 </html>
