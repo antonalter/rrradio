@@ -129,7 +129,7 @@ function resize(){const r=$('#stage').getBoundingClientRect();W=r.width|0;H_=r.h
    A station change rushes the train through; a new track gives a smaller push. */
 const TN={fresh:{sp:.9,eq:.45,sl:6,rot:.12,dn:22,al:.62},clock:{sp:.14,eq:.04,sl:4,rot:.03,dn:12,al:.3},global:{sp:.5,eq:.35,sl:5,rot:.08,dn:18,al:.5},club:{sp:1.05,eq:.6,sl:8,rot:.15,dn:24,al:.6,k:1},cellar:{sp:.8,eq:.8,sl:9,rot:-.1,dn:26,al:.55},tube:{sp:.28,eq:.22,sl:3,rot:.05,dn:14,al:.45},taste:{sp:.45,eq:.3,sl:5,rot:.07,dn:18,al:.5}};
 let tz=0,tb=0,tA=null,tM=0,tL=0,tr=0;
-function tunnel(t,now){if(ph!=='ride'&&grow<.12)return;const P=TN[S.ch]||TN.taste,dt=Math.min(.05,(now-(tL||now))/1e3);tL=now;
+function tunnel(t,now){if(ph!=='ride'&&grow<.12&&typeof HALLS!=='undefined')return;const P=TN[S.ch]||TN.taste,dt=Math.min(.05,(now-(tL||now))/1e3);tL=now;
  if(S.A!==tA){tA=S.A;tb=Math.max(tb,.55)}if(S.mvT&&S.mvT!==tM){tM=S.mvT;tb=1}if(ph==='ride')tb=Math.max(tb,.9);tb=Math.max(0,tb-dt*.45);
  const vi=S.vi||1,b=(S.bass||0)*vi,m=(S.mid||0)*vi,kick=P.k?b*b:0;
  tz+=dt*(P.sp*(1+b*.5)+tb*5)*.32;tr+=dt*P.rot*Math.PI*2*(1+tb);
@@ -162,6 +162,9 @@ function journey(now){const dt=Math.min(.1,(now-(lastF||now))/1e3);lastF=now;if(
  else if(ph==='recede'){grow=Math.max(0,grow-dt*.9);if(grow<=0)ph='hall'}
  else grow=Math.min(1,grow+dt/GROW_T);
  const g=grow*grow*(3-2*grow),e=$('#hall');
+ if(typeof HALLS==='undefined'){/* the extension: no halls, the visuals stay as they always were, only the ride and the doors */
+  if(e&&e.style.display!=='none')e.style.display='none';const go=ph==='ride'?'0':'1';if(glc.style.opacity!==go)glc.style.opacity=go;
+  const ct=ph==='ride'?'translate(-50%,-50%) scale(.4)':'translate(-50%,-50%)';if(cvc.style.transform!==ct)cvc.style.transform=ct;TF=ph==='ride'?2.2:.35;return}
  const go=ph==='ride'?'0':(g*(S.ch==='clock'?.35:1)).toFixed(2);if(glc.style.opacity!==go)glc.style.opacity=go;
  if(e){const eo=ph==='ride'?'0':(1-.82*g).toFixed(2);if(e.style.opacity!==eo)e.style.opacity=eo;const tc=ph!=='ride'&&g<.55;if(e.classList.contains('touch')!==tc)e.classList.toggle('touch',tc)}
  TF=ph==='ride'?2.2:.25+.5*(1-g);
