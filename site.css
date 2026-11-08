@@ -159,3 +159,56 @@ code{font:400 .9em var(--mono);padding:1px 6px;border:1px solid currentColor;bor
 @media (max-width:900px){.steps3{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.device{aspect-ratio:3/4}}
 .promises .grid>div{background:#ffffff0a;box-shadow:inset 0 0 0 1px var(--line)}
 .promises .grid b{color:var(--fg,#f2efe9)}.promises .grid span{color:var(--mut,#8e8b86)}
+
+/* ===== themes: softer night by default, a light day version for people who prefer it ===== */
+:root{--bg:#15151a;--bg2:#1d1d23;--fg:#f2efe9;--mut:#9b9891;--line:#ffffff1f}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#efece5;--bg2:#f8f6f1;--fg:#141418;--mut:#67645f;--line:#1414181f;--paper:#e4dfd4}}
+:root[data-theme=light]{--bg:#efece5;--bg2:#f8f6f1;--fg:#141418;--mut:#67645f;--line:#1414181f;--paper:#e4dfd4}
+:root[data-theme=dark]{--bg:#15151a;--bg2:#1d1d23;--fg:#f2efe9;--mut:#9b9891;--line:#ffffff1f}
+.top{background:color-mix(in srgb,var(--bg) 82%,transparent)}
+.tgl{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--fg);display:grid;place-items:center;cursor:pointer}
+.tgl svg{width:16px;height:16px;fill:currentColor}
+.lang{height:38px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:500 12px var(--txt);padding:0 10px;cursor:pointer}
+.topr{display:flex;align-items:center;gap:8px}
+.device{box-shadow:0 30px 90px -40px #0008,0 0 0 1px var(--line)}
+
+/* ===== stations: one line with seven stops, like the extension's rail ===== */
+.metro{list-style:none;margin:30px 0 10px;padding:0;position:relative;max-width:1100px}
+.metro::before{content:"";position:absolute;left:19px;top:28px;bottom:28px;width:2px;background:linear-gradient(var(--line),var(--line))}
+.metro li{position:relative}
+.stop{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:40px 52px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 12px 14px 0;border-bottom:1px solid var(--line);transition:background .25s}
+.stop:hover,.stop:focus-visible{background:color-mix(in srgb,hsl(var(--h) 70% 60%) 9%,transparent)}
+.stop .dot{justify-self:center;width:14px;height:14px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 3px hsl(var(--h) 70% 62%);z-index:1}
+.stop.on .dot{background:hsl(var(--h) 70% 62%)}
+.stop img,.stop .ph{width:52px;height:52px;border-radius:6px;object-fit:cover;background:color-mix(in srgb,hsl(var(--h) 60% 50%) 25%,var(--bg2))}
+.stop .tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.stop .nm{font:680 clamp(20px,2.3vw,30px)/1.05 var(--disp);font-stretch:130%;letter-spacing:-.02em}
+.stop .nm sup{font:500 10px var(--mono);letter-spacing:.06em;color:var(--mut);margin-right:8px;vertical-align:top}
+.stop .np{font-size:13.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stop .np i{font-style:normal;color:hsl(var(--h) 70% 62%);font-weight:500;margin-right:6px}
+.stop .go{font:500 12px var(--txt);padding:8px 14px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.stop:hover .go{border-color:hsl(var(--h) 70% 62%);color:hsl(var(--h) 70% 62%)}
+@media (max-width:640px){.stop{grid-template-columns:40px 44px minmax(0,1fr)}.stop .go{display:none}.stop img,.stop .ph{width:44px;height:44px}}
+
+/* ===== prices: local currency, one honest note ===== */
+.ploc{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:18px auto 0;font-size:13px}
+.ploc select{height:34px;border-radius:99px;border:1px solid #0000002e;background:#ffffff80;color:var(--ink);font:inherit;padding:0 10px}
+.pr .lp{font-size:13px;opacity:.7}
+
+/* ===== the one reminder: quiet, late, dismissible ===== */
+.nudge{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);z-index:60;display:flex;align-items:center;gap:14px;padding:10px 10px 10px 20px;border-radius:99px;background:var(--fg);color:var(--bg);box-shadow:0 20px 50px -20px #0009;transition:transform .5s cubic-bezier(.2,.8,.2,1);max-width:calc(100% - 32px)}
+.nudge.on{transform:translate(-50%,0)}
+.nudge span{font-size:14px}
+.nudge a{white-space:nowrap;font-weight:600;color:inherit;text-decoration:none;padding:8px 14px;border-radius:99px;background:color-mix(in srgb,var(--bg) 12%,transparent)}
+.nudge button{all:unset;cursor:pointer;width:30px;height:30px;display:grid;place-items:center;opacity:.6}
+
+/* ===== logo: rrr as three stemless half-arches that rise one after another, like arches passing a train window ===== */
+.rlogo{display:inline-flex;align-items:flex-end;gap:2px;text-decoration:none;color:var(--fg)}
+.rlogo svg{width:46px;height:22px;overflow:visible}
+.rlogo span{font:300 14px/1 var(--txt);letter-spacing:.32em;padding-bottom:2px}
+.rlogo .ra{fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:22;stroke-dashoffset:0;transform-box:fill-box;transform-origin:0 100%;animation:rarc 4.2s cubic-bezier(.3,.7,.2,1) infinite}
+.rlogo .ra:nth-child(2){animation-delay:.14s}
+.rlogo .ra:nth-child(3){animation-delay:.28s;stroke:var(--hot,#b9a3ff)}
+@keyframes rarc{0%,62%,100%{stroke-dashoffset:0;transform:none;opacity:1}70%{stroke-dashoffset:22;opacity:.2;transform:translateY(2px) scale(.9)}80%{stroke-dashoffset:0;opacity:1;transform:translateY(-2px) scale(1.06)}88%{transform:none}}
+.rlogo:hover .ra{animation-duration:1.1s}
+@media (prefers-reduced-motion:reduce){.rlogo .ra{animation:none}}

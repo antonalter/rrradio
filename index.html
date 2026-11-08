@@ -22,18 +22,19 @@
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="site.css">
 <script src="config.js"></script>
+<script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
 </head>
 <body>
 <div id="glow" aria-hidden="true"></div>
 <header class="top">
-  <a class="logo" href="#">rrradio</a>
+  <a class="logo rlogo" href="#" aria-label="rrradio"><svg viewBox="0 0 46 22" aria-hidden="true"><path class="ra" d="M2 20A12 12 0 0 1 14 8"/><path class="ra" d="M14 20A12 12 0 0 1 26 8"/><path class="ra" d="M26 20A12 12 0 0 1 38 8"/></svg><span>adio</span></a>
   <nav class="links"><a href="#listen">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
-  <a class="btn hot" href="#listen">Listen free</a>
+  <div class="topr"><select class="lang" id="lang" aria-label="Language"></select><button class="tgl" id="theme" type="button" aria-label="Light or dark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button><a class="btn hot" href="#listen" id="ctatop">Listen free</a></div>
 </header>
 
 <section class="hero hero2" id="listen">
   <div class="pitch">
-    <p class="eyebrow"><span class="dot"></span><span id="livec">Live now</span> · free · no sign-up</p>
+    <p class="eyebrow"><span class="dot"></span><span id="livec">Live now</span><span> · free · no sign-up</span></p>
     <h1>A radio that<br>digs for you.</h1>
     <p class="lede">Press play. Seven stations, picked by hand, play live right here, free for good. You can't skip: that's the trial, and most people stay longer than they planned. When you want to steer, take it home.</p>
     <div class="cta">
@@ -47,7 +48,7 @@
 
 <section class="stations" id="stations">
   <div class="head"><p class="eyebrow"><span class="dot"></span>On air right now</p><h2>Seven stops on one line.</h2><p class="lede">From the arrivals hall to the depot at the end of the line. Press a stop to tune the player above.</p></div>
-  <div class="cards" id="cards"></div>
+  <ol class="metro" id="cards"></ol>
   <p class="also">Also in any player app or smart speaker: <span id="plsinline"></span></p>
 </section>
 
@@ -110,7 +111,9 @@
     <div class="pr"><span class="lb">For life</span><b id="lifep">€59</b><em>once</em><span id="foundn">Founding 100: the first hundred pay €39</span><a class="btn ghostdark" data-buy="life" href="#depot">Once, for good</a></div>
   </div>
   <p class="fine center needc" hidden>Can't spare €3 right now? Write to <span class="sel contact"></span> and we'll send you a key. No questions, no proof.</p>
-  <p class="fine center">Billing runs through Lemon Squeezy. Cancel in one click from the email receipt. 14-day refund, no questions. Support does not buy music or rights to it; everything still plays from the services you use.</p>
+  <div class="ploc"><span id="plocl">Prices for</span><select id="cty" aria-label="Country"></select></div>
+  <p class="fine center" id="pnote">Prices follow what things cost where you live. Billed in euros through Lemon Squeezy; the local amount is a close guide.</p>
+  <p class="fine center" id="pbill">Billing runs through Lemon Squeezy. Cancel in one click from the email receipt. 14-day refund, no questions. Support does not buy music or rights to it; everything still plays from the services you use.</p>
 </section>
 
 <section class="compare" id="compare">
@@ -186,6 +189,7 @@
   <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
 </section>
 
+<div class="nudge" id="nudge" role="status"><span id="nudget">Deepot · 3 months for €3</span><a href="#depot" id="nudgea">See Deepot</a><button type="button" id="nudgex" aria-label="Not now">✕</button></div>
 <footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></span></footer>
 
 <script>
@@ -195,15 +199,15 @@ const HUES = [192, 152, 36, 318, 96, 18, 40], pf = document.getElementById("pf")
 async function onAir() {
   let d; try { d = await fetch(RB + "/api/stations", { cache: "no-store" }).then(r => r.json()) } catch { document.getElementById("livec").textContent = "Back soon"; return }
   const L = d.stations.reduce((a, s) => a + (s.listeners || 0), 0);
-  document.getElementById("livec").textContent = L ? `${L} listening now` : "Live now";
-  document.getElementById("cards").innerHTML = d.stations.map((s, i) => `<button class="card" data-id="${s.id}" style="--h:${HUES[i % 7]}">
-    <span class="num">${String(i + 1).padStart(2, "0")}</span><b>${escH(s.name)}</b><span class="line">${escH(s.line)}</span>
-    <span class="np">${s.now ? `<i>Now</i> ${escH(s.now.artist)} — ${escH(s.now.title)}` : "Off air"}</span><span class="go">▶ Tune in</span></button>`).join("");
+  window.LIVE = L; document.getElementById("livec").textContent = L ? ((window.T && T("live.n")) || "{n} listening now").replace("{n}", L) : ((window.T && T("live.now")) || "Live now");
+  const TT = window.T || (k => null);
+  document.getElementById("cards").innerHTML = d.stations.map((s, i) => `<li><button class="stop" data-id="${s.id}" style="--h:${HUES[i % 7]}"><i class="dot"></i>${s.now && s.now.cover ? `<img src="${RB}/api/cover/${s.now.id}" alt="" loading="lazy">` : `<span class="ph"></span>`}
+    <span class="tx"><span class="nm"><sup>${String(i + 1).padStart(2, "0")}</sup>${escH(s.name)}</span><span class="np">${s.now ? `<i>${TT("st.now") || "Now"}</i>${escH(s.now.artist)} — ${escH(s.now.title)}` : (TT("st.off") || "Off air")}</span></span><span class="go">${TT("st.tune") || "Tune in"}</span></button></li>`).join("");
   document.getElementById("plsinline").innerHTML = d.stations.map(s => `<a href="${RB}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
   const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
   const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
-  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line"], [days, days === 1 ? "day on air" : "days on air"], [L, "listening right now"], [artists.size, "artists on air in the next hour"], ["0", "ads, ever"]].map(([n, t]) => `<div><b>${n}</b><span>${t}</span></div>`).join("") }
-document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".card"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("listen").scrollIntoView({ behavior: "smooth" }) });
+  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line"], [days, days === 1 ? "day on air" : "days on air"], [L, "listening right now"], [artists.size, "artists on air in the next hour"], ["0", "ads, ever"]].map(([n, t], i) => `<div><b>${n}</b><span>${(window.T && T("stats." + i)) || t}</span></div>`).join("") }
+document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("listen").scrollIntoView({ behavior: "smooth" }) });
 onAir(); setInterval(onAir, 30000);
 /* checkout links come from config.js once the Lemon Squeezy store is live */
 const BUY = (window.IRR && IRR.buy) || {};
@@ -280,5 +284,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
+<script src="pricing.js"></script>
+<script src="i18n.js"></script>
 </body>
 </html>
