@@ -7,7 +7,7 @@
 #rr :focus-visible{outline:1.5px solid var(--a);outline-offset:3px}#rr.idle{cursor:none}
 #rr .m{font:500 10.5px/1.4 var(--txt);letter-spacing:.07em;text-transform:uppercase}
 #stage{position:absolute;left:0;right:0;top:var(--top);bottom:var(--dock);overflow:hidden;transition:filter .9s var(--e),transform 1.1s var(--e);-webkit-mask-image:linear-gradient(180deg,transparent,#000 56px,#000 calc(100% - 56px),transparent);mask-image:linear-gradient(180deg,transparent,#000 56px,#000 calc(100% - 56px),transparent)}
-#gl,#ov{position:absolute;inset:0;width:100%;height:100%}#cov{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);transition:opacity .6s}
+#gl,#ov{position:absolute;inset:0;width:100%;height:100%}#hall{position:absolute;inset:0;pointer-events:none;opacity:0;mix-blend-mode:screen;transform:scale(1.03);transition:opacity 1.8s ease,transform 5s ease-out}#hall.on{opacity:.92;transform:scale(1);transition:opacity 1.1s ease,transform 5s ease-out}#hall svg{width:100%;height:100%}#cov{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);transition:opacity .6s}
 #rr.reading #stage{filter:blur(26px) brightness(.45) saturate(1.2);transform:scale(1.06)}
 #sweep{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 clamp(120px,27vw,460px)/.8 var(--disp);text-transform:uppercase;color:var(--fg);mix-blend-mode:difference;pointer-events:none;clip-path:inset(0 100% 0 0);white-space:nowrap}
 #sweep.fly{animation:sw 1.25s var(--e) both}@keyframes sw{0%{clip-path:inset(0 100% 0 0);transform:translateX(-4%)}38%,58%{clip-path:inset(0 0 0 0);transform:none}100%{clip-path:inset(0 0 0 100%);transform:translateX(4%)}}
