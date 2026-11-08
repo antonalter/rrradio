@@ -236,3 +236,23 @@ code{font:400 .9em var(--mono);padding:1px 6px;border:1px solid currentColor;bor
 .hgrid figcaption{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--mut)}
 .hgrid figcaption b{font-weight:500;color:hsl(var(--h) 72% 56%)}
 @media (max-width:760px){.hgrid{grid-template-columns:1fr}}
+
+/* light theme: Deepot gets a dark headline card and solid ivory cards so nothing blends */
+@media (prefers-color-scheme:light){
+:root:not([data-theme=dark]) .depot .head{background:#1d1f23;color:#f4efe4;border-radius:18px;padding:clamp(26px,4.5vw,56px);box-shadow:0 24px 50px -30px #0008}
+:root:not([data-theme=dark]) .depot .head h2{color:#fbf8f1}
+:root:not([data-theme=dark]) .depot .head .eyebrow{color:#e89a1c}
+:root:not([data-theme=dark]) .depot .head .lede{color:#c9c3b6}
+:root:not([data-theme=dark]) .depot{background:#ebe4d5}
+:root:not([data-theme=dark]) .depot .grid div,:root:not([data-theme=dark]) .depot .tune,:root:not([data-theme=dark]) .depot .tagdemo,:root:not([data-theme=dark]) .depot .pr{background:#fbf8f1;box-shadow:0 0 0 1px #1c1d2014,0 12px 28px -20px #0005}
+:root:not([data-theme=dark]) .depot .pr.hl{background:#1d1f23;color:#f4efe4}
+:root:not([data-theme=dark]) .depot .grid b,:root:not([data-theme=dark]) .depot .tdh b{color:#1c1d20}
+}
+:root[data-theme=light] .depot .head{background:#1d1f23;color:#f4efe4;border-radius:18px;padding:clamp(26px,4.5vw,56px);box-shadow:0 24px 50px -30px #0008}
+:root[data-theme=light] .depot .head h2{color:#fbf8f1}
+:root[data-theme=light] .depot .head .eyebrow{color:#e89a1c}
+:root[data-theme=light] .depot .head .lede{color:#c9c3b6}
+:root[data-theme=light] .depot{background:#ebe4d5}
+:root[data-theme=light] .depot .grid div,:root[data-theme=light] .depot .tune,:root[data-theme=light] .depot .tagdemo,:root[data-theme=light] .depot .pr{background:#fbf8f1;box-shadow:0 0 0 1px #1c1d2014,0 12px 28px -20px #0005}
+:root[data-theme=light] .depot .pr.hl{background:#1d1f23;color:#f4efe4}
+:root[data-theme=light] .depot .grid b,:root[data-theme=light] .depot .tdh b{color:#1c1d20}
