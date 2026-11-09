@@ -270,3 +270,6 @@ code{font:400 .9em var(--mono);padding:1px 6px;border:1px solid currentColor;bor
 .incta .ic.ghost{background:transparent}
 .hero.pitchonly{grid-template-columns:minmax(0,1fr);max-width:980px}
 @media(max-width:760px){.device.stage{height:calc(100svh - 190px);min-height:380px;border-radius:14px}.incta{grid-template-columns:repeat(2,minmax(0,1fr))}.incta .ic{padding:9px 12px}.incta .ic span{white-space:normal}}
+
+/* the storage notice: [hidden] must win over display:flex, or OK never closes it */
+.store[hidden]{display:none!important}
