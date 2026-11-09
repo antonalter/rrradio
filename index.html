@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="site.css?v=9">
+<link rel="stylesheet" href="site.css?v=10">
 <link rel="stylesheet" href="brand/palette.css?v=7">
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
@@ -30,11 +30,21 @@
 <svg class="net" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="1180" cy="170" r="419"/><circle cx="1180" cy="170" r="257"/><circle cx="1180" cy="170" r="95"/><circle cx="250" cy="640" r="572"/><circle cx="250" cy="640" r="350"/><circle cx="250" cy="640" r="129"/><circle cx="1380" cy="860" r="343"/><circle cx="1380" cy="860" r="210"/><circle cx="1380" cy="860" r="77"/><circle cx="720" cy="420" r="229"/><circle cx="720" cy="420" r="140"/><circle cx="720" cy="420" r="52"/><circle cx="90" cy="40" r="305"/><circle cx="90" cy="40" r="187"/><circle cx="90" cy="40" r="69"/></svg>
 <header class="top">
   <a class="logo rlogo" href="#" aria-label="rrradio" data-rrlogo>rrradio</a>
-  <nav class="links"><a href="#listen">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
-  <div class="topr"><select class="lang" id="lang" aria-label="Language"></select><button class="tgl" id="theme" type="button" aria-label="Light or dark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button><a class="btn hot" href="#listen" id="ctatop">Listen free</a></div>
+  <nav class="links"><a href="#radio">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
+  <div class="topr"><select class="lang" id="lang" aria-label="Language"></select><button class="tgl" id="theme" type="button" aria-label="Light or dark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button><a class="btn hot" href="#radio" id="ctatop">Listen free</a></div>
 </header>
 
-<section class="hero hero2" id="listen">
+<section class="stagewrap" id="radio">
+  <div class="device stage" id="player"><iframe id="pf" src="radio/" title="rrradio live player" allow="autoplay; fullscreen"></iframe><a class="full" href="radio/" target="_blank" rel="noopener">Open full screen ↗</a></div>
+  <nav class="incta" aria-label="Take rrradio further">
+    <a class="ic hot" href="downloads/rrradio-extension.zip" download><b>Steer it yourself</b><span>Free browser extension · skip, heart, your own taste</span></a>
+    <a class="ic" href="#depot"><b>Deepot</b><span>Tune the radio by hand</span></a>
+    <a class="ic" href="#try"><b>Try the interface</b><span>A working preview, nothing to install</span></a>
+    <a class="ic ghost" href="#listen"><b>How it works</b><span>Scroll ↓</span></a>
+  </nav>
+</section>
+
+<section class="hero hero2 pitchonly" id="listen">
   <div class="pitch">
     <p class="eyebrow"><span class="dot"></span><span id="livec">Live now</span><span> · free · no sign-up</span></p>
     <h1>A radio that<br>digs for you.</h1>
@@ -45,7 +55,6 @@
     </div>
     <ul class="trust"><li>No ads from us, ever</li><li>No account</li><li>Non-profit</li><li>Your taste stays in your browser</li></ul>
   </div>
-  <div class="device" id="player"><iframe id="pf" src="radio/" title="rrradio live player" allow="autoplay; fullscreen"></iframe><a class="full" href="radio/" target="_blank" rel="noopener">Open full screen ↗</a></div>
 </section>
 
 <section class="stations" id="stations">
@@ -220,7 +229,7 @@ async function onAir() {
   const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
   const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
   document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line", 0], [days, days === 1 ? "day on air" : "days on air", 1], ...(SHOWN ? [[L, "listening right now", 2]] : []), [artists.size, "artists on air in the next hour", 3], ["0", "ads, ever", 4]].map(([n, t, k]) => `<div><b>${n}</b><span>${(window.T && T("stats." + k)) || t}</span></div>`).join("") }
-document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("listen").scrollIntoView({ behavior: "smooth" }) });
+document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("radio").scrollIntoView({ behavior: "smooth" }) });
 onAir(); setInterval(onAir, 30000);
 /* checkout links come from config.js once the Lemon Squeezy store is live */
 const BUY = (window.IRR && IRR.buy) || {};
