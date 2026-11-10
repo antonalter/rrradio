@@ -1,0 +1,187 @@
+/* rrradio landing, 2026-11 layer. One look with Diggers Depot in the extension: dark glass cards edged in the
+   station's own colour, Roboto Flex headlines, Martian Mono labels. Loaded after site.css. */
+:root{--sa:hsl(var(--h,200) 70% 70%)}
+.kick{font:400 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:0}
+
+/* the radio is the first screen: the whole window, a hint to scroll */
+.stagewrap .stage{height:calc(100svh - 108px);min-height:420px}
+.stagewrap .incta{display:none}
+.scrollhint{display:flex;justify-content:center;align-items:center;gap:10px;height:34px;font:400 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);text-decoration:none}
+.scrollhint i{font-style:normal;animation:rrbob 2.4s ease-in-out infinite}
+@keyframes rrbob{50%{transform:translateY(4px)}}
+
+/* the longread: what is on air, who made it, where to go next */
+.now .nbody{position:relative}.now{position:relative;--h:200;padding:clamp(40px,7vh,80px) var(--gr) 0 var(--gut);height:calc(var(--open,640px) + 250px);overflow:hidden;transition:height .6s var(--e)}
+.now::before{content:"";position:absolute;inset:0 0 auto;height:70%;background:radial-gradient(60% 80% at 20% 0,color-mix(in srgb,var(--sa) 16%,transparent),transparent 70%);pointer-events:none;z-index:-1}
+.now .lr{max-width:1180px;margin:0 auto}
+.now .nh h2{font-size:clamp(46px,8.4vw,132px);line-height:.9;margin:12px 0 6px;text-wrap:balance;overflow-wrap:anywhere}
+.now .ntr{font:300 clamp(20px,2.4vw,32px)/1.2 var(--txt);color:color-mix(in srgb,var(--fg) 82%,transparent);margin:0}
+.now .kick b{color:var(--sa);font-weight:400}
+.now .ngrid{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:clamp(20px,3vw,44px);margin-top:clamp(24px,4vh,40px);align-items:start}
+.now .ncov{margin:0;aspect-ratio:1;border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--sa) 14%,var(--bg));box-shadow:0 30px 70px -40px color-mix(in srgb,var(--sa) 60%,#000)}
+.now .ncov img{width:100%;height:100%;object-fit:cover;display:block}
+.now dl{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.now dl div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.now dt{font:400 10.5px/1.9 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.now dd{margin:0;font-size:18px;line-height:1.35;min-width:0;overflow-wrap:anywhere}
+.now dd small{display:block;font-size:13px;color:var(--mut)}
+.now .ld{opacity:.45}
+.now .nlinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.now .nlinks a{display:inline-flex;gap:6px;align-items:center;padding:8px 13px;border-radius:99px;border:1px solid color-mix(in srgb,var(--sa) 40%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--sa) 12%,transparent),transparent 70%);text-decoration:none;font-size:13.5px;transition:border-color .3s,transform .3s}
+.now .nlinks a:hover{border-color:var(--sa);transform:translateY(-1px)}
+.now .nlinks i{font-style:normal;color:var(--sa);font-size:11px}
+.now .nbody{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);margin-top:clamp(30px,5vh,56px)}
+.now article p{font:300 19px/1.65 var(--txt);margin:0 0 1em;max-width:62ch;color:color-mix(in srgb,var(--fg) 90%,transparent)}
+.now article p.drop::first-letter{float:left;font:700 3.4em/.82 var(--disp);font-stretch:140%;margin:.06em .1em 0 0;color:var(--sa)}
+.now article .nimg{float:right;width:min(38%,240px);border-radius:12px;margin:0 0 12px 18px;filter:grayscale(.3)}
+.now article .src{font-size:13px;color:var(--mut)}
+.now aside{display:flex;flex-direction:column;gap:12px;min-width:0}
+.now aside ol{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}
+.now aside li{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--fg) 3%,transparent)}
+.now aside li b{font-weight:500}.now aside li span{grid-column:1;color:var(--mut);font-size:14px}.now aside li em{grid-row:1/3;grid-column:2;align-self:center;font:400 10.5px var(--mono);color:var(--mut);font-style:normal}
+.now #nmis{margin:0;font-size:16px;line-height:1.5}
+.dna{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.dna li{padding:5px 10px;border-radius:99px;font:400 11px var(--mono);letter-spacing:.04em;color:var(--sa);border:1px solid color-mix(in srgb,var(--sa) 45%,transparent)}
+/* the frosted gate over the rest of the story */
+.now .gate{position:absolute;left:0;right:0;top:calc(var(--open,640px) - 170px);bottom:0;display:flex;align-items:flex-start;justify-content:center;padding:170px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:linear-gradient(color-mix(in srgb,var(--bg) 10%,transparent),color-mix(in srgb,var(--bg) 88%,transparent) 150px,var(--bg) 240px);
+  -webkit-mask-image:linear-gradient(transparent,#000 90px);mask-image:linear-gradient(transparent,#000 90px)}
+.now .gin{text-align:center;max-width:720px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.now .gin h3{font:680 clamp(32px,4.6vw,64px)/.98 var(--disp);font-stretch:140%;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.now .gin h3 em{font-style:normal;background:linear-gradient(90deg,var(--fg),var(--sa));-webkit-background-clip:text;background-clip:text;color:transparent}
+.now .gin .cta{justify-content:center;margin-top:12px}
+
+/* the funnel: everything that makes it yours runs in your browser, free */
+.free{padding:clamp(60px,10vh,110px) var(--gr) clamp(30px,6vh,60px) var(--gut)}
+.free .head h2 em{font-style:normal;color:var(--hot)}
+.free .ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:30px}
+.free .ways a{display:flex;flex-direction:column;gap:6px;padding:20px 22px;border-radius:16px;text-decoration:none;border:1px solid var(--line);background:color-mix(in srgb,var(--fg) 3%,transparent);transition:border-color .3s,transform .3s}
+.free .ways a:hover{border-color:var(--hot);transform:translateY(-2px)}
+.free .ways b{font:600 20px var(--txt)}.free .ways span{color:var(--mut);font-size:14px;line-height:1.45}
+.free .ways .kick{color:var(--hot)}
+.free .ways a.dep{border-color:color-mix(in srgb,#e89a1c 50%,transparent);background:linear-gradient(160deg,color-mix(in srgb,#e89a1c 14%,transparent),transparent 70%)}
+.free .ways a.dep .kick{color:#e89a1c}
+
+/* station DNA on the stop cards */
+.metro .stop .mot{display:block;font-size:13.5px;color:var(--fg);margin-top:6px;font-style:italic}
+.metro .stop .dnal{display:block;font:400 10px/1.5 var(--mono);letter-spacing:.06em;color:hsl(var(--h) 60% 62%);margin-top:3px}
+
+/* Diggers Depot: the same offer and the same look as the panel inside the extension */
+.depot .pillars{list-style:none;margin:16px 0 4px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.depot .pillars li{padding:16px 18px;border:1px solid color-mix(in srgb,#e89a1c 45%,transparent);border-radius:14px;background:linear-gradient(160deg,color-mix(in srgb,#e89a1c 16%,transparent),transparent 70%);display:flex;flex-direction:column;gap:4px}
+.depot .pillars b{font-size:20px;font-weight:600;color:#fbf8f1}.depot .pillars span{font-size:13px;color:#c9c3b6}
+.depot .head .dvpr{margin:16px 0 0;font-size:clamp(17px,1.6vw,21px);color:#f4efe4}.depot .head .dvpr b{color:#e89a1c}
+.depot .head .same{margin:10px 0 0;font-size:13.5px;color:#a9a397}.depot .head .same a{color:#f4efe4}
+.depot .also{font:400 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:34px 0 0}
+
+/* lines ahead: interchanges and branch lines */
+.lines,.places{padding:clamp(60px,10vh,110px) var(--gr) clamp(60px,10vh,110px) var(--gut)}
+.lines .map{margin-top:30px;border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,30px);overflow-x:auto;background:color-mix(in srgb,var(--fg) 2%,transparent)}
+.lines svg{display:block;min-width:760px;width:100%;height:auto}
+.lines svg text{font:400 11px var(--mono);fill:var(--fg)}.lines svg .s{fill:var(--mut);font-size:9.5px}
+.lines svg .ln{stroke:var(--fg);stroke-opacity:.5;stroke-width:3;fill:none}
+.lines svg .br{stroke-width:2.5;fill:none}.lines svg .tram{stroke-dasharray:2 6;stroke-linecap:round}
+.lines svg .node{fill:var(--bg);stroke:var(--fg);stroke-width:2.5}
+.lines .lgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.lines .lgrid div{padding:18px 20px;border-radius:14px;border:1px solid var(--line)}
+.lines .lgrid b{display:block;font-size:17px;font-weight:600;margin:6px 0 4px}.lines .lgrid span{color:var(--mut);font-size:14px;line-height:1.45}
+
+/* rrradio for places */
+.places .pgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:30px}
+.places .pgrid div{padding:18px 20px;border-radius:14px;border:1px solid var(--line);background:color-mix(in srgb,var(--fg) 3%,transparent)}
+.places .pgrid b{display:block;font-size:17px;font-weight:600;margin-bottom:6px}.places .pgrid span{color:var(--mut);font-size:14px;line-height:1.45}
+.places .deal{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;padding:22px 24px;border-radius:16px;background:#1d1f23;color:#f4efe4}
+.places .deal p{margin:0;max-width:60ch;color:#c9c3b6}.places .deal p b{color:#fbf8f1}
+
+@media (max-width:820px){
+  .now .ngrid,.now .nbody{grid-template-columns:minmax(0,1fr)}
+  .now .ncov{max-width:240px}
+  .now dl div{grid-template-columns:86px minmax(0,1fr)}
+  .now article .nimg{display:none}
+  .free .ways,.depot .pillars,.lines .lgrid,.places .pgrid{grid-template-columns:minmax(0,1fr)}
+  .stagewrap .stage{height:calc(100svh - 96px)}
+}
+
+
+/* 2026-11 style: warm stone by day, warm graphite by night, one orange accent; premium is liquid metal */
+:root,:root[data-theme=light]{--bg:#e4d9c6!important;--bg2:#ece3d3!important;--fg:#1b160f!important;--mut:#5e5444!important;--line:#1b160f26!important;--a:#c24a15!important;--hot:#c24a15!important;--hot2:#e0703a!important;--paper:#ece3d3!important;--ink:#1b160f!important}
+:root[data-theme=dark]{--bg:#25211c!important;--bg2:#2e2923!important;--fg:#f0e8da!important;--mut:#ada393!important;--line:#ffffff22!important;--a:#f17938!important;--hot:#f17938!important;--hot2:#f5964a!important;--paper:#2e2923!important;--ink:#f0e8da!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#25211c!important;--bg2:#2e2923!important;--fg:#f0e8da!important;--mut:#ada393!important;--line:#ffffff22!important;--a:#f17938!important;--hot:#f17938!important;--hot2:#f5964a!important;--paper:#2e2923!important;--ink:#f0e8da!important}}
+body{background:var(--bg)!important;color:var(--fg)}
+.btn.hot{background:var(--a)!important;color:#fff8ef!important;box-shadow:0 10px 30px -12px var(--a)!important}
+.free .head h2 em,.now .gin h3 em{color:var(--a)!important;background:none!important;-webkit-text-fill-color:currentColor}
+.free .ways .kick{color:var(--a)}.free .ways a:hover{border-color:var(--a)}
+.lines svg .br{stroke:var(--a)!important}.lines svg circle[style*="318"]{stroke:var(--a)!important}
+.scrollhint i,.now .kick b{color:var(--a)}
+.free .inst .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+.free .inst .steps li{font-size:13px;color:var(--mut);padding:12px 14px;border-radius:12px;border:1px solid var(--line)}
+.free .inst .steps li b{display:block;color:var(--fg);font-weight:500}
+@property --fx{syntax:'<percentage>';inherits:false;initial-value:72%}@property --fy{syntax:'<percentage>';inherits:false;initial-value:38%}@property --fa{syntax:'<angle>';inherits:false;initial-value:200deg}
+@keyframes rrmerc{0%{background-position:0 0,0% 20%,0 0,0% 30%}100%{background-position:0 0,100% 80%,0 0,100% 70%}}
+@keyframes rrfocus{0%,100%{--fx:72%;--fy:38%;--fa:200deg}33%{--fx:28%;--fy:62%;--fa:235deg}66%{--fx:82%;--fy:78%;--fa:168deg}}
+.depot .head,.depot .pillars li,.free .ways a.dep,.depot .pr.hl,.places .deal{color:#f4f2ee!important;border:1px solid #eef1f566!important;
+ background:linear-gradient(100deg,rgba(13,15,19,.80) 0%,rgba(13,15,19,.66) 52%,rgba(13,15,19,.22) 100%),
+ conic-gradient(from var(--fa) at var(--fx) var(--fy),rgba(110,214,220,.30),rgba(150,120,230,.27),rgba(236,140,196,.24),rgba(244,206,120,.24),rgba(132,222,168,.24),rgba(118,164,240,.28),rgba(110,214,220,.30)),
+ radial-gradient(60% 80% at 18% 110%,rgba(255,170,120,.18),transparent 60%),
+ linear-gradient(125deg,#eef1f5 0%,#9aa3b0 16%,#4c535f 32%,#d6dce4 48%,#6d7584 64%,#e7ebf0 82%,#8c95a2 100%)!important;
+ background-size:100% 100%,240% 240%,100% 100%,300% 300%!important;animation:rrmerc 18s ease-in-out infinite alternate,rrfocus 26s ease-in-out infinite;box-shadow:inset 0 1px 0 #ffffffb0,inset 0 -1px 0 #00000059,0 18px 40px -26px #000a!important}
+.depot .pillars li{background-size:100% 100%,240% 240%,100% 100%,300% 300%!important}
+.depot .pillars li:nth-child(2){animation-delay:-6s,-9s}.depot .pillars li:nth-child(3){animation-delay:-11s,-17s}
+.depot .head h2,.depot .head .eyebrow{background:linear-gradient(100deg,#97a2b1 0%,#f4f7fa 12%,#9fd8d6 24%,#ffffff 36%,#c3a6e6 48%,#f2c9a0 60%,#a8b7cf 72%,#e2f2ea 84%,#97a2b1 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:rrmtx 10s linear infinite}
+@keyframes rrmtx{to{background-position:-220% 0}}
+.depot .head .lede,.depot .head .same,.depot .pillars span,.free .ways a.dep span,.places .deal p{color:#d6dae0!important}
+.depot .pillars b,.free .ways a.dep b,.places .deal p b{color:#fbfbfc!important}
+.depot .head .dvpr b,.free .ways a.dep .kick{color:#f5964a!important}
+@media (max-width:820px){.free .inst .steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.depot .head,.depot .pillars li,.free .ways a.dep,.depot .pr.hl,.places .deal,.depot .head h2{animation:none!important}}
+
+/* lighter: the essentials stay open, the rest waits folded */
+details.more{margin:22px 0 0;border-top:1px solid var(--line)}
+details.more.wide{margin:0 var(--gr) 0 var(--gut);border-bottom:1px solid var(--line)}
+details.more>summary{cursor:pointer;list-style:none;padding:16px 0;font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);display:flex;justify-content:space-between}
+details.more>summary::after{content:"+";font-size:16px;color:var(--a)}details.more[open]>summary::after{content:"–"}
+details.more>summary::-webkit-details-marker{display:none}
+.now,.free,.stations,.depot,.lines,.places,.try{padding-top:clamp(44px,7vh,80px)!important;padding-bottom:clamp(44px,7vh,80px)!important}
+.head h2{font-size:clamp(32px,4vw,58px)!important}
+.lede{font-size:17px!important}
+
+/* rings: no big static net; small rings ripple behind what matters, only while it is on screen */
+svg.net{display:none!important}
+.rrg{position:relative}
+.rrg>.rings{position:absolute;left:var(--rx,-18px);top:var(--ry,50%);width:var(--rs,110px);aspect-ratio:1;translate:-50% -50%;pointer-events:none;z-index:-1}
+.rrg>.rings i{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--a);opacity:0;transform:scale(.3)}
+.rrg.on>.rings i{animation:rrrip 3.6s cubic-bezier(.2,.7,.3,1) infinite}
+.rrg.on>.rings i:nth-child(2){animation-delay:1.2s}.rrg.on>.rings i:nth-child(3){animation-delay:2.4s}
+@keyframes rrrip{0%{opacity:0;transform:scale(.3)}15%{opacity:.55}100%{opacity:0;transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.rrg.on>.rings i{animation:none;opacity:.25;transform:scale(.8)}}
+.depot .head,.free .ways,.free .head,.places .deal,.now .gin{isolation:isolate}
+/* a little lighter, with a quiet mercury sheen drawn from the accent */
+:root,:root[data-theme=light]{--bg:#e9dfcd!important;--bg2:#f1e9db!important}
+:root[data-theme=dark]{--bg:#302b25!important;--bg2:#3a342d!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#302b25!important;--bg2:#3a342d!important}}
+body::before{content:"";position:fixed;inset:-10%;z-index:-2;pointer-events:none;
+ background:
+  conic-gradient(from var(--fa) at var(--fx) var(--fy),color-mix(in srgb,var(--a) 30%,transparent),rgba(200,210,225,.22),color-mix(in srgb,var(--a) 10%,rgba(220,200,240,.12)),rgba(180,225,220,.14),color-mix(in srgb,var(--a) 30%,transparent)),
+  radial-gradient(70% 50% at 85% 0%,rgba(255,255,255,.10),transparent 70%),
+  linear-gradient(165deg,var(--bg2),var(--bg) 55%,color-mix(in srgb,var(--bg) 88%,#000));
+ filter:blur(40px) saturate(.9);opacity:.9;animation:rrfocus 40s ease-in-out infinite}
+:root[data-theme=light] body::before{opacity:.75}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]) body::before{opacity:.75}}
+body{background:var(--bg)!important}
+.rrg>.rings i{border-width:2px}
+@keyframes rrrip{0%{opacity:0;transform:scale(.3)}15%{opacity:.8}100%{opacity:0;transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){body::before{animation:none}}
+.lines svg g[style*="318"],.lines svg circle[style*="318"]{stroke:var(--a)!important}
+.depot .tune,.depot .tagdemo{background:color-mix(in srgb,var(--fg) 4%,transparent)!important;box-shadow:inset 0 0 0 1px var(--line)!important;color:var(--fg)!important}.depot .tune *{color:inherit}
+
+/* the Deepot card: rounded, nothing square at the edges; behind it a tunnel of pearl rings, the logo's ride,
+   a key to your taste */
+.depot .head{border-radius:24px!important;padding:clamp(26px,4.5vw,56px)!important;overflow:hidden;position:relative}
+.rrg>.rings.tun{z-index:0;opacity:.9}
+.depot .head>*:not(.rings){position:relative;z-index:1}
+.rrg>.rings.tun i{border:1.5px solid transparent;background:conic-gradient(from 0deg,#e9eef4,#b8a6e0,#9fd8d6,#f2c9a0,#e9eef4) border-box;
+ -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);opacity:0}
+.rrg.on>.rings.tun i{animation:rrtun 4.8s cubic-bezier(.55,0,.75,.4) infinite}
+.rrg.on>.rings.tun i:nth-child(2){animation-delay:.8s}.rrg.on>.rings.tun i:nth-child(3){animation-delay:1.6s}.rrg.on>.rings.tun i:nth-child(4){animation-delay:2.4s}.rrg.on>.rings.tun i:nth-child(5){animation-delay:3.2s}.rrg.on>.rings.tun i:nth-child(6){animation-delay:4s}
+@keyframes rrtun{0%{opacity:0;transform:scale(1.7) translate(6%,-4%)}20%{opacity:.55}80%{opacity:.35}100%{opacity:0;transform:scale(.06) translate(0,0)}}
+@media (prefers-reduced-motion:reduce){.rrg.on>.rings.tun i{animation:none;opacity:.3}}

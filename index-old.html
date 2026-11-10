@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>rrradio · a radio that digs for you</title>
+<meta name="description" content="Press play: seven live stations, picked by hand, free forever. When you want to steer, take it home. No ads from us, no account, non-profit.">
+<meta property="og:title" content="rrradio · learrrns what you yearn for">
+<meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
+<meta property="og:image" content="icon.png">
+<meta name="theme-color" content="#08080a">
+<link rel="canonical" href="https://rrrad.io/">
+<meta property="og:url" content="https://rrrad.io/">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="site.css?v=11">
+<link rel="stylesheet" href="brand/palette.css?v=7">
+<script src="config.js"></script>
+<script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
+</head>
+<body>
+<div id="glow" aria-hidden="true"></div>
+<svg class="net" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="1180" cy="170" r="419"/><circle cx="1180" cy="170" r="257"/><circle cx="1180" cy="170" r="95"/><circle cx="250" cy="640" r="572"/><circle cx="250" cy="640" r="350"/><circle cx="250" cy="640" r="129"/><circle cx="1380" cy="860" r="343"/><circle cx="1380" cy="860" r="210"/><circle cx="1380" cy="860" r="77"/><circle cx="720" cy="420" r="229"/><circle cx="720" cy="420" r="140"/><circle cx="720" cy="420" r="52"/><circle cx="90" cy="40" r="305"/><circle cx="90" cy="40" r="187"/><circle cx="90" cy="40" r="69"/></svg>
+<header class="top">
+  <a class="logo rlogo" href="#" aria-label="rrradio" data-rrlogo>rrradio</a>
+  <nav class="links"><a href="#radio">Listen</a><a href="#ladder">How it grows</a><a href="#depot">Deepot</a><a href="#promises">Promises</a><a href="#faq">FAQ</a></nav>
+  <div class="topr"><select class="lang" id="lang" aria-label="Language"></select><button class="tgl" id="theme" type="button" aria-label="Light or dark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button><a class="btn hot" href="#radio" id="ctatop">Listen free</a></div>
+</header>
+
+<section class="stagewrap" id="radio">
+  <div class="device stage" id="player"><iframe id="pf" src="radio/" title="rrradio live player" allow="autoplay; fullscreen"></iframe><a class="full" href="radio/" target="_blank" rel="noopener">Open full screen ↗</a></div>
+  <nav class="incta" aria-label="Take rrradio further">
+    <a class="ic hot" href="downloads/rrradio-extension.zip" download><b>Steer it yourself</b><span>Free browser extension · skip, heart, your own taste</span></a>
+    <a class="ic" href="#depot"><b>Deepot</b><span>Tune the radio by hand</span></a>
+    <a class="ic" href="#try"><b>Try the interface</b><span>A working preview, nothing to install</span></a>
+    <a class="ic ghost" href="#listen"><b>How it works</b><span>Scroll ↓</span></a>
+  </nav>
+</section>
+
+<section class="hero hero2 pitchonly" id="listen">
+  <div class="pitch">
+    <p class="eyebrow"><span class="dot"></span><span id="livec">Live now</span><span> · free · no sign-up</span></p>
+    <h1>A radio that<br>digs for you.</h1>
+    <p class="lede">Press play. Seven stations, picked by hand, play live right here, free for good. You can't skip: that's the trial, and most people stay longer than they planned. When you want to steer, take it home.</p>
+    <div class="cta">
+      <a class="btn hot big" href="#player" id="hplay">▶ Listen now</a>
+      <a class="btn ghost big" href="downloads/rrradio-extension.zip" download>Take it home, free</a>
+    </div>
+    <ul class="trust"><li>No ads from us, ever</li><li>No account</li><li>Non-profit</li><li>Your taste stays in your browser</li></ul>
+  </div>
+</section>
+
+<section class="stations" id="stations">
+  <div class="head"><p class="eyebrow"><span class="dot"></span>On air right now</p><h2>Seven stops on one line.</h2><p class="lede">From the arrivals hall to the depot at the end of the line. Press a stop to tune the player above.</p></div>
+  <ol class="metro" id="cards"></ol>
+  <p class="also">Also in any player app or smart speaker: <span id="plsinline"></span></p>
+</section>
+
+<section class="halls" id="halls">
+  <div class="head"><p class="eyebrow">Arrive somewhere</p><h2>Every stop is a room you can walk into.</h2><p class="lede">Change station and the train takes you there: through the tunnel, the doors open, you step into the hall.</p></div>
+  <div class="hgrid">
+    <figure style="--h:192"><div class="fr" data-hall="fresh"></div><figcaption><b>Arrivals Hall</b><span>the board shows what lands next</span></figcaption></figure>
+    <figure style="--h:152"><div class="fr" data-hall="clock"></div><figcaption><b>State Library</b><span>quiet, for reading and sleep</span></figcaption></figure>
+    <figure style="--h:318"><div class="fr" data-hall="club"></div><figcaption><b>Dance Union Square</b><span>three clubs below the square</span></figcaption></figure>
+    <figure style="--h:96"><div class="fr" data-hall="cellar"></div><figcaption><b>Haunted Powerhouse</b><span>noise that turns into rhythm</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="ladder" id="ladder">
+  <div class="head"><p class="eyebrow">How it grows</p><h2>Listen. Steer. Own it.</h2><p class="lede">Nothing is locked behind a wall. Each step is useful on its own; the next one is there when you want more.</p></div>
+  <div class="steps3">
+    <div><span class="lb">1 · You are here</span><b>Listen</b><em>Free, for good</em><p>Seven live stations, picked by hand and timed to the hour. No skips, no ads, no account. Put it on and get on with your day.</p><a class="btn ghost" href="#listen">▶ Keep listening</a></div>
+    <div><span class="lb">2 · Two minutes to set up</span><b>Steer</b><em>Free, for good</em><p>The extension turns rrradio into your own radio. Skip, heart, ban. It learns from every signal, follows your day, and digs Core, Orbit and Drift around what you love.</p><a class="btn hot" href="downloads/rrradio-extension.zip" download>Get the extension</a></div>
+    <div class="hl"><span class="lb">3 · When it clicks</span><b>Own it</b><em>Deepot · €3 for your first 3 months</em><p>Void, the farthest finds. Unlimited retunes. Every heart saved to Spotify, Apple Music and YouTube. Tune each genre and tag by hand. Your month, every month.</p><a class="btn dark" href="#depot">See Deepot</a></div>
+  </div>
+</section>
+
+<section class="ext" id="extension">
+  <div class="head"><p class="eyebrow">Step 2 · the extension · free</p><h2>Your own radio, in your browser.</h2><p class="lede">The live stations are the same for everyone. The extension is only yours.</p></div>
+  <div class="grid">
+    <div><b>Learns in minutes</b><span>A heart counts most, a skip in the first seconds is a clear no. Two listens never flood a station.</span></div>
+    <div><b>Knows your day</b><span>Tell it your routine once: soft mornings, focus afternoons, deep nights.</span></div>
+    <div><b>Digs, not charts</b><span>Lesser-known artists first, and new records from the ones you love.</span></div>
+    <div><b>Not the vibe</b><span>One key rebuilds the whole queue for a different mood, without touching your taste.</span></div>
+    <div><b>Every station has a look</b><span>Each stop paints its own visuals from the cover that's playing. No two songs look the same.</span></div>
+    <div><b>Works with what you have</b><span>Plays through YouTube in your browser. Nothing to sign up for.</span></div>
+  </div>
+  <div class="cta"><a class="btn dark big" href="downloads/rrradio-extension.zip" download>Download the extension, free</a><a class="btn ghostdark big" href="#try">Try the interface first</a></div>
+  <ol class="steps">
+    <li><b>Download</b><span>Unzip the file.</span></li>
+    <li><b>Open extensions</b><span>Type <code>chrome://extensions</code>, switch on Developer mode.</span></li>
+    <li><b>Load unpacked</b><span>Choose the unzipped folder.</span></li>
+    <li><b>Press the icon</b><span>Your radio opens and starts.</span></li>
+  </ol>
+</section>
+
+<section class="try" id="try">
+  <div class="head"><p class="eyebrow">See it before you install</p><h2>Press space and play with it.</h2><p class="lede">A working preview with a synth and invented artists. The real thing plays real music.</p></div>
+  <div class="frame"><iframe src="demo.html" title="rrradio preview" loading="lazy" allow="autoplay"></iframe></div>
+</section>
+
+<section class="depot" id="depot">
+  <div class="head"><p class="eyebrow">Step 3 · Deepot</p><h2>The radio is free.<br>Deepot is where it becomes yours.</h2><p class="lede">You've heard what it can find. Deepot lets you go all the way: tune every genre and tag, reach the farthest records, keep every find in the apps you already use.</p></div>
+  <div class="tune">
+    <div class="sliders" id="tsl"></div>
+    <div class="tq"><p class="lb">What plays next</p><ol id="tqo"></ol></div>
+  </div>
+  <p class="tnote">Drag a genre and the queue rebuilds at once. In Deepot this is your real radio, with every scene it has learned from you.</p>
+  <div class="grid">
+    <div><b>Void</b><span>The farthest depth: artists four steps away from anything you play. This is where the records nobody told you about live.</span></div>
+    <div><b>♥ Saves itself</b><span>Every heart also lands in your Spotify, Apple Music and YouTube, in the apps you are signed in to.</span></div>
+    <div><b>Your month, every month</b><span>What you found, what grew, what faded, every trail you followed. Not once a year: every month.</span></div>
+    <div><b>Tune it by hand</b><span>Drag genre weights, lift or switch off any of 200 tags, keep profiles for work, night and guests.</span></div>
+    <div><b>Read without leaving</b><span>Whole artist stories with sources, news about your artists from Pitchfork, The Quietus and Bandcamp Daily.</span></div>
+    <div><b>Unlimited retunes</b><span>Not the vibe as often as you like. Rewind through your whole day.</span></div>
+  </div>
+  <div class="tagdemo">
+    <div class="tdh"><b>Tune it tag by tag</b><span id="tdc"></span></div>
+    <div class="cloud" id="tcl"></div>
+    <p class="tnote">Press a tag to lift it, again to lift it more, a third time to switch it off.</p>
+  </div>
+  <div class="prices">
+    <div class="pr hl"><span class="lb">Start</span><b>€3</b><em>for your first 3 months</em><span>then from €3 a month, pay what you want</span><a class="btn hot" data-buy="start" href="#depot">Start for €3</a></div>
+    <div class="pr"><span class="lb">Year</span><b>€36</b><em>a year</em><span>three months free compared to monthly</span><a class="btn ghostdark" data-buy="year" href="#depot">Take the year</a></div>
+    <div class="pr"><span class="lb">For life</span><b id="lifep">€59</b><em>once</em><span id="foundn">Founding 100: the first hundred pay €39</span><a class="btn ghostdark" data-buy="life" href="#depot">Once, for good</a></div>
+  </div>
+  <p class="fine center needc" hidden>Can't spare €3 right now? Write to <span class="sel contact"></span> and we'll send you a key. No questions, no proof.</p>
+    <p class="fine center" id="pnote">Billed in euros through Lemon Squeezy. The amount in your currency is a close guide.</p>
+  <p class="fine center" id="pbill">Billing runs through Lemon Squeezy. Cancel in one click from the email receipt. 14-day refund, no questions. Support does not buy music or rights to it; everything still plays from the services you use.</p>
+</section>
+
+<section class="compare" id="compare">
+  <div class="head"><p class="eyebrow">Free stays free</p><h2>Everything you need to listen. Deepot for everything after.</h2></div>
+  <table class="cmp">
+    <thead><tr><th></th><th>Live radio</th><th>Extension</th><th class="d">Deepot</th></tr></thead>
+    <tbody>
+      <tr><td>7 live stations, picked by hand</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Skip, heart, ban; learns your taste</td><td>–</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Depth: Core, Orbit, Drift</td><td>–</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Void, the farthest finds</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Not the vibe, retune the queue</td><td>–</td><td>3 a day</td><td class="d">Unlimited</td></tr>
+      <tr><td>Station visuals from the cover</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>Hearts saved to YouTube, Spotify, Apple Music</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Tune genres and tags by hand, profiles</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>Your month and taste map</td><td>–</td><td>Preview</td><td class="d">●</td></tr>
+      <tr><td>Full artist stories, news about your artists</td><td>–</td><td>Short bio</td><td class="d">●</td></tr>
+      <tr><td>Start from your Last.fm and Spotify</td><td>–</td><td>–</td><td class="d">●</td></tr>
+      <tr><td>The month on rrradio, playlist and email</td><td>●</td><td>●</td><td class="d">●</td></tr>
+      <tr><td>New features first, your name in the credits</td><td>–</td><td>–</td><td class="d">●</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="promises" id="promises">
+  <div class="head"><p class="eyebrow">What we promise</p><h2>It won't run off, it won't lie, it won't sell you.</h2></div>
+  <div class="grid">
+    <div><b>No ads from us. Ever.</b><span>Not in the radio, not in the extension, not in the emails.</span></div>
+    <div><b>Free stays free.</b><span>What is free today does not move behind the paywall tomorrow.</span></div>
+    <div><b>Your taste is yours.</b><span>It lives in your browser. Export it any time, delete it with one button.</span></div>
+    <div><b>Leave in one click.</b><span>Cancel from your receipt. Refund within 14 days, no questions.</span></div>
+    <div><b>Open books.</b><span>Non-profit. Every month we post what came in and what it paid for: servers, digging, time.</span></div>
+    <div><b>If we ever stop,</b><span>Deepot unlocks for everyone in the last version, and you keep your exports.</span></div>
+  </div>
+</section>
+
+<section class="proof" id="proof">
+  <div class="head"><p class="eyebrow">So far</p><h2 id="proofh">On air since 7 November 2026.</h2></div>
+  <div class="stats" id="stats"></div>
+  <div class="quotes" id="quotes" hidden></div>
+</section>
+
+<section class="shared" id="shared" hidden>
+  <p class="eyebrow"><span class="dot"></span>A station was shared with you</p>
+  <h2 id="shn">A friend's station</h2>
+  <div class="shg" id="shg"></div>
+  <p class="lede" id="sha"></p>
+  <div class="cta"><a class="btn hot big" href="downloads/rrradio-extension.zip" download>Take this station home, free</a></div>
+</section>
+
+<section class="mail" id="mail">
+  <div class="head"><p class="eyebrow">Once a month · free</p><h2>The month on rrradio, in your inbox.</h2><p class="lede">Thirty records that went on air, one per artist, across every station. One email a month, nothing else.</p></div>
+  <div id="monthbox" class="monthbox"></div>
+  <form class="mailf" id="mailf" method="post" target="_blank"><input type="email" name="email" placeholder="you@mail.com" required aria-label="Email"><button class="btn hot big" type="submit">Send me the month</button></form>
+  <p class="fine" id="mailnote">We use your address only for this letter. Unsubscribe in one click.</p>
+</section>
+
+<section class="thanks" id="thanks">
+  <p class="eyebrow">Thank you</p>
+  <h2>Kept on air by</h2>
+  <p class="names" id="names">Be the first name here.</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions</h2>
+  <details><summary>Is it really free?</summary><p>Yes. The seven live stations and the extension are free for good. Deepot is optional, for people who want to go all the way.</p></details>
+  <details><summary>Why can't I skip on the live radio?</summary><p>Because it's radio: one feed for everyone, picked by hand. Skips, hearts and your own taste live in the free extension.</p></details>
+  <details><summary>Where does the music come from?</summary><p>The extension plays from YouTube in your own browser. The live stations play a hand-picked selection. rrradio does not sell music.</p></details>
+  <details><summary>Ads?</summary><p>rrradio never adds ads of its own. The personal radio plays through YouTube, so YouTube decides what ads you see; with YouTube Premium there are none.</p></details>
+  <details><summary>How does paying work?</summary><p>Through Lemon Squeezy, which handles cards, PayPal and VAT. You get a key by email; paste it into the extension once. Cancel from the receipt, refund within 14 days.</p></details>
+  <details class="needc" hidden><summary>I can't afford it.</summary><p>Write to <span class="sel contact"></span> and we'll send a key. We mean it.</p></details>
+  <details><summary>Do I need an account?</summary><p>No. Your taste stays in your browser.</p></details>
+  <details><summary>Phone?</summary><p>The live stations work in any phone browser; add the page to your home screen and it opens like an app. The personal radio needs a desktop browser for now.</p></details>
+</section>
+
+<div class="nudge" id="nudge" role="status"><span id="nudget">Deepot · 3 months for €3</span><a href="#depot" id="nudgea">See Deepot</a><button type="button" id="nudgex" aria-label="Not now">✕</button></div>
+<footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a></span></footer>
+<div class="store" id="store" hidden><span id="storet">This site keeps your choices (language, theme, station) in your browser. No tracking, no ad cookies.</span><a href="privacy.html" id="storel">Privacy</a><button type="button" id="storeok">OK</button></div>
+<script>/* a notice, not a consent wall: nothing here needs consent, but people should know */try{if(!localStorage.getItem("rr-ok")){const b=document.getElementById("store");b.hidden=false;document.getElementById("storeok").onclick=()=>{b.hidden=true;try{localStorage.setItem("rr-ok","1")}catch{}}}}catch{}</script>
+
+<script>
+/* live data from the radio: station cards, listeners, numbers that are true */
+const RB = ((window.IRR && IRR.radio) || "").replace(/\/$/, ""), escH = t => String(t).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+const HUES = [192, 152, 36, 318, 96, 18, 40], pf = document.getElementById("pf");
+async function onAir() {
+  let d; try { d = await fetch(RB + "/api/stations", { cache: "no-store" }).then(r => r.json()) } catch { document.getElementById("livec").textContent = "Back soon"; return }
+  const L = d.stations.reduce((a, s) => a + (s.listeners || 0), 0);
+  /* listener numbers only once they are worth showing */ const SHOWN = L >= 25; window.LIVE = L; document.getElementById("livec").textContent = SHOWN ? ((window.T && T("live.n")) || "{n} listening now").replace("{n}", L) : ((window.T && T("live.now")) || "Live now");
+  const TT = window.T || (k => null);
+  document.getElementById("cards").innerHTML = d.stations.map((s, i) => `<li><button class="stop" data-id="${s.id}" style="--h:${HUES[i % 7]}"><i class="dot"></i>${s.now && s.now.cover ? `<img src="${RB}/api/cover/${s.now.id}" alt="" loading="lazy">` : `<span class="ph"></span>`}
+    <span class="tx"><span class="nm"><sup>${String(i + 1).padStart(2, "0")}</sup>${escH(s.name)}</span><span class="np">${s.now ? `<i>${TT("st.now") || "Now"}</i>${escH(s.now.artist)} — ${escH(s.now.title)}` : (TT("st.off") || "Off air")}</span></span><span class="go">${TT("st.tune") || "Tune in"}</span></button></li>`).join("");
+  document.getElementById("plsinline").innerHTML = d.stations.map(s => `<a href="${RB}/listen/${s.id}.m3u">${escH(s.name)}</a>`).join(" · ");
+  const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
+  const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
+  document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line", 0], [days, days === 1 ? "day on air" : "days on air", 1], ...(SHOWN ? [[L, "listening right now", 2]] : []), [artists.size, "artists on air in the next hour", 3], ["0", "ads, ever", 4]].map(([n, t, k]) => `<div><b>${n}</b><span>${(window.T && T("stats." + k)) || t}</span></div>`).join("") }
+document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("radio").scrollIntoView({ behavior: "smooth" }) });
+onAir(); setInterval(onAir, 30000);
+/* checkout links come from config.js once the Lemon Squeezy store is live */
+const BUY = (window.IRR && IRR.buy) || {};
+document.querySelectorAll("[data-buy]").forEach(a => { const u = BUY[a.dataset.buy]; if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener" } else { a.textContent = "Opens at launch"; a.classList.add("soon") } });
+/* the Founding 100 counter is the real number of founding supporters */
+fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(L => {
+  if (L.length) document.getElementById("names").textContent = L.join(" · ");
+  const left = 100 - ((window.IRR && IRR.founding) || 0);
+  if (left > 0) { document.getElementById("lifep").innerHTML = "€39 <s>€59</s>"; document.getElementById("foundn").textContent = `Founding 100: ${left} of 100 founding places left, then €59`; if (BUY.founding) document.querySelector('[data-buy="life"]').href = BUY.founding } }).catch(() => { });
+/* contact address from config.js; lines that need it stay hidden until it exists */
+if (window.IRR && IRR.contact) { document.querySelectorAll(".contact").forEach(e => e.textContent = IRR.contact); document.querySelectorAll(".needc").forEach(e => e.hidden = false) }
+/* listener quotes: shown only when real ones exist in quotes.json */
+fetch("quotes.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(Q => { if (!Q.length) return; const q = document.getElementById("quotes"); q.innerHTML = Q.map(x => `<figure><blockquote>${escH(x.q)}</blockquote><figcaption>${escH(x.who)}</figcaption></figure>`).join(""); q.hidden = false }).catch(() => { });
+document.getElementById("hplay").addEventListener("click", e => { e.preventDefault(); document.getElementById("player").scrollIntoView({ behavior: "smooth", block: "center" }); pf.focus() });
+</script>
+<script>
+/* the tag-weights demo: a few genres, a pool of records, the queue follows the sliders */
+const TG = [["Detroit techno", 70, ["Drexciya · Bubble Metropolis","Robert Hood · Minus","Model 500 · No UFO's","Jeff Mills · The Bells"]],
+  ["Ethio-jazz", 45, ["Mulatu Astatke · Yekermo Sew","Mahmoud Ahmed · Ere Mela Mela","Hailu Mergia · Hari Meru Meru"]],
+  ["Post-punk", 30, ["Wire · Outdoor Miner","This Heat · Health and Efficiency","The Raincoats · Fairytale in the Supermarket"]],
+  ["Ambient", 20, ["Hiroshi Yoshimura · Blink","Gigi Masin · Clouds","Harold Budd · First Light"]],
+  ["Industrial", 10, ["Throbbing Gristle · Hamburger Lady","Coil · Love's Secret Domain","SPK · Slogun"]]];
+const tsl = document.getElementById("tsl"), tqo = document.getElementById("tqo");
+if (tsl) {
+  tsl.innerHTML = TG.map(([n, v], i) => `<label><span>${n}</span><input type="range" min="0" max="100" value="${v}" data-i="${i}"><b>${v}</b></label>`).join("");
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const draw = () => {
+    const w = [...tsl.querySelectorAll("input")].map(x => +x.value), sum = w.reduce((a, b) => a + b, 0) || 1, used = {};
+    tsl.querySelectorAll("label").forEach((l, i) => { l.querySelector("b").textContent = Math.round(w[i] / sum * 100) + "%"; l.style.setProperty("--p", w[i] / 100) });
+    seed = 7; const out = [];
+    for (let n = 0; n < 6; n++) { let r = rnd() * sum, i = 0; while (i < w.length - 1 && (r -= w[i]) > 0) i++; if (!w[i]) continue; const pool = TG[i][2], k = (used[i] = (used[i] || 0) + 1) - 1; if (k < pool.length) out.push([TG[i][0], pool[k]]) }
+    tqo.innerHTML = out.map(([g, t]) => `<li><b>${t.split(" · ")[1]}</b><span>${t.split(" · ")[0]}</span><i>${g}</i></li>`).join("") || "<li><span>Turn something up</span></li>";
+  };
+  tsl.addEventListener("input", draw); draw();
+}
+</script>
+<script>
+/* the tag cloud demo: every tag the radio knows */
+const TAGS = [["techno", "techno"], ["techno", "minimal techno"], ["techno", "dub techno"], ["techno", "industrial techno"], ["techno", "hard techno"], ["techno", "detroit techno"], ["techno", "ambient techno"], ["techno", "minimal"], ["house", "house"], ["house", "deep house"], ["house", "chicago house"], ["house", "acid house"], ["house", "outsider house"], ["house", "lo-fi house"], ["house", "disco"], ["house", "italo disco"], ["house", "boogie"], ["house", "balearic"], ["house", "nu disco"], ["electro", "electro"], ["electro", "ebm"], ["electro", "electroclash"], ["electro", "new beat"], ["electro", "dark electro"], ["electro", "acid"], ["electro", "synth-pop"], ["electro", "synthpop"], ["bass", "jungle"], ["bass", "drum and bass"], ["bass", "breakbeat"], ["bass", "uk garage"], ["bass", "footwork"], ["bass", "bass music"], ["bass", "dubstep"], ["bass", "grime"], ["bass", "juke"], ["bass", "leftfield"], ["idm", "idm"], ["idm", "glitch"], ["idm", "braindance"], ["idm", "experimental electronic"], ["idm", "electronica"], ["idm", "vaporwave"], ["ambient", "ambient"], ["ambient", "dark ambient"], ["ambient", "drone"], ["ambient", "new age"], ["ambient", "modern classical"], ["ambient", "field recordings"], ["ambient", "soundscape"], ["ambient", "fourth world"], ["ambient", "tribal ambient"], ["dub", "dub"], ["dub", "roots reggae"], ["dub", "reggae"], ["dub", "trip-hop"], ["dub", "downtempo"], ["dub", "chillout"], ["wave", "post-punk"], ["wave", "coldwave"], ["wave", "darkwave"], ["wave", "minimal wave"], ["wave", "minimal synth"], ["wave", "new wave"], ["wave", "no wave"], ["wave", "gothic rock"], ["noise", "industrial"], ["noise", "noise"], ["noise", "power electronics"], ["noise", "musique concrete"], ["noise", "avant-garde"], ["noise", "free improvisation"], ["noise", "outsider"], ["noise", "experimental"], ["kraut", "krautrock"], ["kraut", "psychedelic"], ["kraut", "psychedelic rock"], ["kraut", "space rock"], ["kraut", "proto-punk"], ["kraut", "art rock"], ["indie", "shoegaze"], ["indie", "dream pop"], ["indie", "slowcore"], ["indie", "lo-fi"], ["indie", "post-rock"], ["jazz", "jazz"], ["jazz", "spiritual jazz"], ["jazz", "jazz-funk"], ["jazz", "free jazz"], ["jazz", "library music"], ["jazz", "fusion"], ["soul", "soul"], ["soul", "funk"], ["soul", "r&b"], ["soul", "rnb"], ["soul", "boogaloo"], ["soul", "gospel"], ["soul", "neo-soul"], ["afro", "afrobeat"], ["afro", "afrobeats"], ["afro", "highlife"], ["afro", "ethio-jazz"], ["afro", "african"], ["afro", "soukous"], ["afro", "kuduro"], ["afro", "gnawa"], ["afro", "desert blues"], ["latin", "bossa nova"], ["latin", "tropicalia"], ["latin", "cumbia"], ["latin", "samba"], ["latin", "latin"], ["latin", "mpb"], ["latin", "brazilian"], ["east", "cambodian rock"], ["east", "turkish psychedelic"], ["east", "anatolian rock"], ["east", "thai"], ["east", "indonesian"], ["east", "rai"], ["east", "world"], ["east", "arabic"], ["east", "bollywood"], ["hiphop", "hip-hop"], ["hiphop", "hip hop"], ["hiphop", "abstract hip-hop"], ["hiphop", "rap"], ["hiphop", "instrumental hip-hop"], ["hiphop", "cloud rap"], ["hiphop", "trap"], ["hiphop", "drill"], ["hiphop", "boom bap"], ["hiphop", "conscious hip-hop"], ["hiphop", "phonk"], ["hiphop", "lo-fi beats"], ["pop", "pop"], ["pop", "dance-pop"], ["pop", "electropop"], ["pop", "indie pop"], ["pop", "art pop"], ["pop", "k-pop"], ["pop", "j-pop"], ["rock", "rock"], ["rock", "classic rock"], ["rock", "hard rock"], ["rock", "alternative rock"], ["rock", "indie rock"], ["rock", "grunge"], ["rock", "garage rock"], ["rock", "progressive rock"], ["rock", "blues rock"], ["metal", "metal"], ["metal", "heavy metal"], ["metal", "thrash metal"], ["metal", "death metal"], ["metal", "black metal"], ["metal", "doom metal"], ["metal", "nu metal"], ["metal", "metalcore"], ["metal", "progressive metal"], ["metal", "power metal"], ["punk", "punk"], ["punk", "punk rock"], ["punk", "hardcore"], ["punk", "post-hardcore"], ["punk", "emo"], ["punk", "pop punk"], ["rave", "trance"], ["rave", "psytrance"], ["rave", "edm"], ["rave", "big room"], ["rave", "progressive house"], ["rave", "electro house"], ["rave", "tech house"], ["rave", "melodic techno"], ["rave", "hardstyle"], ["rave", "eurodance"], ["rave", "future bass"], ["urbano", "reggaeton"], ["urbano", "latin pop"], ["urbano", "latin trap"], ["urbano", "dembow"], ["urbano", "dancehall"], ["urbano", "salsa"], ["urbano", "bachata"], ["folk", "folk"], ["folk", "indie folk"], ["folk", "singer-songwriter"], ["folk", "country"], ["folk", "americana"], ["folk", "bluegrass"], ["folk", "blues"], ["classical", "classical"], ["classical", "opera"], ["classical", "baroque"], ["classical", "piano"], ["classical", "soundtrack"], ["classical", "film score"]];
+const tcl = document.getElementById("tcl");
+if (tcl) {
+  const hue = k => [...new Set(TAGS.map(t => t[0]))].indexOf(k) * 37 % 360;
+  tcl.innerHTML = TAGS.map(([k, t], i) => `<button data-t="${t}" style="--h:${hue(k)};font-size:${(0.8 + ((i * 7919) % 13) / 18).toFixed(2)}em">${t}</button>`).join("");
+  const count = () => { const b = [...tcl.children]; document.getElementById("tdc").textContent = `${b.length} tags · ${b.filter(x => x.className.startsWith("up")).length} up · ${b.filter(x => x.className === "off").length} off` };
+  tcl.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; b.className = b.className === "" ? "up" : b.className === "up" ? "up2" : b.className === "up2" ? "off" : ""; count() });
+  ["detroit techno", "ethio-jazz", "post-punk", "dub techno", "gamelan", "spiritual jazz"].forEach(t => { const b = tcl.querySelector(`[data-t="${t}"]`); if (b) b.className = "up" });
+  ["edm", "big room"].forEach(t => { const b = tcl.querySelector(`[data-t="${t}"]`); if (b) b.className = "off" });
+  count();
+}
+/* a shared station link: #s=... */
+(() => {
+  const m = location.hash.match(/#s=([\w-]+)/); if (!m) return;
+  let d; try { d = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))) } catch { return }
+  const N = { taste: "Cabin", techno: "Techno", house: "House & disco", electro: "Electro & EBM", bass: "Bass & breaks", idm: "IDM", ambient: "Ambient", dub: "Dub & downtempo", wave: "Post-punk & wave", noise: "Noise & avant", kraut: "Kraut & psych", indie: "Dream & shoegaze", jazz: "Jazz & library", soul: "Soul & funk", afro: "African grooves", latin: "Brazil & Latin", east: "Anatolia & Asia", hiphop: "Hip-hop & rap", pop: "Pop", rock: "Rock", metal: "Metal", punk: "Punk & hardcore", rave: "Trance & EDM", urbano: "Reggaeton & Latin pop", folk: "Folk & country", classical: "Classical & score" };
+  const e = s => String(s).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+  document.getElementById("shn").textContent = (d.n ? d.n + "'s" : "A friend's") + " station";
+  const w = Object.entries(d.w || {}), mx = Math.max(...w.map(x => x[1]), .01);
+  document.getElementById("shg").innerHTML = w.map(([k, v]) => `<div><span>${e(N[k] || k)}</span><i style="width:${(v / mx * 100).toFixed(0)}%"></i></div>`).join("");
+  document.getElementById("sha").textContent = (d.a || []).length ? "Built on " + d.a.slice(-8).join(", ") + (d.t && d.t.length ? ". Lifted tags: " + d.t.join(", ") : "") : "";
+  const sec = document.getElementById("shared"); sec.hidden = false; setTimeout(() => sec.scrollIntoView({ behavior: "smooth" }), 400);
+})();
+/* supporters: names in supporters.json, added by hand after each support */
+fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(L => { if (L.length) document.getElementById("names").textContent = L.join(" · ") }).catch(() => { });
+</script>
+<script>
+/* newsletter: hidden until a signup address is set in config.js */
+(() => {
+  const f = document.getElementById("mailf"), u = window.IRR && IRR.newsletter;
+  if (u) f.action = u; else { f.style.display = "none"; document.getElementById("mailnote").textContent = "The monthly letter starts soon." }
+  fetch("monthly.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(m => {
+    if (!m || !m.tracks || !m.tracks.length) return;
+    const e = s => String(s).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";"), ids = m.tracks.map(t => t.v).filter(Boolean).slice(0, 50);
+    document.getElementById("monthbox").innerHTML = `<p class="lb">${e(m.title)}</p><ol>${m.tracks.slice(0, 12).map(t => `<li><b>${e(t.t)}</b><span>${e(t.a)}</span></li>`).join("")}</ol>` + (ids.length ? `<a class="btn ghost" href="https://www.youtube.com/watch_videos?video_ids=${ids.join(",")}" target="_blank" rel="noopener">Play the month on YouTube</a>` : "");
+  }).catch(() => { });
+})();
+</script>
+<script src="brand/rrlogo.js?v=7" defer></script>
+<script src="pricing.js?v=5"></script>
+<script>/* draw the halls once the drawings arrive; they are loaded only when the section comes into view */
+(()=>{const box=document.querySelector('.hgrid');if(!box)return;let done=0;const go=()=>{if(done)return;done=1;const sc=document.createElement('script');sc.src='radio/halls.js';sc.onload=()=>{document.querySelectorAll('[data-hall]').forEach(e=>{try{e.innerHTML=HALLS[e.dataset.hall].replace('xMidYMid slice','xMidYMid meet')}catch(_){}})};document.body.appendChild(sc)};
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){go();io.disconnect()}},{rootMargin:'600px'});io.observe(box)}else go()})();
+</script>
+<script src="i18n.js?v=5"></script>
+</body>
+</html>
