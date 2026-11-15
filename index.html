@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>rrradio · a radio that digs for you</title>
-<meta name="description" content="Press play: seven live stations, picked by hand, free forever. When you want to steer, take it home. No ads from us, no account, non-profit.">
+<meta name="description" content="Press play: seven live stations, picked by hand, free forever. When you want to steer, take it home. No ads from us, no account.">
 <meta property="og:title" content="rrradio · learrrns what you yearn for">
 <meta property="og:description" content="Seven free live stations, chosen by hand. A free browser radio that learns your taste.">
 <meta property="og:image" content="icon.png">
@@ -23,6 +23,49 @@
 <link rel="stylesheet" href="site.css?v=11">
 <link rel="stylesheet" href="brand/palette.css?v=7">
 <link rel="stylesheet" href="next.css?v=9">
+<link rel="stylesheet" href="radio/rr.css?v=6.12.11">
+<style>/* 15.11: the radio itself at the top, edge to edge, no window. Site colours untouched. */
+html,body{height:auto}
+#radio.stagewrap{padding:0;gap:0}
+.rrslot{position:relative;width:100%;height:calc(100svh - 34px);min-height:480px}
+.rrslot #rr{position:absolute!important;inset:0!important;z-index:1!important;--top:76px}
+/* one header: the site's own bar goes, the player's rail is the header; the site's links, language and button sit in it */
+body>header.top,#now,.scrollhint,#theme{display:none!important}
+#rr .rail{height:76px}
+#rr .rail .site{display:flex;align-items:center;gap:18px;margin-right:14px;font:500 13px var(--txt);white-space:nowrap;flex:none}
+#rr .rail .site a{color:var(--mut);text-decoration:none;transition:color .3s}
+#rr .rail .site a:hover{color:var(--fg)}
+#rr .rail .site .lang{background:none;color:var(--fg);border:1px solid var(--line);border-radius:99px;padding:6px 10px;font:inherit}
+#rr .rail .site #ctatop{background:#f17938!important;color:#140d08!important;border-radius:99px;padding:10px 18px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 8px 24px -10px #f1793899}
+@media (max-width:980px){#rr .rail .site a:not(.btn),#rr .rail .site .lang{display:none}}
+@media (max-width:560px){#rr .rail .site{display:none}}
+/* the ticker: one line of reasons to stay, running above the radio */
+.tick{position:sticky;top:0;z-index:30;height:34px;overflow:hidden;display:flex;align-items:center;background:var(--tbg,#08080a);color:#cfcac2;font:400 10.5px var(--mono,'Martian Mono',monospace);font-stretch:75%;letter-spacing:.14em;text-transform:uppercase;transition:background .8s,color .8s;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.tick .run{display:flex;gap:48px;white-space:nowrap;animation:tick 60s linear infinite;padding-left:48px}
+.tick a{color:inherit;text-decoration:none}.tick a b{color:#f17938;font-weight:400}.tick a:hover{color:#fff}
+.tick:hover .run{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tick .run{animation:none}}
+html[data-theme=light] .tick{color:#3a3631}html[data-theme=light] .tick a:hover{color:#000}
+/* the seam: the radio's own background melts into the page */
+.rrfade{height:clamp(140px,22vh,260px);margin-top:-1px;background:linear-gradient(180deg,var(--rrbg,#08080a) 0%,color-mix(in srgb,var(--rrbg,#08080a) 55%,var(--bg)) 45%,var(--bg) 100%);pointer-events:none}
+/* the site's old app.css shares class names with the player (.now, .rail, .live): give those parts back to the player */
+#rr .now{position:revert;padding:revert!important;height:revert;overflow:revert;transition:revert}
+#rr .rail{background:revert;-webkit-backdrop-filter:none;backdrop-filter:none}
+#rr .live{color:revert;justify-self:revert}
+/* the heart: on the live radio it points to the extension, where hearts are kept */
+#rr #rrlk svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .4s cubic-bezier(.6,.04,.3,1),fill .3s}
+#rr #rrlk:hover svg{transform:scale(1.12)}#rr #rrlk.on svg{fill:#f17938;stroke:#f17938}
+#rrpop{position:absolute;right:max(24px,env(safe-area-inset-right,0px));bottom:calc(var(--dock,236px) - 8px);z-index:20;width:min(360px,calc(100% - 32px));padding:18px 18px 16px;border-radius:16px;background:color-mix(in srgb,var(--bg2,#101013) 92%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 30px 70px -30px #000c;color:var(--fg);font:400 14px/1.45 var(--txt);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .45s cubic-bezier(.6,.04,.3,1),transform .45s cubic-bezier(.6,.04,.3,1)}
+#rrpop.on{opacity:1;transform:none;pointer-events:auto}
+#rrpop .tr{font:500 10.5px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rrpop h3{font:700 19px/1.15 var(--disp);font-stretch:110%;margin:8px 0 6px}
+#rrpop p{color:var(--mut);margin:0 0 14px}
+#rrpop .b{display:flex;gap:8px;flex-wrap:wrap}
+#rrpop .b a{border-radius:99px;padding:9px 15px;text-decoration:none;font-weight:600;font-size:13px;border:1px solid var(--line);color:var(--fg)}
+#rrpop .b a.go{background:#f17938;color:#140d08;border-color:transparent}
+#rrpop .x{position:absolute;top:10px;right:12px;color:var(--mut);font-size:16px}
+</style>
 <script src="config.js"></script>
 <script>/* theme before paint: the stored choice, else the system */try{const t=localStorage.getItem("rr-theme");if(t)document.documentElement.dataset.theme=t;const light=t?t==="light":matchMedia("(prefers-color-scheme: light)").matches;if(localStorage.getItem("rr-day")===null)localStorage.setItem("rr-day",light?"1":"0")}catch{}</script>
 </head>
@@ -35,8 +78,10 @@
   <div class="topr"><select class="lang" id="lang" aria-label="Language"></select><button class="tgl" id="theme" type="button" aria-label="Light or dark"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button><a class="btn hot" href="#radio" id="ctatop">Listen free</a></div>
 </header>
 
+<div class="tick" aria-label="rrradio"><div class="run" id="run"></div></div>
 <section class="stagewrap" id="radio">
-  <div class="device stage" id="player"><iframe id="pf" src="radio/" title="rrradio live player" allow="autoplay; fullscreen"></iframe><a class="full" href="radio/" target="_blank" rel="noopener">Open full screen ↗</a></div>
+  <div id="player" class="rrslot"></div>
+  <div class="rrfade" aria-hidden="true"></div>
   <nav class="incta" aria-label="Take rrradio further">
     <a class="ic hot" href="downloads/rrradio-extension.zip" download><b>Steer it yourself</b><span>Free browser extension · skip, heart, your own taste</span></a>
     <a class="ic" href="#depot"><b>Deepot</b><span>Tune the radio by hand</span></a>
@@ -78,7 +123,7 @@
     <li><b>Press the icon</b><span>Your radio opens and starts.</span></li>
   </ol></div>
   <div class="cta"><a class="btn ghost" href="#player" id="hplay">▶ Back to the radio</a></div>
-  <ul class="trust"><li>No ads from us, ever</li><li>No account</li><li>Non-profit</li><li>Your taste stays in your browser</li></ul>
+  <ul class="trust"><li>No ads from us, ever</li><li>No account</li><li>Picked by hand</li><li>Your taste stays in your browser</li></ul>
 </section>
 
 
@@ -254,7 +299,7 @@
     <div><b>Free stays free.</b><span>What is free today does not move behind the paywall tomorrow.</span></div>
     <div><b>Your taste is yours.</b><span>It lives in your browser. Export it any time, delete it with one button.</span></div>
     <div><b>Leave in one click.</b><span>Cancel from your receipt. Refund within 14 days, no questions.</span></div>
-    <div><b>Open books.</b><span>Non-profit. Every month we post what came in and what it paid for: servers, digging, time.</span></div>
+    <div><b>Open books.</b><span>Every month we post what came in and what it paid for: servers, digging, time.</span></div>
     <div><b>If we ever stop,</b><span>Deepot unlocks for everyone in the last version, and you keep your exports.</span></div>
   </div>
 </section>
@@ -283,7 +328,7 @@
 </section>
 
 <div class="nudge" id="nudge" role="status"><span id="nudget">Deepot · 3 months for €3</span><a href="#depot" id="nudgea">See Deepot</a><button type="button" id="nudgex" aria-label="Not now">✕</button></div>
-<footer class="foot"><span>rrradio is a non-profit radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a></span></footer>
+<footer class="foot"><span>rrradio is an independent radio project. Not affiliated with YouTube, Spotify, Apple or Last.fm.</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a></span></footer>
 <div class="store" id="store" hidden><span id="storet">This site keeps your choices (language, theme, station) in your browser. No tracking, no ad cookies.</span><a href="privacy.html" id="storel">Privacy</a><button type="button" id="storeok">OK</button></div>
 <script>/* a notice, not a consent wall: nothing here needs consent, but people should know */try{if(!localStorage.getItem("rr-ok")){const b=document.getElementById("store");b.hidden=false;document.getElementById("storeok").onclick=()=>{b.hidden=true;try{localStorage.setItem("rr-ok","1")}catch{}}}}catch{}</script>
 
@@ -302,7 +347,7 @@ async function onAir() {
   const days = Math.max(1, Math.round((Date.now() - Date.UTC(2026, 10, 7)) / 864e5));
   const artists = new Set(d.stations.flatMap(s => [s.now, ...(s.next || [])].filter(Boolean).map(t => t.artist)));
   document.getElementById("stats").innerHTML = [[d.stations.length, "stations on one line", 0], [days, days === 1 ? "day on air" : "days on air", 1], ...(SHOWN ? [[L, "listening right now", 2]] : []), [artists.size, "artists on air in the next hour", 3], ["0", "ads, ever", 4]].map(([n, t, k]) => `<div><b>${n}</b><span>${(window.T && T("stats." + k)) || t}</span></div>`).join("") }
-document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; pf.contentWindow.location.hash = b.dataset.id; document.getElementById("radio").scrollIntoView({ behavior: "smooth" }) });
+document.getElementById("cards").addEventListener("click", e => { const b = e.target.closest(".stop"); if (!b) return; location.hash = b.dataset.id; document.getElementById("radio").scrollIntoView({ behavior: "smooth" }) });
 onAir(); setInterval(onAir, 30000);
 /* checkout links come from config.js once the Lemon Squeezy store is live */
 const BUY = (window.IRR && IRR.buy) || {};
@@ -316,7 +361,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
 if (window.IRR && IRR.contact) { document.querySelectorAll(".contact").forEach(e => e.textContent = IRR.contact); document.querySelectorAll(".needc").forEach(e => e.hidden = false) }
 /* listener quotes: shown only when real ones exist in quotes.json */
 fetch("quotes.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).then(Q => { if (!Q.length) return; const q = document.getElementById("quotes"); q.innerHTML = Q.map(x => `<figure><blockquote>${escH(x.q)}</blockquote><figcaption>${escH(x.who)}</figcaption></figure>`).join(""); q.hidden = false }).catch(() => { });
-document.getElementById("hplay").addEventListener("click", e => { e.preventDefault(); document.getElementById("player").scrollIntoView({ behavior: "smooth", block: "center" }); pf.focus() });
+document.getElementById("hplay").addEventListener("click", e => { e.preventDefault(); document.getElementById("radio").scrollIntoView({ behavior: "smooth" }) });
 </script>
 <script>
 /* the tag-weights demo: a few genres, a pool of records, the queue follows the sliders */
@@ -379,7 +424,7 @@ fetch("supporters.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []).
   }).catch(() => { });
 })();
 </script>
-<script src="brand/rrlogo.js?v=8" defer></script>
+<!-- brand/rrlogo.js: the same identity code ships inside radio/rr.js below; loading both breaks the logo -->
 <script src="pricing.js?v=5"></script>
 <script>/* draw the halls once the drawings arrive; they are loaded only when the section comes into view */
 (()=>{const box=document.querySelector('.hgrid');if(!box)return;let done=0;const go=()=>{if(done)return;done=1;const sc=document.createElement('script');sc.src='radio/halls.js';sc.onload=()=>{document.querySelectorAll('[data-hall]').forEach(e=>{try{e.innerHTML=HALLS[e.dataset.hall].replace('xMidYMid slice','xMidYMid meet')}catch(_){}})};document.body.appendChild(sc)};
@@ -387,5 +432,53 @@ if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(e
 </script>
 <script src="i18n.js?v=5"></script>
 <script src="next.js?v=7" defer></script>
+<script src="radio/rr.js?v=6.12.11"></script><script src="radio/halls.js" async></script>
+<script>/* the player builds #rr at the end of the page: move it into the top slot. Its own nudges point at the radio server's zip: use the one on this site. */
+(() => { const R = document.getElementById("rr"), slot = document.getElementById("player"); if (R && slot) slot.appendChild(R);
+  try { document.querySelectorAll('[data-rrlogo]').forEach(e => { if (!e.closest('#rr')) e.innerHTML = e.dataset.rrlogo === 'mark' ? RRLOGO_MARK : RRLOGO_WORD }) } catch (e) { }
+  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("#rr a[href]"); if (a && /extension\.zip$/.test(a.getAttribute("href"))) a.href = "downloads/rrradio-extension.zip" }, true);
+  /* one header: the site's links, language and button go into the player's rail, before its own buttons */
+  const rail = R && R.querySelector(".rail"), tdy = R && R.querySelector("#tdy");
+  if (rail && tdy) {
+    const box = document.createElement("div"); box.className = "site";
+    box.innerHTML = '<a href="#depot">Deepot</a><a href="#faq">FAQ</a>';
+    const lang = document.getElementById("lang"), cta = document.getElementById("ctatop");
+    if (lang) box.appendChild(lang);
+    if (cta) { cta.textContent = "Get the extension"; cta.href = "#extension"; box.appendChild(cta) }
+    tdy.parentNode.insertBefore(box, tdy.parentNode.firstChild === tdy ? tdy : tdy.parentNode.firstChild);
+  }
+  /* one theme: the player's moon also turns the page */
+  const apply = () => { const day = R && R.classList.contains("day"), t = day ? "light" : "dark"; document.documentElement.dataset.theme = t; try { localStorage.setItem("rr-theme", t) } catch (e) { } };
+  if (tdy) tdy.addEventListener("click", () => setTimeout(apply, 0)); apply();
+  /* the seam and the ticker wear the radio's own background, then the page's once you are past it */
+  const tick = document.querySelector(".tick"), root = document.documentElement.style;
+  const seam = () => { if (!R) return; const bg = getComputedStyle(R).getPropertyValue("--bg").trim() || "#08080a"; root.setProperty("--rrbg", bg);
+    const past = scrollY > (document.getElementById("player").offsetHeight - 40); tick.style.setProperty("--tbg", past ? getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() : bg) };
+  addEventListener("scroll", seam, { passive: true }); setInterval(seam, 800); seam();
+  /* the heart: hearts are kept in the extension, so the live radio offers it, with the track you liked */
+  const qi = R && R.querySelector("#dock .qi"), ttl = R && R.querySelector("#ttl"), art = R && R.querySelector("#art");
+  if (qi) {
+    const b = document.createElement("button"); b.className = "ib"; b.id = "rrlk"; b.title = "Keep this track";
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
+    qi.insertBefore(b, qi.firstChild);
+    const pop = document.createElement("div"); pop.id = "rrpop"; pop.setAttribute("role", "dialog");
+    pop.innerHTML = '<button class="x" aria-label="Close">✕</button><div class="tr"></div><h3>Keep it in your own radio</h3><p>Hearts live in the free extension: it saves the track to your Spotify, Apple Music and YouTube, and tunes these seven stations to you with every heart and skip.</p><div class="b"><a class="go" href="downloads/rrradio-extension.zip" download>Get the extension · free</a><a href="#extension">How it works</a></div>';
+    R.appendChild(pop);
+    let T = 0; const close = () => { pop.classList.remove("on"); b.classList.remove("on") };
+    b.addEventListener("click", e => { e.stopPropagation(); const on = !pop.classList.contains("on"); if (!on) return close();
+      pop.querySelector(".tr").textContent = "♥ " + ((art && art.textContent) || "") + " · " + ((ttl && ttl.textContent) || "");
+      pop.classList.add("on"); b.classList.add("on"); clearTimeout(T); T = setTimeout(close, 12000) });
+    pop.querySelector(".x").addEventListener("click", close);
+    pop.querySelector('a[href="#extension"]').addEventListener("click", close);
+    document.addEventListener("click", e => { if (!pop.contains(e.target) && e.target !== b) close() });
+  }
+  /* reasons to stay, one line, running */
+  const L = [["#radio", "Free live radio · <b>seven stations</b> · no ads · no account"], ["#extension", "Steer it yourself: <b>the free extension</b> learns from every skip and heart →"],
+    ["#depot", "Deepot: <b>€3</b> for your first 3 months →"], ["#depot", "Founding supporters: Deepot for life, <b>€39</b>, first 100 →"],
+    ["https://t.me/rrrad_iobot", "rrradio in <b>Telegram</b> →"], ["#promises", "<b>Open books</b> · every month we show what came in"], ["#ladder", "Listen · steer · <b>own it</b>"]];
+  const one = L.map(([h, t]) => `<a href="${h}">${t}</a>`).join("<span aria-hidden=true>·</span>");
+  document.getElementById("run").innerHTML = one + "<span aria-hidden=true>·</span>" + one;
+})();
+</script>
 </body>
 </html>
