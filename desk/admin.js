@@ -293,15 +293,16 @@ document.addEventListener('click',async e=>{const a=e.target.closest('[data-a="f
  try{const r=await fetch(C.base+'/api/admin/wanted',{method:'POST',headers:{'X-Key':C.key||KEYB,'Content-Type':'application/json'},body:JSON.stringify({items})}).then(r=>r.json());flash('Added '+(r.added||0)+' to Downloads (the rest were there already)');a.textContent='Sent'}catch(x){flash('Radio not reachable');a.textContent='Try again'}});
 
 /* ---------------------------------------------------------------- review inbox (6.13.1) */
-let REVF='open';const REVN={open:'Open',discuss:'To discuss',planned:'Planned',done:'Done',wontfix:"Won't fix"};
-const REVC={open:'#f17938',discuss:'#e6b93a',planned:'#2fb0f0',done:'#25c08e',wontfix:'#8e8b86'};
+let REVF='open';const REVN={open:'Open',discuss:'To discuss',planned:'Planned',doing:'Claude is on it',check:'Ready to check',done:'Done',wontfix:"Won't fix"};
+const REVC={open:'#f17938',discuss:'#e6b93a',planned:'#2fb0f0',doing:'#a78bfa',check:'#5eead4',done:'#25c08e',wontfix:'#8e8b86'};
 async function revDraw(){const m=$('#main');m.innerHTML='<h2>Reviews</h2><p class="s">Loading…</p>';let j;try{j=await api('/api/admin/reviews')}catch(e){m.innerHTML='<h2>Reviews</h2><p>Cannot reach the radio.</p>';return}
- const R=j.reviews||[],cnt=s=>R.filter(r=>r.status===s).length,isOpen=r=>['open','discuss','planned'].includes(r.status);
+ const R=j.reviews||[],cnt=s=>R.filter(r=>r.status===s).length,isOpen=r=>['open','discuss','planned','doing','check'].includes(r.status);let P={};try{P=await api('/api/admin/planned')}catch(e){}
  const L=R.filter(r=>REVF==='all'||(REVF==='open'?isOpen(r):r.status===REVF)),d=t=>t?new Date(t).toLocaleString():'-';
  const pill=s=>`<span style="display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;border:1px solid ${REVC[s]};color:${REVC[s]}">${REVN[s]||s}</span>`;
  m.innerHTML=`<h2>Reviews · ${R.filter(isOpen).length} open</h2>
  <p class="s">Every note in one place: yours (the Review mode in the radio, Alt+Shift+C) and the diggers' Review notes. Each one keeps its number. Claude closes a note with the version that fixed it and cites the number in reports. Your notes are discussed with you before a change.</p>
- <div class="btr">${['open','discuss','planned','done','wontfix','all'].map(f=>`<button class="btn${REVF===f?' go':''}" data-a="rev-f" data-f="${f}">${f==='all'?'All · '+R.length:(f==='open'?'Open · '+R.filter(isOpen).length:REVN[f]+' · '+cnt(f))}</button>`).join('')}</div>
+ ${plBox(P,cnt('planned'))}
+ <div class="btr">${['open','check','discuss','planned','doing','done','wontfix','all'].map(f=>`<button class="btn${REVF===f?' go':''}" data-a="rev-f" data-f="${f}">${f==='all'?'All · '+R.length:(f==='open'?'Open · '+R.filter(isOpen).length:REVN[f]+' · '+cnt(f))}</button>`).join('')}</div>
  ${L.length?`<table class="tbl"><tr><th>№</th><th>Who · when</th><th>Where</th><th>What</th><th>Status</th></tr>${L.map(r=>`<tr>
   <td><code>${esc(r.id)}</code></td>
   <td><b>${esc(r.who)}</b><br><span class="s">${d(r.t)}<br>v${esc(r.ver||'?')}</span></td>
@@ -310,6 +311,11 @@ async function revDraw(){const m=$('#main');m.innerHTML='<h2>Reviews</h2><p clas
   <td>${pill(r.status)}${r.status!=='open'&&(r.fix.ver||r.fix.note)?`<div class="s" style="margin-top:6px">${r.fix.ver?'in '+esc(r.fix.ver)+': ':''}${esc(r.fix.note||'')}${r.fix.by?' · '+esc(r.fix.by):''}</div>`:''}
    <div style="margin-top:6px"><select data-a="rev-s" data-id="${esc(r.id)}" data-ver="${esc(r.fix.ver||'')}" data-note="${esc(r.fix.note||'')}">${Object.keys(REVN).map(s=>`<option value="${s}"${s===r.status?' selected':''}>${REVN[s]}</option>`).join('')}</select></div></td></tr>`).join('')}</table>`:'<p class="s">Nothing here.</p>'}`}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a="rev-f"]');if(!b)return;REVF=b.dataset.f;reviews()});
+/* 17.11.2026: planned → Claude works them off (this button, or nightly at 03:30), then "Ready to check" or "To discuss" */
+function plBox(P,n){const st=P.running?'working since '+new Date(P.started).toLocaleTimeString():P.state==='never'?'not run yet':P.state==='nothing'?'nothing was planned at the last check':P.state==='failed'?'last run failed '+new Date(P.finished||P.at).toLocaleString():'last run finished '+new Date(P.finished||P.at).toLocaleString();
+ return`<div style="border:1px solid #2fb0f055;border-radius:14px;padding:14px 16px;margin:0 0 18px"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><b>Planned · ${n}</b><button class="btn go" data-a="pl-run"${P.running||!n?' disabled':''}>${P.running?'Claude is working…':'Do planned now'}</button><span class="s">Claude: ${esc(st)} · also every night at ${esc(P.nightly||'03:30')} (the Mac must be on)</span></div><p class="s" style="margin:8px 0 0">Mark a note <b>Planned</b> to approve it. Claude builds it and sets <b>Ready to check</b> (try it in the radio, then <b>Done</b>) or <b>To discuss</b> with a question. Nothing is published without you.</p>${P.log?`<details style="margin-top:8px"><summary class="s">Last run log</summary><pre style="white-space:pre-wrap;font-size:11px;max-height:320px;overflow:auto">${esc(P.log)}</pre></details>`:''}</div>`}
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-a="pl-run"]');if(!b)return;b.disabled=true;try{const r=await api('/api/admin/planned/run',{method:'POST',body:'{}'});flash(r.already?'Claude is already working':'Claude started on the planned notes');setTimeout(reviews,1500)}catch(x){flash('Radio not reachable')}});
+setInterval(()=>{try{if(typeof LEDG!=='undefined'&&LEDG==='reviews'&&document.querySelector('[data-a="pl-run"]')&&document.querySelector('[data-a="pl-run"]').disabled&&!document.querySelector('select:focus'))reviews()}catch(e){}},20000);
 document.addEventListener('change',async e=>{const s=e.target.closest('[data-a="rev-s"]');if(!s)return;
  try{await api('/api/admin/review',{method:'POST',body:JSON.stringify({id:s.dataset.id,s:s.value,ver:s.dataset.ver,note:s.dataset.note,by:'anton'})});flash('Note '+s.dataset.id+': '+REVN[s.value]);reviews()}catch(x){flash('Radio not reachable')}});
 /* ---------------------------------------------------------------- Ledger (6.13.2): everything the admin keeps track of, one page */
