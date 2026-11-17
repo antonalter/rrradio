@@ -8,7 +8,7 @@ const ST=[['fresh','Arrivals Hall','f'],['clock','State Library','l'],['global',
 const syncNames=()=>{if(!S||!S.stations)return;ST.forEach(x=>{const v=S.stations[x[0]];const n=v&&(typeof v==='string'?v:v.name);if(n)x[1]=n})};
 const PARTS=[['morning','Morning 5–11'],['afternoon','Afternoon 11–17'],['evening','Evening 17–22'],['night','Night 22–5']];
 const RIGHTS=[['unknown','Rights unknown'],['cleared','Licensed / cleared'],['permission','Artist said yes'],['cc','Creative Commons']];
-let C={base:'http://localhost:8800',key:"",remote:0,ls:'',store:'518771',start:30,last:{stations:['club'],parts:[]}},R={},S=null,tab='review',cur=0,tmr;
+let C={base:'http://localhost:8800',key:"",remote:0,ls:'',store:'518771',start:30,last:{stations:['club'],parts:[]}},R={},S=null,tab='reviews',cur=0,tmr;
 const store=async()=>{await chrome.storage.local.set({adm:C,admRights:R})};
 const flash=t=>{const e=$('#msg');e.textContent=t;e.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(()=>e.classList.remove('on'),2400)};
 const fmt=s=>{s=Math.max(0,s|0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
@@ -27,7 +27,7 @@ let LASTTRY=[];
 async function load(){try{S=await api('/api/admin/state');syncNames();$('#dot').classList.add('on');$('#conn').textContent=(await base()).replace(/^https?:\/\//,'');}catch(e){if(/fetch|Failed|network/i.test(e.message)){const r=await reach();LASTTRY=r.tried;if(r.ok){try{S=await api('/api/admin/state');syncNames();$('#dot').classList.add('on');$('#conn').textContent=r.ok.replace(/^https?:\/\//,'');draw();return}catch(e2){e=e2}}else e=new Error('Cannot reach the radio')}S=null;$('#dot').classList.remove('on');$('#conn').textContent=e.message}draw()}
 /* ---------------------------------------------------------------- tabs */
 function tabs(){const q=S?S.inbox.filter(i=>i.ok).length:0,w=S?S.wanted.filter(i=>i.status==='wanted').length:0;
- $('#tabs').innerHTML=[['ovw','Overview',0],['review','Review',q],['live','Public view',0],['gaps','Gaps',S?holes().length:0],['air','On air',S?S.library.length:0],['dl','Downloads',w],['rep','Reports',REPN],['reviews','Ledger',0],['focus','Diggers',0],['sales','Sales',0],['set','Settings',0]].map(([k,n,c])=>`<button data-t="${k}" class="${tab===k?'on':''}">${n}${c?`<sup>${c}</sup>`:''}</button>`).join('')}
+ $('#tabs').innerHTML=[['ovw','Overview',0],['reviews','Ledger',0],['review','MP3 inbox',q],['live','Public view',0],['gaps','Gaps',S?holes().length:0],['air','On air',S?S.library.length:0],['dl','Downloads',w],['rep','Reports',REPN],['focus','Diggers',0],['sales','Sales',0],['set','Settings',0]].map(([k,n,c])=>`<button data-t="${k}" class="${tab===k?'on':''}">${n}${c?`<sup>${c}</sup>`:''}</button>`).join('')}
 document.addEventListener('click',e=>{const b=e.target.closest('#tabs [data-t]');if(b){tab=b.dataset.t;draw()}});
 function draw(){Object.assign(window,{$,$$,esc,flash,api});window.C=C;tabs();const m=$('#main');if(!S&&tab!=='set'&&tab!=='sales'&&tab!=='ovw'){m.innerHTML=`<h2>Not connected</h2><p>${esc($('#conn').textContent)}.${LASTTRY.length?` Tried: ${LASTTRY.map(esc).join(', ')}.`:''} Start the radio on your Mac (<code>python3 ~/claude_process/irradiation/radio/server.py</code>) and put the admin key in Settings.</p><div class="row"><button class="btn go" data-a="go-set">Open settings</button><button class="btn" data-a="retry">Try again</button></div>`;return}
  ({ovw,review,live,gaps,air,dl,rep,reviews,focus,sales,set})[tab]()}
