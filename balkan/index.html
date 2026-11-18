@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>rrradio · Balkan</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b0b0e">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@100..151,400..800&family=Geologica:wght@300..500&family=Martian+Mono:wdth,wght@75,400&display=swap">
+<style>
+:root{--bg:#0b0b0e;--bg2:#15151a;--fg:#f2efe9;--mut:#8e8b86;--line:#ffffff1c;--a:#f17938;--ok:#3fae6a;--no:#c8423a;--e:cubic-bezier(.6,.04,.3,1);--disp:'Roboto Flex',sans-serif;--txt:'Geologica',sans-serif;--mono:'Martian Mono',monospace}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--txt)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 20px 60px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.brand{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.brand b{color:var(--a);font-weight:400}
+.mode{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.now{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:34px;margin-top:28px;align-items:end}
+.art{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--bg2)}
+.art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.35);transition:opacity 1.2s var(--e),transform 6s var(--e)}
+.art img.in{transform:scale(1.42)}
+.art .yt{position:absolute;right:12px;bottom:12px;width:220px;aspect-ratio:16/9;border-radius:8px;overflow:hidden;box-shadow:0 10px 30px #000a;opacity:.9}
+.art .yt iframe,.art .yt>div{width:100%;height:100%;border:0}
+.kick{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+h1{font:800 clamp(38px,6vw,78px)/.92 var(--disp);font-stretch:118%;margin:10px 0 8px;letter-spacing:-.01em;overflow-wrap:anywhere}
+.by{font-size:19px;color:var(--fg);opacity:.85}
+.bar{height:2px;background:var(--line);margin:22px 0 8px;border-radius:2px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--a);transition:width .5s linear}
+.tm{display:flex;justify-content:space-between;font:400 11px var(--mono);color:var(--mut)}
+.ctl{display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+.b{height:52px;min-width:52px;padding:0 18px;border-radius:99px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:border-color .3s var(--e),background .3s var(--e),transform .3s var(--e)}
+.b:hover{border-color:var(--fg)}.b:active{transform:scale(.96)}
+.b.main{background:var(--a);color:#0b0b0e;border-color:transparent;font-weight:500}
+.b.on{background:var(--ok);color:#0b0b0e;border-color:transparent}
+.b.bad:hover{border-color:var(--no);color:var(--no)}
+.b svg{width:20px;height:20px;fill:currentColor}
+.vol{display:flex;align-items:center;gap:8px;margin-left:auto;color:var(--mut)}.vol input{accent-color:var(--a);width:110px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .4s var(--e),transform .6s var(--e)}.toast.on{opacity:1;transform:translate(-50%,0)}
+section{margin-top:44px}
+h2{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:0 0 12px;display:flex;justify-content:space-between;gap:12px}
+.list{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:28px 44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.row .n{font:400 11px var(--mono);color:var(--mut)}.row img{width:44px;height:44px;border-radius:6px;object-fit:cover;transform:scale(1.35)}
+.row .th{width:44px;height:44px;border-radius:6px;overflow:hidden}
+.row .tt{min-width:0;cursor:pointer}.row .tt b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .tt span{color:var(--mut);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.row .acts{display:flex;gap:6px}.row .acts button{width:34px;height:34px;border-radius:99px;border:1px solid var(--line);font-size:14px;transition:all .3s var(--e)}
+.row .acts .y:hover,.row .acts .y.on{background:var(--ok);border-color:var(--ok);color:#0b0b0e}.row .acts .x:hover{background:var(--no);border-color:var(--no);color:#fff}
+.row.cur .tt b{color:var(--a)}.row.bad{opacity:.35}.row.bad .tt b{text-decoration:line-through}
+.row.played .n::after{content:' ✓';color:var(--ok)}
+.w{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.w div{border:1px solid var(--line);border-radius:12px;padding:12px 14px}.w span{font-size:13px;color:var(--mut)}.w i{display:block;height:4px;border-radius:2px;background:var(--a);margin-top:10px;transition:width .6s var(--e)}
+.link{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-decoration:underline;text-underline-offset:3px}
+.note{color:var(--mut);font-size:13px;margin-top:10px}
+@media(max-width:760px){.now{grid-template-columns:1fr;gap:20px}.art .yt{width:160px}.w{grid-template-columns:repeat(2,minmax(0,1fr))}.vol{margin-left:0}}
+</style></head><body>
+<div class="wrap">
+ <header><div class="brand"><b>rrr</b>adio · Balkan</div><div class="mode" id="mode">Check set · 0 / 20</div></header>
+ <div class="now">
+  <div class="art"><img id="cov" alt=""><div class="yt"><div id="yt"></div></div></div>
+  <div>
+   <p class="kick" id="grp">Brass · Romani · Yugo wave · Balkan beat</p>
+   <h1 id="ttl">Press play</h1>
+   <p class="by" id="by">Background music from the Balkans, for one evening.</p>
+   <div class="bar"><i id="pg"></i></div><div class="tm"><span id="t1">0:00</span><span id="t2">0:00</span></div>
+   <div class="ctl">
+    <button class="b main" id="pp" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg><span>Play</span></button>
+    <button class="b" id="nx" title="Next track (N)" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M5 5v14l10-7zm11 0h3v14h-3z"/></svg></button>
+    <button class="b" id="lk" title="Good one: more like this (L)" aria-label="Like"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.5.7-1.3 2.2-2.5 4.3-2.5 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg></button>
+    <button class="b bad" id="bd" title="Not good: remove it, play less like it (X)">Not good</button>
+    <label class="vol">Vol <input type="range" id="vl" min="0" max="100" value="80"></label>
+   </div>
+  </div>
+ </div>
+
+ <section id="chk"><h2><span>The first 20 · check them</span><span id="chkn"></span></h2><div class="list" id="cl"></div>
+  <p class="note">✓ keeps a track, ✕ takes it out and lowers everything close to it: the artist most, the same kind of music a little. Nothing here touches the other rrradio stations.</p></section>
+ <section><h2><span>Up next</span><button class="link" id="sh">Shuffle again</button></h2><div class="list" id="ql"></div></section>
+ <section><h2><span>Mix</span><button class="link" id="rs">Reset all marks</button></h2><div class="w" id="wg"></div></section>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const TRACKS=[{"a": "Fanfare Ciocărlia", "t": "Asfalt Tango", "g": "brass", "v": "5pvUqeH24_E", "s": 373, "f": 1}, {"a": "Boban Marković Orkestar", "t": "Od Srca", "g": "brass", "v": "jdXtiQakfPE", "s": 176, "f": 1}, {"a": "Kočani Orkestar", "t": "Oro Indi", "g": "brass", "v": "RKd0CMXp9AA", "s": 223, "f": 1}, {"a": "Taraf de Haïdouks", "t": "Carolina", "g": "romani", "v": "iyl5_YjEXnk", "s": 327, "f": 1}, {"a": "Idoli", "t": "Kenozoik", "g": "yugo", "v": "JiXrnktG0tM", "s": 224, "f": 1}, {"a": "Shantel", "t": "Bucovina", "g": "beat", "v": "xgG4Z9vKrH4", "s": 202, "f": 1}, {"a": "Šarlo Akrobata", "t": "Mali čovek", "g": "yugo", "v": "3lDoB6CCoZ0", "s": 132, "f": 1}, {"a": "Mahala Raï Banda", "t": "Mahalageasca", "g": "romani", "v": "pz3AoKi5d-4", "s": 247, "f": 1}, {"a": "Boban i Marko Marković Orkestar", "t": "Go Marko Go", "g": "brass", "v": "FJ6IQqhAoXI", "s": 220, "f": 1}, {"a": "Goran Bregović", "t": "Ederlezi", "g": "romani", "v": "EZf00ad3G6o", "s": 224, "f": 1}, {"a": "Haustor", "t": "Radio", "g": "yugo", "v": "bg8E-K1TWxQ", "s": 174, "f": 1}, {"a": "Balkan Beat Box", "t": "Hermetico", "g": "beat", "v": "mayq4vObs_o", "s": 308, "f": 1}, {"a": "Esma Redžepova", "t": "Čaje Šukarije", "g": "romani", "v": "ytx0EP0EC0o", "s": 232, "f": 1}, {"a": "Ljiljana Buttler", "t": "Zvonija, zvonija", "g": "romani", "v": "_hD7cVzsCZw", "s": 301, "f": 1}, {"a": "Kočani Orkestar", "t": "L'orient Est Rouge", "g": "brass", "v": "L1TmDyFfLfg", "s": 369, "f": 1}, {"a": "Ekatarina Velika", "t": "Ti si sav moj bol", "g": "yugo", "v": "5htmNhUrW04", "s": 236, "f": 1}, {"a": "Fanfare Ciocărlia", "t": "Sirba moldoveneasca", "g": "brass", "v": "MrpVbbys5HI", "s": 217, "f": 1}, {"a": "Film", "t": "Valovi", "g": "yugo", "v": "Zoaj0StTsvc", "s": 218, "f": 1}, {"a": "Sanda Weigl", "t": "Intr-o zi la poarta mea", "g": "romani", "v": "t6H6FDs0kf4", "s": 248, "f": 1}, {"a": "Slonovski Bal", "t": "Tesko oro", "g": "brass", "v": "0uUzKOZz41M", "s": 276, "f": 1}, {"a": "Fanfare Ciocărlia", "t": "Manea", "g": "brass", "v": "ma08jcDf2gQ", "s": 277, "f": 0}, {"a": "Fanfare Ciocărlia", "t": "Tu Romnie", "g": "brass", "v": "LYRlm_oc8mM", "s": 216, "f": 0}, {"a": "Fanfare Ciocărlia", "t": "Dusty Road", "g": "brass", "v": "xy5rEhacNh4", "s": 145, "f": 0}, {"a": "Boban Marković Orkestar", "t": "Sat", "g": "brass", "v": "jKzb9JfuuO0", "s": 265, "f": 0}, {"a": "Boban Marković Orkestar", "t": "Hani Rumba", "g": "brass", "v": "V-dQYjwWfl4", "s": 159, "f": 0}, {"a": "Boban Marković Orkestar", "t": "Ljubavni jadi", "g": "brass", "v": "bUuXZVcmqTc", "s": 198, "f": 0}, {"a": "Boban i Marko Marković Orkestar", "t": "Dunje", "g": "brass", "v": "C0LXC3udKA4", "s": 211, "f": 0}, {"a": "Boban i Marko Marković Orkestar", "t": "Sina Nari", "g": "brass", "v": "zXlYWaTKTc8", "s": 192, "f": 0}, {"a": "Boban i Marko Marković Orkestar", "t": "Bori", "g": "brass", "v": "6Beff1LOAwE", "s": 218, "f": 0}, {"a": "Boban i Marko Marković Orkestar", "t": "Igraj Devojko", "g": "brass", "v": "h0mut-5R3pA", "s": 176, "f": 0}, {"a": "Boban i Marko Marković Orkestar", "t": "Turbo Dizel", "g": "brass", "v": "LFNDFHl1JPo", "s": 200, "f": 0}, {"a": "Slonovski Bal", "t": "Bugarska Balada", "g": "brass", "v": "YkWpotoD-Zs", "s": 247, "f": 0}, {"a": "Slonovski Bal", "t": "Niska banja", "g": "brass", "v": "bRmbPvPkdIk", "s": 243, "f": 0}, {"a": "Fejat Sejdić", "t": "Kondorov let", "g": "brass", "v": "aCxJ8W2t2gU", "s": 255, "f": 0}, {"a": "Kočani Orkestar", "t": "Nic Can Bagna", "g": "brass", "v": "D9Iui67pyus", "s": 265, "f": 0}, {"a": "Ibro Lolov", "t": "Filipovsko Horo", "g": "brass", "v": "_ys0YlyOkXE", "s": 158, "f": 0}, {"a": "Fanfare Savale", "t": "Suita A Lu Nelu", "g": "brass", "v": "wCmy3QNuwc4", "s": 107, "f": 0}, {"a": "Goran Bregović", "t": "Mesečina", "g": "brass", "v": "0ZqDFxBCvgk", "s": 244, "f": 0}, {"a": "Goran Bregović", "t": "Talijanska", "g": "brass", "v": "6bWv9Ilg9d0", "s": 148, "f": 0}, {"a": "Taraf de Haïdouks", "t": "Balada conducatorului", "g": "romani", "v": "Pf7VwMpRDh0", "s": 473, "f": 0}, {"a": "Kal", "t": "Luna", "g": "romani", "v": "JYpMm6prtag", "s": 226, "f": 0}, {"a": "Sanda Weigl", "t": "Valeleu", "g": "romani", "v": "Ip0xSRIOjws", "s": 143, "f": 0}, {"a": "Esma Redžepova", "t": "Romano Horo", "g": "romani", "v": "t-7f_WkiSKs", "s": 176, "f": 0}, {"a": "Šaban Bajramović", "t": "Pelno me sam", "g": "romani", "v": "7uS3z2r-Si0", "s": 337, "f": 0}, {"a": "Mahala Raï Banda", "t": "Spoitoresa", "g": "romani", "v": "Yvv4NvMSwyY", "s": 293, "f": 0}, {"a": "Idoli", "t": "Poslednji dani", "g": "yugo", "v": "QLOg-bn2sWU", "s": 197, "f": 0}, {"a": "Idoli", "t": "Dok dobuje kiša", "g": "yugo", "v": "6VpYwUit0zo", "s": 221, "f": 0}, {"a": "Idoli", "t": "Maljčiki", "g": "yugo", "v": "U814aDpqSJA", "s": 201, "f": 0}, {"a": "Šarlo Akrobata", "t": "Ona se budi", "g": "yugo", "v": "hazICnCPxAo", "s": 237, "f": 0}, {"a": "Prljavo Kazalište", "t": "Marina", "g": "yugo", "v": "1H1iObvDdoE", "s": 218, "f": 0}, {"a": "Jura Stublić & Film", "t": "Sjećam se prvog poljupca", "g": "yugo", "v": "ouJnF-OHq8k", "s": 314, "f": 0}, {"a": "Partibrejkers", "t": "1000 godina", "g": "yugo", "v": "ZbR6nUHFvCk", "s": 266, "f": 0}, {"a": "Zvijezde", "t": "Mjesec za tebe", "g": "yugo", "v": "jkteqnhyto4", "s": 272, "f": 0}, {"a": "Ekatarina Velika", "t": "Par godina za nas", "g": "yugo", "v": "ooWt0uxF_0I", "s": 254, "f": 0}, {"a": "Ekatarina Velika", "t": "Krug", "g": "yugo", "v": "kDmOQ5FckL4", "s": 188, "f": 0}, {"a": "Denis & Denis", "t": "Program tvog kompjutera", "g": "yugo", "v": "mTDJJ21E2Iw", "s": 250, "f": 0}, {"a": "Boa", "t": "Tako lijepa", "g": "yugo", "v": "gWLonCInb9o", "s": 229, "f": 0}, {"a": "Xenia", "t": "Troje", "g": "yugo", "v": "iMzrS1dx1t8", "s": 230, "f": 0}, {"a": "Haustor", "t": "Ena", "g": "yugo", "v": "i0AXUPQoeNk", "s": 237, "f": 0}, {"a": "Shantel", "t": "Disko Partizani", "g": "beat", "v": "A4_xCHxtRMs", "s": 293, "f": 0}, {"a": "Shantel", "t": "Andante Levante", "g": "beat", "v": "nbU3Alw5GRQ", "s": 338, "f": 0}, {"a": "Balkan Beat Box", "t": "Joro Boro", "g": "beat", "v": "y9-pgj6rFxc", "s": 222, "f": 0}, {"a": "Balkan Beat Box", "t": "Habibi Min Zaman", "g": "beat", "v": "4kBXlIMpRFY", "s": 233, "f": 0}, {"a": "OMFO", "t": "Magic Mamaliga", "g": "beat", "v": "U7bgDZ9Tf18", "s": 131, "f": 0}, {"a": "OMFO", "t": "Trans Balkan Express", "g": "beat", "v": "Lo7VMgkT7x0", "s": 244, "f": 0}, {"a": "Watcha Clan", "t": "Balkan Qoulou", "g": "beat", "v": "H-cZccfqHoA", "s": 229, "f": 0}, {"a": "Boom Pam", "t": "Wedding Song", "g": "beat", "v": "7SYcoLr20Mg", "s": 176, "f": 0}, {"a": "Slonovski Bal", "t": "Moscow Fever", "g": "beat", "v": "5PNaaCO8Pzs", "s": 245, "f": 0}, {"a": "Forty Thieves Orkestar", "t": "Balkan Babylon", "g": "beat", "v": "YFs63wzUaLU", "s": 281, "f": 0}];
+const GN={brass:'Brass',romani:'Romani',yugo:'Yugo wave',beat:'Balkan beat'},BASE={brass:1,romani:1,yugo:.9,beat:.55};
+const $=s=>document.querySelector(s),esc=t=>String(t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const thumb=v=>`https://i.ytimg.com/vi/${v}/hqdefault.jpg`,fm=t=>isFinite(t)?(t/60|0)+':'+('0'+(t%60|0)).slice(-2):'0:00';
+/* everything this page learns stays in this browser and on this page: no other station sees it */
+const KEY='rrbalkan1';let M={wg:{},wa:{},bad:[],ok:[],like:[],played:[],un:[]};
+try{M={...M,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(M))}catch(e){}};
+const has=(k,v)=>M[k].includes(v),add=(k,v)=>{if(!has(k,v))M[k].push(v)},del=(k,v)=>{M[k]=M[k].filter(x=>x!==v)};
+const wg=g=>M.wg[g]??1,wa=a=>M.wa[a]??1,clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const usable=t=>!has('bad',t.v)&&!has('un',t.v);
+const weight=t=>BASE[t.g]*wg(t.g)*wa(t.a)*(has('like',t.v)?1.4:1)*(has('ok',t.v)?1.15:1);
+const FIRST=TRACKS.filter(t=>t.f);
+let Q=[],cur=null,on=false,P=null,ready=false;
+function pickNext(){const recent=new Set(M.played.slice(-Math.min(40,TRACKS.length-12)));const qv=new Set(Q.map(t=>t.v).concat(cur?[cur.v]:[]));
+ let pool=TRACKS.filter(t=>usable(t)&&!t.f&&!recent.has(t.v)&&!qv.has(t.v));
+ if(!pool.length)pool=TRACKS.filter(t=>usable(t)&&!qv.has(t.v));if(!pool.length)return null;
+ const lastA=(Q.length?Q[Q.length-1]:cur||{}).a;let cand=pool.filter(t=>t.a!==lastA);if(!cand.length)cand=pool;
+ let x=cand.reduce((s,t)=>s+weight(t),0)*Math.random();for(const t of cand){x-=weight(t);if(x<=0)return t}return cand[0]}
+function build(){Q=[];const qv=new Set(cur?[cur.v]:[]);
+ /* the check set plays first, in order, until every one of the 20 has been heard or judged */
+ for(const t of FIRST)if(usable(t)&&!has('ok',t.v)&&!has('played',t.v)&&!qv.has(t.v))Q.push(t);
+ while(Q.length<8){const t=pickNext();if(!t)break;Q.push(t)}draw()}
+function refill(){while(Q.length<8){const t=pickNext();if(!t)break;Q.push(t)}}
+function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200)}
+let fadeT;function fade(to,ms,done){if(!P||!ready){done&&done();return}clearInterval(fadeT);const from=P.getVolume?P.getVolume():0,st=performance.now();fadeT=setInterval(()=>{const k=Math.min(1,(performance.now()-st)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;try{P.setVolume(from+(to-from)*e)}catch(x){}if(k>=1){clearInterval(fadeT);done&&done()}},40)}
+const vol=()=>+$('#vl').value;
+function play(t){if(!t)return;const go=()=>{cur=t;add('played',t.v);M.played=M.played.slice(-200);save();show();if(ready){P.loadVideoById({videoId:t.v});P.setVolume(0);fade(vol(),1400)}};
+ if(on&&ready&&cur)fade(0,700,go);else go();on=true;ppUi();refill();draw()}
+function next(){const t=Q.shift();refill();if(t)play(t);else toast('Nothing left to play: reset the marks')}
+function show(){const t=cur;if(!t)return;const c=$('#cov');c.style.opacity=0;setTimeout(()=>{c.src=thumb(t.v);c.onload=()=>{c.style.opacity=1;c.classList.toggle('in')}},500);
+ $('#ttl').textContent=t.t;$('#by').textContent=t.a;$('#grp').textContent=GN[t.g]+(t.f?' · check set':'');$('#lk').classList.toggle('on',has('like',t.v));document.title=t.a+' — '+t.t+' · rrradio Balkan';
+ if('mediaSession' in navigator)navigator.mediaSession.metadata=new MediaMetadata({title:t.t,artist:t.a,album:'rrradio · Balkan',artwork:[{src:thumb(t.v),sizes:'480x360'}]})}
+function ppUi(){const b=$('#pp');b.querySelector('span').textContent=on?'Pause':'Play';b.querySelector('path').setAttribute('d',on?'M6 5h4v14H6zm8 0h4v14h-4z':'M7 4.5v15l13-7.5z')}
+/* marks: a bad track goes, its artist drops hard, its kind of music a little; a liked one pulls the other way */
+function bad(t){if(!t)return;add('bad',t.v);del('ok',t.v);del('like',t.v);M.wa[t.a]=clamp(wa(t.a)*.35,.05,3);M.wg[t.g]=clamp(wg(t.g)*.85,.25,2);save();Q=Q.filter(q=>q.v!==t.v);if(cur&&cur.v===t.v)next();else{refill();draw()}toast('Taken out · less like it')}
+function like(t){if(!t)return;if(has('like',t.v)){del('like',t.v);M.wa[t.a]=clamp(wa(t.a)/1.25,.05,3);M.wg[t.g]=clamp(wg(t.g)/1.08,.25,2);toast('Like removed')}else{add('like',t.v);add('ok',t.v);M.wa[t.a]=clamp(wa(t.a)*1.25,.05,3);M.wg[t.g]=clamp(wg(t.g)*1.08,.25,2);toast('More like this')}save();show();draw()}
+function okT(t){if(has('ok',t.v)){del('ok',t.v)}else{add('ok',t.v);del('bad',t.v)}save();draw()}
+function row(t,i,kind){const st=has('bad',t.v)?' bad':'',c=cur&&cur.v===t.v?' cur':'',pl=kind==='chk'&&has('played',t.v)?' played':'';
+ return`<div class="row${st}${c}${pl}"><span class=n>${i+1}</span><span class=th><img loading=lazy src="${thumb(t.v)}" alt=""></span><span class=tt data-p="${t.v}"><b>${esc(t.t)}</b><span>${esc(t.a)} · ${GN[t.g]}</span></span><span class=acts>${kind==='chk'?`<button class="y${has('ok',t.v)?' on':''}" data-ok="${t.v}" title="Keep">✓</button>`:''}<button class=x data-bad="${t.v}" title="Not good">✕</button></span></div>`}
+function draw(){const done=FIRST.filter(t=>has('ok',t.v)||has('bad',t.v)).length;$('#chkn').textContent=done+' / 20 checked';$('#mode').textContent=done<20?`Check set · ${done} / 20`:'Mix · learning from your marks';
+ $('#cl').innerHTML=FIRST.map((t,i)=>row(t,i,'chk')).join('');$('#ql').innerHTML=Q.slice(0,8).map((t,i)=>row(t,i,'q')).join('')||'<p class=note>Press play.</p>';
+ const ws=Object.keys(GN).map(g=>[g,BASE[g]*wg(g)]),mx=Math.max(...ws.map(w=>w[1]));$('#wg').innerHTML=ws.map(([g,w])=>`<div><b>${GN[g]}</b><br><span>${TRACKS.filter(t=>t.g===g&&usable(t)).length} tracks</span><i style="width:${Math.round(w/mx*100)}%"></i></div>`).join('')}
+const byV=v=>TRACKS.find(t=>t.v===v);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-bad],[data-ok],[data-p]');if(!b)return;if(b.dataset.bad)bad(byV(b.dataset.bad));else if(b.dataset.ok)okT(byV(b.dataset.ok));else if(b.dataset.p){const t=byV(b.dataset.p);if(t&&usable(t)){Q=Q.filter(q=>q.v!==t.v);play(t)}}});
+$('#pp').onclick=()=>{if(!cur){next();return}on=!on;ppUi();if(!ready)return;if(on){P.playVideo();fade(vol(),900)}else fade(0,600,()=>P.pauseVideo())};
+$('#nx').onclick=next;$('#lk').onclick=()=>like(cur);$('#bd').onclick=()=>bad(cur);
+$('#sh').onclick=()=>{build();toast('Shuffled')};$('#rs').onclick=e=>{const b=e.target;if(!b.dataset.sure){b.dataset.sure=1;b.textContent='Click again to reset';setTimeout(()=>{b.textContent='Reset all marks';delete b.dataset.sure},3000);return}M={wg:{},wa:{},bad:[],ok:[],like:[],played:[],un:[]};save();build();toast('All marks reset')};
+$('#vl').oninput=()=>{try{if(ready&&on)P.setVolume(vol())}catch(e){}try{localStorage.setItem(KEY+'v',$('#vl').value)}catch(e){}};try{const v=localStorage.getItem(KEY+'v');if(v)$('#vl').value=v}catch(e){}
+addEventListener('keydown',e=>{if(/INPUT|TEXTAREA/.test(e.target.tagName))return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();$('#pp').click()}else if(k==='n')next();else if(k==='l')like(cur);else if(k==='x')bad(cur)});
+if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('nexttrack',next);navigator.mediaSession.setActionHandler('play',()=>{if(!on)$('#pp').click()});navigator.mediaSession.setActionHandler('pause',()=>{if(on)$('#pp').click()})}catch(e){}}
+setInterval(()=>{if(!ready||!cur)return;try{const t=P.getCurrentTime(),d=P.getDuration()||cur.s;$('#t1').textContent=fm(t);$('#t2').textContent=fm(d);$('#pg').style.width=(d?t/d*100:0)+'%';if(on&&d&&d-t<1.6&&!cur._x){cur._x=1;fade(0,1200)}}catch(e){}},500);
+window.onYouTubeIframeAPIReady=()=>{P=new YT.Player('yt',{width:220,height:124,playerVars:{autoplay:0,controls:0,disablekb:1,modestbranding:1,playsinline:1,rel:0},events:{
+ onReady:()=>{ready=true;if(cur){P.loadVideoById({videoId:cur.v});P.setVolume(0);fade(vol(),1400)}},
+ onStateChange:e=>{if(e.data===YT.PlayerState.ENDED&&on)next()},
+ /* a video that cannot play here (removed, blocked for embedding) is skipped and never offered again; it is not a "bad" mark */
+ onError:()=>{if(cur){add('un',cur.v);save();toast('That one cannot play here, skipping')}next()}}})};
+build();
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body></html>
