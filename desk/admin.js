@@ -323,7 +323,7 @@ let LISD=7;const CHN={club:'Union Sq',clock:'State Library',fresh:'Arrivals',glo
 async function lisDraw(){const m=$('#main');let j;try{j=await api('/api/admin/listen?days='+LISD)}catch(e){m.innerHTML='<p>Cannot reach the radio.</p>';return}
  const pc=(a,b)=>b?Math.round(100*a/b)+'%':'–',R=j.rows||[];
  const col=(v,good,bad,lo)=>{const x=parseInt(v);if(isNaN(x))return v;const ok=lo?x<=good:x>=good,no=lo?x>=bad:x<=bad;return`<b style="color:${ok?'#25c08e':no?'#f17938':'inherit'}">${v}</b>`};
- m.innerHTML=`<h2>Listening · ${j.n} plays</h2>
+ m.innerHTML=`<h2>Listening · ${j.n} plays</h2><p class="s">Updated ${new Date().toLocaleTimeString()} · refreshes every 30 s while this page is open</p>
  <p class="s">Every track you hear in the admin build, how it ended. <b>Hits</b> = finished or loved. <b>Fast skips</b> = gone in the first 12 s. <b>Repeats</b> = the artist already played in the 30 tracks before on that station. <b>New</b> = an artist you had never played. Core should be mostly hits; Drift and Void mostly new.</p>
  <div class="btr">${[1,7,30].map(d=>`<button class="btn${LISD===d?' go':''}" data-a="lis-d" data-d="${d}">${d===1?'Today':d+' days'}</button>`).join('')}</div>
  ${R.length?`<table class="tbl"><tr><th>Station</th><th>Level</th><th>Plays</th><th>Hits</th><th>Fast skips</th><th>Flagged</th><th>Repeats</th><th>New</th><th>New that hit</th><th>Where picks came from</th><th>Skipped most</th></tr>${R.map(r=>`<tr${r.lv==='all'?' style="border-top:1px solid #ffffff33"':''}>
@@ -332,6 +332,7 @@ async function lisDraw(){const m=$('#main');let j;try{j=await api('/api/admin/li
   <td>${col(pc(r.rep,r.plays),5,15,1)}</td><td>${pc(r.new,r.plays)}</td><td>${pc(r.newhit,r.new)}</td>
   <td class="s">${Object.entries(r.src||{}).map(([k,n])=>esc(k)+' '+n).join(' · ')}</td><td class="s">${(r.top_skipped||[]).map(esc).join(', ')}</td></tr>`).join('')}</table>`:'<p class="s">No plays logged yet. They start with 6.14.0: listen a little and come back.</p>'}`}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a="lis-d"]');if(!b)return;LISD=+b.dataset.d;reviews()});
+setInterval(()=>{try{if(LEDG==='listen'&&document.visibilityState==='visible'&&document.querySelector('[data-a="lis-d"]'))reviews()}catch(e){}},30000);
 /* ---------------------------------------------------------------- Ledger (6.13.2): everything the admin keeps track of, one page */
 let LEDG='reviews',LEDJ=null;
 const LEDT=[['reviews','Reviews'],['listen','Listening'],['diggers','Diggers'],['signals','My signals'],['changes','Changes'],['plans','Plans & notes'],['library','Library']];
