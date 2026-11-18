@@ -318,9 +318,23 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-a="p
 setInterval(()=>{try{if(typeof LEDG!=='undefined'&&LEDG==='reviews'&&document.querySelector('[data-a="pl-run"]')&&document.querySelector('[data-a="pl-run"]').disabled&&!document.querySelector('select:focus'))reviews()}catch(e){}},20000);
 document.addEventListener('change',async e=>{const s=e.target.closest('[data-a="rev-s"]');if(!s)return;
  try{await api('/api/admin/review',{method:'POST',body:JSON.stringify({id:s.dataset.id,s:s.value,ver:s.dataset.ver,note:s.dataset.note,by:'anton'})});flash('Note '+s.dataset.id+': '+REVN[s.value]);reviews()}catch(x){flash('Radio not reachable')}});
+/* ---------------------------------------------------------------- Listening (6.14.0): how the picks land, per station and level */
+let LISD=7;const CHN={club:'Union Sq',clock:'State Library',fresh:'Arrivals',global:'Global Groove',cellar:'Powerhouse',tube:'Lakefield',taste:'Deepot',deep:'Deep'};
+async function lisDraw(){const m=$('#main');let j;try{j=await api('/api/admin/listen?days='+LISD)}catch(e){m.innerHTML='<p>Cannot reach the radio.</p>';return}
+ const pc=(a,b)=>b?Math.round(100*a/b)+'%':'–',R=j.rows||[];
+ const col=(v,good,bad,lo)=>{const x=parseInt(v);if(isNaN(x))return v;const ok=lo?x<=good:x>=good,no=lo?x>=bad:x<=bad;return`<b style="color:${ok?'#25c08e':no?'#f17938':'inherit'}">${v}</b>`};
+ m.innerHTML=`<h2>Listening · ${j.n} plays</h2>
+ <p class="s">Every track you hear in the admin build, how it ended. <b>Hits</b> = finished or loved. <b>Fast skips</b> = gone in the first 12 s. <b>Repeats</b> = the artist already played in the 30 tracks before on that station. <b>New</b> = an artist you had never played. Core should be mostly hits; Drift and Void mostly new.</p>
+ <div class="btr">${[1,7,30].map(d=>`<button class="btn${LISD===d?' go':''}" data-a="lis-d" data-d="${d}">${d===1?'Today':d+' days'}</button>`).join('')}</div>
+ ${R.length?`<table class="tbl"><tr><th>Station</th><th>Level</th><th>Plays</th><th>Hits</th><th>Fast skips</th><th>Flagged</th><th>Repeats</th><th>New</th><th>New that hit</th><th>Where picks came from</th><th>Skipped most</th></tr>${R.map(r=>`<tr${r.lv==='all'?' style="border-top:1px solid #ffffff33"':''}>
+  <td>${r.lv==='all'?'<b>'+esc(CHN[r.st]||r.st)+'</b>':''}</td><td>${r.lv==='all'?'all':esc(r.lv)}</td><td>${r.plays}</td>
+  <td>${col(pc(r.hit,r.plays),r.lv==='Core'?80:60,40)}</td><td>${col(pc(r.fast,r.plays),10,30,1)}</td><td>${pc(r.flag,r.plays)}</td>
+  <td>${col(pc(r.rep,r.plays),5,15,1)}</td><td>${pc(r.new,r.plays)}</td><td>${pc(r.newhit,r.new)}</td>
+  <td class="s">${Object.entries(r.src||{}).map(([k,n])=>esc(k)+' '+n).join(' · ')}</td><td class="s">${(r.top_skipped||[]).map(esc).join(', ')}</td></tr>`).join('')}</table>`:'<p class="s">No plays logged yet. They start with 6.14.0: listen a little and come back.</p>'}`}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a="lis-d"]');if(!b)return;LISD=+b.dataset.d;reviews()});
 /* ---------------------------------------------------------------- Ledger (6.13.2): everything the admin keeps track of, one page */
 let LEDG='reviews',LEDJ=null;
-const LEDT=[['reviews','Reviews'],['diggers','Diggers'],['signals','My signals'],['changes','Changes'],['plans','Plans & notes'],['library','Library']];
+const LEDT=[['reviews','Reviews'],['listen','Listening'],['diggers','Diggers'],['signals','My signals'],['changes','Changes'],['plans','Plans & notes'],['library','Library']];
 const ledBar=()=>`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid #ffffff1c"><b style="margin-right:12px;letter-spacing:.08em;text-transform:uppercase;font-size:12px">Ledger</b>${LEDT.map(([k,n])=>`<button class="btn${LEDG===k?' go':''}" data-a="led" data-k="${k}">${n}</button>`).join('')}</div>`;
 async function ledJ(force){if(!LEDJ||force)LEDJ=await api('/api/admin/ledger');return LEDJ}
 const ledD=t=>t?new Date(t).toLocaleString():'-';
@@ -350,7 +364,7 @@ async function libDraw(){const m=$('#main');const j=await ledJ(1);const sh=j.she
  ${(j.off_air||[]).length?`<h3>In the library but off air · ${j.off_air.length}</h3><table class="tbl">${j.off_air.map(t=>`<tr><td><b>${esc(t.a)}</b> — ${esc(t.t)}</td><td class="s">${esc((t.path||'').split('/').slice(-2,-1)[0]||'')}</td></tr>`).join('')}</table>`:''}
  ${(j.scans||[]).map(sc=>`<h3>Sound scan · ${esc(j.names[sc.station]||sc.station)} · ${sc.n} tracks, ${sc.low.length} below 60</h3><table class="tbl"><tr><th>Fit</th><th>Track</th><th>Why</th></tr>${sc.low.map(r=>`<tr><td>${r.fit}</td><td><b>${esc(r.a)}</b> — ${esc(r.t)}</td><td class="s">${esc((r.why||[]).join('; '))}</td></tr>`).join('')}</table>`).join('')}`}
 async function reviews(){const m=$('#main');
- try{if(LEDG==='reviews')await revDraw();else if(LEDG==='diggers')await focus();else if(LEDG==='signals')await sigDraw();else if(LEDG==='changes')await chgDraw();else if(LEDG==='plans')await planDraw();else await libDraw()}catch(e){m.innerHTML='<h2>Ledger</h2><p>Cannot reach the radio: '+esc(String(e&&e.message||e))+'</p>'}
+ try{if(LEDG==='reviews')await revDraw();else if(LEDG==='listen')await lisDraw();else if(LEDG==='diggers')await focus();else if(LEDG==='signals')await sigDraw();else if(LEDG==='changes')await chgDraw();else if(LEDG==='plans')await planDraw();else await libDraw()}catch(e){m.innerHTML='<h2>Ledger</h2><p>Cannot reach the radio: '+esc(String(e&&e.message||e))+'</p>'}
  m.insertAdjacentHTML('afterbegin',ledBar())}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a="led"]');if(!b)return;LEDG=b.dataset.k;reviews()});
 
